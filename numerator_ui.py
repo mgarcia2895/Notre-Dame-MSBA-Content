@@ -20,10 +20,9 @@ file_paths = {
     "top_ethnicity_opportunity": "top_ethnicity_opportunity.csv",
     "3_most_opportunistic_ethnicity": "3_most_opportunistic_ethnicity.csv",
     "numerator_logo": "Numerator Logo.png",
-    "kroger_logo": "Kroger logo.png",
+    "kroger_logo": "Kroger logo.png"
 }
 
-}
 
 # Page layout
 st.set_page_config(layout="wide", page_title="Private Label Opportunity Engine")
