@@ -19,8 +19,8 @@ file_paths = {
     "3_most_opportunistic_age_bucket": "C:/Users/miguel.garcia/OneDrive - Wesley International/Documents/ND/Capstone/Legit Queries/3_most_opportunistic_age_bucket.csv",
     "top_ethnicity_opportunity": "C:/Users/miguel.garcia/OneDrive - Wesley International/Documents/ND/Capstone/Legit Queries/top_ethnicity_opportunity.csv",
     "3_most_opportunistic_ethnicity": "C:/Users/miguel.garcia/OneDrive - Wesley International/Documents/ND/Capstone/Legit Queries/3_most_opportunistic_ethnicity.csv",
-    "numerator_logo": "C:/Users/miguel.garcia/OneDrive - Wesley International/Documents/ND/Capstone/Numerator Logo.png",
-    "kroger_logo": "C:/Users/miguel.garcia/OneDrive - Wesley International/Documents/ND/Capstone/Kroger logo.png"
+    "numerator_logo": "assets/Numerator Logo.png",
+    "kroger_logo": "assets/Kroger logo.png",
 }
 
 # Page layout
