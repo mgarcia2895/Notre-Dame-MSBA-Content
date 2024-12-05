@@ -4,24 +4,23 @@ import plotly.express as px
 
 # File paths
 file_paths = {
-    "kroger_total_sales": "C:/Users/miguel.garcia/OneDrive - Wesley International/Documents/ND/Capstone/Legit Queries/kroger_total_sales.csv",
-    "kroger_total_private_label_sales": "C:/Users/miguel.garcia/OneDrive - Wesley International/Documents/ND/Capstone/Legit Queries/kroger_total_private_label_sales.csv",
-    "kroger_pl_penetration_rate": "C:/Users/miguel.garcia/OneDrive - Wesley International/Documents/ND/Capstone/Legit Queries/Kroger_PL_Penetration_Rate.csv",
-    "benchmark_comparison_gap": "C:/Users/miguel.garcia/OneDrive - Wesley International/Documents/ND/Capstone/Legit Queries/Benchmark_Comparison_Gap.csv",
-    "kroger_top_5_performing_categories": "C:/Users/miguel.garcia/OneDrive - Wesley International/Documents/ND/Capstone/Legit Queries/kroger_top_5_performing_categories.csv",
-    "income_bucket_chart": "C:/Users/miguel.garcia/OneDrive - Wesley International/Documents/ND/Capstone/Legit Queries/income_bucket_chart.csv",
-    "census_region_chart": "C:/Users/miguel.garcia/OneDrive - Wesley International/Documents/ND/Capstone/Legit Queries/census_region_chart.csv",
-    "age_bucket_chart": "C:/Users/miguel.garcia/OneDrive - Wesley International/Documents/ND/Capstone/Legit Queries/age_bucket_chart.csv",
-    "ethnicity_chart": "C:/Users/miguel.garcia/OneDrive - Wesley International/Documents/ND/Capstone/Legit Queries/ethnicity_chart.csv",
-    "top_region_opportunity": "C:/Users/miguel.garcia/OneDrive - Wesley International/Documents/ND/Capstone/Legit Queries/top_region_opportunity.csv",
-    "3_most_opportunistic_region": "C:/Users/miguel.garcia/OneDrive - Wesley International/Documents/ND/Capstone/Legit Queries/3_most_opportunistic_region.csv",
-    "top_age_bucket_opportunity": "C:/Users/miguel.garcia/OneDrive - Wesley International/Documents/ND/Capstone/Legit Queries/top_age_bucket_opportunity.csv",
-    "3_most_opportunistic_age_bucket": "C:/Users/miguel.garcia/OneDrive - Wesley International/Documents/ND/Capstone/Legit Queries/3_most_opportunistic_age_bucket.csv",
-    "top_ethnicity_opportunity": "C:/Users/miguel.garcia/OneDrive - Wesley International/Documents/ND/Capstone/Legit Queries/top_ethnicity_opportunity.csv",
-    "3_most_opportunistic_ethnicity": "C:/Users/miguel.garcia/OneDrive - Wesley International/Documents/ND/Capstone/Legit Queries/3_most_opportunistic_ethnicity.csv",
+    "kroger_total_sales": "kroger_total_sales.csv",
+    "kroger_total_private_label_sales": "kroger_total_private_label_sales.csv",
+    "kroger_pl_penetration_rate": "Kroger_PL_Penetration_Rate.csv",
+    "benchmark_comparison_gap": "Benchmark_Comparison_Gap.csv",
+    "kroger_top_5_performing_categories": "kroger_top_5_performing_categories.csv",
+    "income_bucket_chart": "income_bucket_chart.csv",
+    "census_region_chart": "census_region_chart.csv",
+    "age_bucket_chart": "age_bucket_chart.csv",
+    "ethnicity_chart": "ethnicity_chart.csv",
+    "top_region_opportunity": "top_region_opportunity.csv",
+    "3_most_opportunistic_region": "3_most_opportunistic_region.csv",
+    "top_age_bucket_opportunity": "top_age_bucket_opportunity.csv",
+    "3_most_opportunistic_age_bucket": "3_most_opportunistic_age_bucket.csv",
+    "top_ethnicity_opportunity": "top_ethnicity_opportunity.csv",
+    "3_most_opportunistic_ethnicity": "3_most_opportunistic_ethnicity.csv",
     "numerator_logo": "Numerator Logo.png",
     "kroger_logo": "Kroger logo.png",
-    # other paths...
 }
 
 }
