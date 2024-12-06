@@ -238,14 +238,32 @@ st.plotly_chart(fig, use_container_width=True)
 
 
 
-# Opportunities by Region, Age Bucket, and Ethnicity
 def display_opportunities(title, filepath, item_filepath):
     st.subheader(title)
+    
+    # Read the data
     opportunity_data = pd.read_csv(filepath)
+    
+    # Format columns to percentages
+    percentage_columns = [
+        'kroger_private_label_penetration',
+        'benchmark_private_label_penetration',
+        'penetration_gap'
+    ]
+    for col in percentage_columns:
+        if col in opportunity_data.columns:
+            opportunity_data[col] = opportunity_data[col].apply(lambda x: f"{x * 100:.2f}%")
+    
+    # Display the formatted table
     st.table(opportunity_data)
-
+    
+    # Process and display the top items
     top_items = pd.read_csv(item_filepath)
+    for col in percentage_columns:
+        if col in top_items.columns:
+            top_items[col] = top_items[col].apply(lambda x: f"{x * 100:.2f}%")
     st.table(top_items)
+
 
 display_opportunities("Top Census Region Opportunity", file_paths["top_region_opportunity"], file_paths["3_most_opportunistic_region"])
 display_opportunities("Top Age Bucket Opportunity", file_paths["top_age_bucket_opportunity"], file_paths["3_most_opportunistic_age_bucket"])
