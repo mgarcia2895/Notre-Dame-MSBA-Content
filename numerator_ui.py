@@ -104,7 +104,19 @@ with kpi_col4:
 
 # Top 5 Performing Categories
 st.header("Top 5 Performing Categories")
+
+# Read the data
 top_categories = pd.read_csv(file_paths["kroger_top_5_performing_categories"])
+
+# Format penetration rates as percentages
+top_categories["kroger_private_label_penetration"] = (
+    top_categories["kroger_private_label_penetration"] * 100
+).map("{:.2f}%".format)
+top_categories["benchmark_private_label_penetration"] = (
+    top_categories["benchmark_private_label_penetration"] * 100
+).map("{:.2f}%".format)
+
+# Display the table
 st.table(top_categories)
 
 # Census Region Chart
