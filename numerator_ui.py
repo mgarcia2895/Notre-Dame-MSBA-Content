@@ -45,44 +45,53 @@ retailer = st.sidebar.selectbox("Retailer", ["Kroger"])
 st.header("KPIs")
 kpi_col1, kpi_col2, kpi_col3, kpi_col4 = st.columns(4)
 
+# KPI Section
+st.header("KPIs")
+kpi_col1, kpi_col2, kpi_col3, kpi_col4 = st.columns(4)
+
 with kpi_col1:
     total_sales = pd.read_csv(file_paths["kroger_total_sales"])
-    st.metric("Total Sales $", f"${total_sales['Total_Sales'].iloc[0]:,.2f}")
+    st.markdown(
+        """
+        <div style="text-align: center; font-size: 16px; font-weight: bold;">Total Sales $</div>
+        """,
+        unsafe_allow_html=True,
+    )
+    st.metric("", f"${total_sales['Total_Sales'].iloc[0]:,.2f}")
 
 with kpi_col2:
     private_label_sales = pd.read_csv(file_paths["kroger_total_private_label_sales"])
-    st.metric("Private Label Sales $", f"${private_label_sales['Total_Private_Label_Sales'].iloc[0]:,.2f}")
+    st.markdown(
+        """
+        <div style="text-align: center; font-size: 16px; font-weight: bold;">Private Label Sales $</div>
+        """,
+        unsafe_allow_html=True,
+    )
+    st.metric("", f"${private_label_sales['Total_Private_Label_Sales'].iloc[0]:,.2f}")
 
 with kpi_col3:
     pl_penetration_rate = pd.read_csv(file_paths["kroger_pl_penetration_rate"])
-    st.metric("Private Label Penetration Rate", f"{pl_penetration_rate['Penetration_Rate'].iloc[0] * 100:.2f}%")
+    st.markdown(
+        """
+        <div style="text-align: center; font-size: 16px; font-weight: bold;">Private Label Penetration Rate</div>
+        """,
+        unsafe_allow_html=True,
+    )
+    st.metric("", f"{pl_penetration_rate['Penetration_Rate'].iloc[0] * 100:.2f}%")
 
 with kpi_col4:
     comparison_gap = pd.read_csv(file_paths["benchmark_comparison_gap"])
-    gap_value = comparison_gap['Gap'].iloc[0] * 100  # Assuming the Gap is a decimal (e.g., 0.05 for 5%)
-    
-    # Add "+" for positive values and "-" for negative values
+    gap_value = comparison_gap['Gap'].iloc[0] * 100  # Assuming the Gap is a decimal
     formatted_gap = f"{'+' if gap_value > 0 else ''}{gap_value:.2f}%"
-
-    # Set color for positive (green) and negative (red)
     gap_color = "green" if gap_value > 0 else "red"
-    
-    # Display the title and styled metric with a border
     st.markdown(
-        f"""
-        <div style="
-            border: 2px solid #d3d3d3;  /* Light gray border */
-            border-radius: 5px;  /* Rounded corners */
-            padding: 10px;  /* Padding inside the border */
-            text-align: center;  /* Center alignment */
-            width: 100%;  /* Take up full column width */
-        ">
-            <span style="font-size: 16px; font-weight: bold;">Benchmark Comparison Gap</span><br>
-            <span style="font-size: 32px; font-weight: bold; color: {gap_color};">{formatted_gap}</span>
-        </div>
+        """
+        <div style="text-align: center; font-size: 16px; font-weight: bold;">Benchmark Comparison Gap</div>
         """,
-        unsafe_allow_html=True
+        unsafe_allow_html=True,
     )
+    st.metric("", formatted_gap, delta_color=gap_color)
+
 
 
 # Top 5 Performing Categories
