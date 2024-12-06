@@ -108,6 +108,12 @@ st.header("Top 5 Performing Categories")
 # Read the data
 top_categories = pd.read_csv(file_paths["kroger_top_5_performing_categories"])
 
+# Format kroger_total_sales as standard decimals with commas
+top_categories["kroger_total_sales"] = top_categories["kroger_total_sales"].map(lambda x: f"{x:,.2f}")
+
+# Format kroger_private_label_sales similarly if needed
+top_categories["kroger_private_label_sales"] = top_categories["kroger_private_label_sales"].map(lambda x: f"{x:,.2f}")
+
 # Format penetration rates as bold percentages
 top_categories["kroger_private_label_penetration"] = (
     top_categories["kroger_private_label_penetration"] * 100
@@ -121,6 +127,7 @@ top_categories_html = top_categories.to_html(escape=False, index=False)
 
 # Display the styled table in Streamlit
 st.markdown(top_categories_html, unsafe_allow_html=True)
+
 
 # Census Region Chart
 st.header("Kroger vs Benchmark: Census Region")
