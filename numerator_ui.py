@@ -51,46 +51,53 @@ kpi_col1, kpi_col2, kpi_col3, kpi_col4 = st.columns(4)
 
 with kpi_col1:
     total_sales = pd.read_csv(file_paths["kroger_total_sales"])
+    total_sales_value = f"${total_sales['Total_Sales'].iloc[0]:,.2f}"
     st.markdown(
-        """
-        <div style="text-align: center; font-size: 16px; font-weight: bold;">Total Sales $</div>
+        f"""
+        <div style="text-align: center;">
+            <div style="font-size: 16px; font-weight: bold;">Total Sales $</div>
+            <div style="font-size: 24px; font-weight: bold;">{total_sales_value}</div>
+        </div>
         """,
         unsafe_allow_html=True,
     )
-    st.metric("", f"${total_sales['Total_Sales'].iloc[0]:,.2f}")
 
 with kpi_col2:
     private_label_sales = pd.read_csv(file_paths["kroger_total_private_label_sales"])
+    private_label_value = f"${private_label_sales['Total_Private_Label_Sales'].iloc[0]:,.2f}"
     st.markdown(
-        """
-        <div style="text-align: center; font-size: 16px; font-weight: bold;">Private Label Sales $</div>
+        f"""
+        <div style="text-align: center;">
+            <div style="font-size: 16px; font-weight: bold;">Private Label Sales $</div>
+            <div style="font-size: 24px; font-weight: bold;">{private_label_value}</div>
+        </div>
         """,
         unsafe_allow_html=True,
     )
-    st.metric("", f"${private_label_sales['Total_Private_Label_Sales'].iloc[0]:,.2f}")
 
 with kpi_col3:
     pl_penetration_rate = pd.read_csv(file_paths["kroger_pl_penetration_rate"])
+    pl_penetration_value = f"{pl_penetration_rate['Penetration_Rate'].iloc[0] * 100:.2f}%"
     st.markdown(
-        """
-        <div style="text-align: center; font-size: 16px; font-weight: bold;">Private Label Penetration Rate</div>
+        f"""
+        <div style="text-align: center;">
+            <div style="font-size: 16px; font-weight: bold;">Private Label Penetration Rate</div>
+            <div style="font-size: 24px; font-weight: bold;">{pl_penetration_value}</div>
+        </div>
         """,
         unsafe_allow_html=True,
     )
-    st.metric("", f"{pl_penetration_rate['Penetration_Rate'].iloc[0] * 100:.2f}%")
 
 with kpi_col4:
     comparison_gap = pd.read_csv(file_paths["benchmark_comparison_gap"])
-    gap_value = comparison_gap['Gap'].iloc[0] * 100  # Assuming the Gap is a decimal
+    gap_value = comparison_gap['Gap'].iloc[0] * 100
     formatted_gap = f"{'+' if gap_value > 0 else ''}{gap_value:.2f}%"
     gap_color = "green" if gap_value > 0 else "red"
-    
-    # Custom HTML for the metric
     st.markdown(
         f"""
         <div style="text-align: center;">
             <div style="font-size: 16px; font-weight: bold;">Benchmark Comparison Gap</div>
-            <div style="font-size: 24px; color: {gap_color};">{formatted_gap}</div>
+            <div style="font-size: 24px; font-weight: bold; color: {gap_color};">{formatted_gap}</div>
         </div>
         """,
         unsafe_allow_html=True,
