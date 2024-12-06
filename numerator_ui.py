@@ -67,10 +67,11 @@ with kpi_col4:
     # Set color for positive (green) and negative (red)
     gap_color = "green" if gap_value > 0 else "red"
     
-    # Display the KPI with custom styling
+    # Add title and KPI with custom styling
     st.markdown(
-        f"<div style='text-align: center; font-size: 18px;'>"
-        f"<b style='color: {gap_color};'>{formatted_gap}</b>"
+        f"<div style='text-align: center;'>"
+        f"<h4 style='margin-bottom: 0;'>Benchmark Comparison Gap</h4>"  # Title
+        f"<b style='color: {gap_color}; font-size: 24px;'>{formatted_gap}</b>"  # Value with color
         f"</div>",
         unsafe_allow_html=True
     )
