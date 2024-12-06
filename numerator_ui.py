@@ -116,9 +116,11 @@ top_categories["benchmark_private_label_penetration"] = (
     top_categories["benchmark_private_label_penetration"] * 100
 ).map(lambda x: f"**{x:.2f}%**")
 
-# Use Markdown to display the table with bold values
-st.markdown(top_categories.to_markdown(index=False), unsafe_allow_html=True)
+# Convert to HTML for rendering in Streamlit
+top_categories_html = top_categories.to_html(escape=False, index=False)
 
+# Display the styled table in Streamlit
+st.markdown(top_categories_html, unsafe_allow_html=True)
 
 # Census Region Chart
 st.header("Kroger vs Benchmark: Census Region")
