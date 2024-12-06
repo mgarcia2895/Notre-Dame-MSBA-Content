@@ -40,6 +40,7 @@ st.image(file_paths["kroger_logo"], width=150)
 st.sidebar.header("Select Retailer")
 retailer = st.sidebar.selectbox("Retailer", ["Kroger"])
 
+
 # KPI Section
 st.header("KPIs")
 kpi_col1, kpi_col2, kpi_col3, kpi_col4 = st.columns(4)
@@ -54,11 +55,25 @@ with kpi_col2:
 
 with kpi_col3:
     pl_penetration_rate = pd.read_csv(file_paths["kroger_pl_penetration_rate"])
-    st.metric("Private Label Penetration Rate", f"{pl_penetration_rate['Penetration_Rate'].iloc[0] * 100:.2f}%")
+    # Example for delta logic
+    delta_value = pl_penetration_rate['Delta'].iloc[0] * 100  # Assuming 'Delta' column exists
+    st.metric(
+        "Private Label Penetration Rate",
+        f"{pl_penetration_rate['Penetration_Rate'].iloc[0] * 100:.2f}%",
+        f"{'+' if delta_value > 0 else ''}{delta_value:.2f}%",
+        delta_color="inverse" if delta_value < 0 else "normal"
+    )
 
 with kpi_col4:
     comparison_gap = pd.read_csv(file_paths["benchmark_comparison_gap"])
-    st.metric("Benchmark Comparison Gap", f"{comparison_gap['Gap'].iloc[0] * 100:.2f}%")
+    delta_value = comparison_gap['Delta'].iloc[0] * 100  # Assuming 'Delta' column exists
+    st.metric(
+        "Benchmark Comparison Gap",
+        f"{comparison_gap['Gap'].iloc[0] * 100:.2f}%",
+        f"{'+' if delta_value > 0 else ''}{delta_value:.2f}%",
+        delta_color="inverse" if delta_value < 0 else "normal"
+    )
+
 
 # Top 5 Performing Categories
 st.header("Top 5 Performing Categories")
