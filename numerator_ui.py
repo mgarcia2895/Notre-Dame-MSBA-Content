@@ -67,10 +67,16 @@ with kpi_col4:
     # Set color for positive (green) and negative (red)
     gap_color = "green" if gap_value > 0 else "red"
     
-    # Display the title and metric value aligned with the others
-    st.metric(label="Benchmark Comparison Gap", value=f"{formatted_gap}", delta=None, delta_color="inverse")
-
-
+    # Display the title and styled metric
+    st.markdown(
+        f"""
+        <div style="text-align: center;">
+            <span style="font-size: 18px; font-weight: bold;">Benchmark Comparison Gap</span><br>
+            <span style="font-size: 36px; color: {gap_color};">{formatted_gap}</span>
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
 
 
 # Top 5 Performing Categories
