@@ -45,10 +45,6 @@ retailer = st.sidebar.selectbox("Retailer", ["Kroger"])
 st.header("KPIs")
 kpi_col1, kpi_col2, kpi_col3, kpi_col4 = st.columns(4)
 
-# KPI Section
-st.header("KPIs")
-kpi_col1, kpi_col2, kpi_col3, kpi_col4 = st.columns(4)
-
 with kpi_col1:
     total_sales = pd.read_csv(file_paths["kroger_total_sales"])
     total_sales_value = f"${total_sales['Total_Sales'].iloc[0]:,.2f}"
