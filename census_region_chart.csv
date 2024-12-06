@@ -1,5 +1,5 @@
-Census_Region,kroger_percentage,benchmark_percentage
-Northeast,0.297205,0.203416
-Midwest,0.32322,0.196498
-South,0.302415,0.171981
-West,0.28433,0.316144
+Census_Region,benchmark_percentage,kroger_percentage
+Midwest,0.198383024,0.298743669
+Northeast,0.209004982,0.258304826
+South,0.174297658,0.283406704
+West,0.325320823,0.23637862

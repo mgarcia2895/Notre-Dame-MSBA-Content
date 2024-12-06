@@ -1,6 +1,6 @@
-ETHNICITY,kroger_percentage,benchmark_percentage
-Hispanic/Latino,0.270250364,0.237493916
-Other,0.302033653,0.227658597
-Black or African American,0.298251673,0.18010151
-White/Caucasian,0.315320518,0.193286367
-Asian,0.261947813,0.271296585
+ETHNICITY,benchmark_percentage,kroger_percentage
+Asian,0.275327449,0.215987526
+Black or African American,0.182843646,0.271695416
+Hispanic/Latino,0.240634712,0.220891011
+Other,0.230310819,0.263874685
+White/Caucasian,0.196423129,0.284032804
