@@ -42,7 +42,7 @@ retailer = st.sidebar.selectbox("Retailer", ["Kroger"])
 
 
 # KPI Section
-sst.header("KPIs")
+st.header("KPIs")
 kpi_col1, kpi_col2, kpi_col3, kpi_col4 = st.columns(4)
 
 with kpi_col1:
