@@ -59,19 +59,22 @@ with kpi_col3:
 
 with kpi_col4:
     comparison_gap = pd.read_csv(file_paths["benchmark_comparison_gap"])
-    gap_value = comparison_gap['Gap'].iloc[0] * 100  # Assuming the 'Gap' column exists
+    gap_value = comparison_gap['Gap'].iloc[0] * 100  # Assuming the Gap is a decimal (e.g., 0.05 for 5%)
+    
+    # Add "+" for positive values and "-" for negative values
+    formatted_gap = f"{'+' if gap_value > 0 else ''}{gap_value:.2f}%"
 
-    # Determine the delta value formatting
-    delta_prefix = "+" if gap_value > 0 else ""
-    delta_color = "normal" if gap_value > 0 else "inverse"
-
-    # Display the KPI card with custom formatting
-    st.metric(
-        "Benchmark Comparison Gap",
-        f"{gap_value:.2f}%",
-        f"{delta_prefix}{gap_value:.2f}%",
-        delta_color=delta_color
+    # Set color for positive (green) and negative (red)
+    gap_color = "green" if gap_value > 0 else "red"
+    
+    # Display the KPI with custom styling
+    st.markdown(
+        f"<div style='text-align: center; font-size: 18px;'>"
+        f"<b style='color: {gap_color};'>{formatted_gap}</b>"
+        f"</div>",
+        unsafe_allow_html=True
     )
+
 
 
 # Top 5 Performing Categories
