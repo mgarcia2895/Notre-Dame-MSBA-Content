@@ -84,13 +84,18 @@ with kpi_col4:
     gap_value = comparison_gap['Gap'].iloc[0] * 100  # Assuming the Gap is a decimal
     formatted_gap = f"{'+' if gap_value > 0 else ''}{gap_value:.2f}%"
     gap_color = "green" if gap_value > 0 else "red"
+    
+    # Custom HTML for the metric
     st.markdown(
-        """
-        <div style="text-align: center; font-size: 16px; font-weight: bold;">Benchmark Comparison Gap</div>
+        f"""
+        <div style="text-align: center;">
+            <div style="font-size: 16px; font-weight: bold;">Benchmark Comparison Gap</div>
+            <div style="font-size: 24px; color: {gap_color};">{formatted_gap}</div>
+        </div>
         """,
         unsafe_allow_html=True,
     )
-    st.metric("", formatted_gap, delta_color=gap_color)
+
 
 
 
