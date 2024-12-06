@@ -42,7 +42,7 @@ retailer = st.sidebar.selectbox("Retailer", ["Kroger"])
 
 
 # KPI Section
-st.header("KPIs")
+sst.header("KPIs")
 kpi_col1, kpi_col2, kpi_col3, kpi_col4 = st.columns(4)
 
 with kpi_col1:
@@ -55,23 +55,22 @@ with kpi_col2:
 
 with kpi_col3:
     pl_penetration_rate = pd.read_csv(file_paths["kroger_pl_penetration_rate"])
-    # Example for delta logic
-    delta_value = pl_penetration_rate['Delta'].iloc[0] * 100  # Assuming 'Delta' column exists
-    st.metric(
-        "Private Label Penetration Rate",
-        f"{pl_penetration_rate['Penetration_Rate'].iloc[0] * 100:.2f}%",
-        f"{'+' if delta_value > 0 else ''}{delta_value:.2f}%",
-        delta_color="inverse" if delta_value < 0 else "normal"
-    )
+    st.metric("Private Label Penetration Rate", f"{pl_penetration_rate['Penetration_Rate'].iloc[0] * 100:.2f}%")
 
 with kpi_col4:
     comparison_gap = pd.read_csv(file_paths["benchmark_comparison_gap"])
-    delta_value = comparison_gap['Delta'].iloc[0] * 100  # Assuming 'Delta' column exists
+    gap_value = comparison_gap['Gap'].iloc[0] * 100  # Assuming the 'Gap' column exists
+
+    # Determine the delta value formatting
+    delta_prefix = "+" if gap_value > 0 else ""
+    delta_color = "normal" if gap_value > 0 else "inverse"
+
+    # Display the KPI card with custom formatting
     st.metric(
         "Benchmark Comparison Gap",
-        f"{comparison_gap['Gap'].iloc[0] * 100:.2f}%",
-        f"{'+' if delta_value > 0 else ''}{delta_value:.2f}%",
-        delta_color="inverse" if delta_value < 0 else "normal"
+        f"{gap_value:.2f}%",
+        f"{delta_prefix}{gap_value:.2f}%",
+        delta_color=delta_color
     )
 
 
