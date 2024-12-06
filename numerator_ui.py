@@ -143,7 +143,7 @@ fig = px.bar(
     barmode="group",
     title="Census Region Comparison",
     labels={"Percentage": "Percentage (%)", "Census_Region": "Region", "Category": "Comparison"},
-    color_discrete_map={"Kroger": "#003f5c", "Benchmark": "#7fe57f"}  # Dark blue for Kroger, Green for Benchmark
+    color_discrete_map={"Kroger": "#7fe57f", "Benchmark": "#003f5c"}  # Dark blue for Kroger, Green for Benchmark
 )
 st.plotly_chart(fig, use_container_width=True)
 
@@ -168,7 +168,7 @@ fig = px.bar(
     barmode="group",
     title="Age Bucket Comparison",
     labels={"Percentage": "Percentage (%)", "AGE_BUCKET": "Age Bucket", "Category": "Comparison"},
-    color_discrete_map={"Kroger": "#003f5c", "Benchmark": "#7fe57f"}  # Dark blue for Kroger, Green for Benchmark
+    color_discrete_map={"Kroger": "#7fe57f", "Benchmark": "#003f5c"}  # Dark blue for Kroger, Green for Benchmark
 )
 st.plotly_chart(fig, use_container_width=True)
 
@@ -193,7 +193,7 @@ fig = px.bar(
     barmode="group",
     title="Ethnicity Comparison",
     labels={"Percentage": "Percentage (%)", "ETHNICITY": "Ethnicity", "Category": "Comparison"},
-    color_discrete_map={"Kroger": "#003f5c", "Benchmark": "#7fe57f"}  # Dark blue for Kroger, Green for Benchmark
+    color_discrete_map={"Kroger": "#7fe57f", "Benchmark": "#003f5c"}  # Dark blue for Kroger, Green for Benchmark
 )
 st.plotly_chart(fig, use_container_width=True)
 
@@ -218,7 +218,7 @@ fig = px.bar(
     barmode="group",
     title="Income Bucket Comparison",
     labels={"Percentage": "Percentage (%)", "INCOME_BUCKET_LONG": "Income Bucket", "Category": "Comparison"},
-    color_discrete_map={"Kroger": "#003f5c", "Benchmark": "#7fe57f"}  # Dark blue for Kroger, Green for Benchmark
+    color_discrete_map={"Kroger": "#7fe57f", "Benchmark": "#003f5c"}  # Dark blue for Kroger, Green for Benchmark
 )
 fig.update_layout(xaxis=dict(tickangle=45))  # Adjust x-axis labels for better readability
 st.plotly_chart(fig, use_container_width=True)
