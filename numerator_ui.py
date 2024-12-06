@@ -108,11 +108,16 @@ st.header("Top 5 Performing Categories")
 # Read the data
 top_categories = pd.read_csv(file_paths["kroger_top_5_performing_categories"])
 
-# Format kroger_total_sales as standard decimals with commas
-top_categories["kroger_total_sales"] = top_categories["kroger_total_sales"].map(lambda x: f"{x:,.2f}")
+# Format sales columns as dollar amounts with commas
+sales_columns = [
+    "kroger_private_label_sales",
+    "kroger_total_sales",
+    "benchmark_private_label_sales",
+    "benchmark_total_sales"
+]
 
-# Format kroger_private_label_sales similarly if needed
-top_categories["kroger_private_label_sales"] = top_categories["kroger_private_label_sales"].map(lambda x: f"{x:,.2f}")
+for col in sales_columns:
+    top_categories[col] = top_categories[col].map(lambda x: f"${x:,.2f}")
 
 # Format penetration rates as bold percentages
 top_categories["kroger_private_label_penetration"] = (
