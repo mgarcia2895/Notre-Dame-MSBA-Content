@@ -6,6 +6,8 @@ This is a Streamlit application for analyzing private label opportunities.
 - Python 3.8 or higher
 - Streamlit library
 - Required Python libraries (listed in `requirements.txt`)
+- If it's not installed run:
+- pip intall streamlit
 
 ## Installation
 1. Clone the repository:
