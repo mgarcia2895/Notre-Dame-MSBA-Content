@@ -18,6 +18,7 @@ This is a Streamlit application for analyzing private label opportunities.
 ```bash
 streamlit run numerator_ui.py
 
+## If Permissions Error received:
 2. If the default port (8501) is unavailable, specify a different port:
 ```bash
 streamlit run numerator_ui.py --server.port 8502
