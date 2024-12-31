@@ -9,7 +9,7 @@ This repository contains all the coding-related content from the Notre Dame MSBA
 - **Miscellaneous**: Other relevant coding exercises or resources.
 
 ## Missing Content?
-If you notice that something is missing or if you have additional materials that should be included, please email me at [your-email@example.com] with the relevant details, and I'll update the repository.
+If you notice that something is missing or if you have additional materials that should be included, please email me at miguelgarcia790@outlook.com with the relevant details, and I'll update the repository.
 
 ## How to Use This Repository
 - Clone the repository:
