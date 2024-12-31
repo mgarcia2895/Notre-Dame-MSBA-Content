@@ -1,0 +1,101 @@
+---
+title: "ML Lab 1"
+author: "Miguel Garcia"
+date: "2024-03-23"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+
+```
+
+### Problem 1
+
+```{r}
+washers <- read.csv("C:/Users/miguel.garcia/Downloads/residentialwashers.csv")
+head(washers)
+```
+```{r}
+glimpse(washers)
+```
+### problem 2
+```{r}
+summary(washers)
+```
+### Problem 3
+```{r}
+washers <- washers %>%
+  mutate(across(c("BrandName", "Configuration", "Market", "MostEfficient"), ~as.factor(.)))
+  
+```
+```{r}
+washers %>%
+  select(BrandName, Configuration, Market, MostEfficient) %>%
+  summary()
+  
+```
+### Problem 4
+```{r}
+washers %>% count(BrandName) %>% arrange(desc(n))
+  
+```
+### Problem 5
+```{r}
+washers %>% count(MostEfficient) %>% arrange(desc(n)) %>% mutate(prop = round(n/sum(n), 2))
+  
+```
+
+### Problem 6
+```{r}
+washers <- washers %>%
+  mutate(across(c("DateAvailable", "DateCertified"), ~ mdy(.)))
+```
+```{r}
+washers %>%
+  select(DateAvailable, DateCertified) %>%
+  summary()
+  
+```
+### Problem 7
+```{r}
+washers %>%
+  select(DateCertified, Configuration) %>%
+  mutate(month = as.factor(month(DateCertified))) %>%
+  filter(year(DateCertified) == 2019) %>%
+  ggplot(mapping = aes(x = month, fill = Configuration))+
+  geom_bar()
+```
+### Problem 8
+```{r}
+washers %>%
+  ggplot(mapping = aes(x = EnergyUse, y = WaterUse)) + 
+  geom_point(color = 'red') +
+  geom_smooth(color = 'orange') +
+  labs(title = "Scatterplot of Water Usage vs. Energy Usage",
+       x = "Energy Usage",
+       y = "Water Usage") +
+  theme_minimal() +
+  theme(text = element_text(size = 12))
+```
+### Problem 9
+```{r}
+washers %>%
+  ggplot(mapping = aes(x = Configuration, y = EnergyUse)) +
+  geom_boxplot()
+```
+### Problem 10
+```{r}
+min_max_normalize <- function(x, upper, lower) {
+  return(((x - min(x)) / (max(x) - min(x))) * (upper - lower) + lower)
+}
+```
+```{r}
+washers %>%
+  select(IMEF, IWF, MostEfficient) %>%
+  mutate(IMEF2 = min_max_normalize(IMEF, 5, 1)) %>%
+  mutate(IWF2 = 6 - min_max_normalize(IWF, 5, 1)) %>%
+  ggplot(mapping = aes(x = IMEF2, y = IWF2, color = MostEfficient)) +
+  geom_point()
+```

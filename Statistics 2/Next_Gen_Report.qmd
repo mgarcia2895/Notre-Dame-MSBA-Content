@@ -1,0 +1,43 @@
+---
+title: "NFL NexGen Passing Stats"
+author: "Miguel Garcia"
+format: html
+---
+
+## Import Data
+
+```{r}
+load("C:/Users/miguel.garcia/Downloads/next_gen_passing.RData")
+```
+```{r}
+head(test)
+```
+```{r}
+rmarkdown::paged_table(test)
+```
+
+## Visualization Time
+
+Patty picked the most lengthy variable names to produce a visualization.
+
+```{r}
+library(ggplot2)
+
+ggplot(test, 
+       aes(completionPercentageAboveExpectation, passerRating)) +
+  geom_point() +
+  theme_minimal()
+```
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+library(dplyr)
+
+highest_passer_rating <- test %>%
+  filter(passerRating == max(passerRating)) %>%
+  select(playerName)
+```
+
+The player with the highest passer rating is `r stringr::str_to_title(highest_passer_rating)`. No thank you.

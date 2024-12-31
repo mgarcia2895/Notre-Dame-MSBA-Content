@@ -1,0 +1,185 @@
+---
+title: "R Notebook : TSF-Week 3: Smoothing Methods and ets()"
+output: html_notebook
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Cmd+Shift+Enter*. 
+
+```{r}
+plot(cars)
+```
+
+Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Cmd+Option+I*.
+
+When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Cmd+Shift+K* to preview the HTML file). 
+
+The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.
+Figure 5-3: Trailing moving average forecaster with w =12 applied to Amtrak ridership series
+```{r}
+library(forecast)
+library(zoo)
+
+library(readxl)
+#Amtrak.data <- read.csv("Amtrak data.csv")
+Amtrak.data <-read_excel("Amtrak data.xls")
+ridership.ts <- ts(Amtrak.data$Ridership, start = c(1991, 1), end = c(2004, 3), freq = 12)
+
+nValid <- 36
+nTrain <- length(ridership.ts) - nValid
+train.ts <- window(ridership.ts, start = c(1991, 1), end = c(1991, nTrain))
+valid.ts <- window(ridership.ts, start = c(1991, nTrain + 1), end = c(1991, nTrain + nValid))
+
+
+# # Figure 5-3
+ plot(train.ts, ylim = c(1300, 2600),  ylab = "Ridership", xlab = "Time", bty = "l", xaxt = "n", xlim = c(1991,2006.25), main = "")
+ axis(1, at = seq(1991, 2006, 1), labels = format(seq(1991, 2006, 1)))
+ #lines(ma.trailing, lwd = 2) 
+# lines(ma.trailing.pred, lwd = 2, col = "blue", lty = 2) 
+ lines(valid.ts)
+ naive.pred <-naive(train.ts, h=nValid, level = 0)
+ lines(naive.pred$mean)
+ 
+ 
+ accuracy(naive.pred$mean,valid.ts)
+# lines(c(2004.25 - 3, 2004.25 - 3), c(0, 3500)) 
+# lines(c(2004.25, 2004.25), c(0, 3500))
+# text(1996.25, 2500, "Training")
+# text(2002.75, 2500, "Validation")
+# text(2005.25, 2500, "Future")
+# arrows(2004 - 3, 2450, 1991.25, 2450, code = 3, length = 0.1, lwd = 1,angle = 30)
+# arrows(2004.5 - 3, 2450, 2004, 2450, code = 3, length = 0.1, lwd = 1,angle = 30)
+# arrows(2004.5, 2450, 2006, 2450, code = 3, length = 0.1, lwd = 1, angle = 30)
+
+```
+
+
+Compare holt-winter to regression-based model and seasonal naive method
+```{r}
+
+#### Figure 18.5
+library(forecast)
+# run Holt-Winters exponential smoothing
+# use ets() with option model = "MAA" to fit Holt-Winter's exponential smoothing 
+# with multiplicative error, additive trend, and additive seasonality. 
+hwin <- ets(train.ts, model = "MAA")
+
+# create predictions
+hwin.pred <- forecast(hwin, h = nValid, level = 0)
+
+# plot the series
+plot(hwin.pred, ylim = c(1300, 2600),  ylab = "Ridership", xlab = "Time", 
+     bty = "l", xaxt = "n", main = "", flty = 2)
+##try to add ', include =nValid + 12' to the end
+
+axis(1, at = seq(1991, 2006, 1), labels = format(seq(1991, 2006, 1)))
+#lines(hwin.pred$fitted, lwd = 2, col = "blue")
+lines(valid.ts)
+
+
+# fit regression model with polynomial trend and seasonality
+train.lm.trend.season <- tslm(train.ts ~ trend + I(trend^2) + season)
+train.lm.trend.season.pred <- forecast(train.lm.trend.season, h= nValid, level = 0)
+lines(train.lm.trend.season.pred$mean, col = 'red')
+
+#Revisit seasonal naive
+snaive.pred <- snaive(train.ts, h = nValid) #seasonal naive method: an approach that uses the most recent period in the previous
+lines(snaive.pred$mean, lwd = 2, col = "blue", lty = 1)
+
+#Check accuracy()
+accuracy(hwin.pred$mean,valid.ts)
+accuracy(train.lm.trend.season.pred$mean,valid.ts)
+accuracy(snaive.pred$mean,valid.ts)
+```
+
+
+###Practice Problems####
+Problem 17.3 Toys "R" Us Revenues. Figure 17.13 is a time plot of the 
+quarterly revenues of Toys "R" Us between 1992 and 1995 (thanks to Chris 
+Albright for suggesting the use of these data, which are available in
+ToysRUsRevenues.csv). 
+
+```{r}
+#load the data and create time series object
+library(readxl)
+tru.data <- read_excel("ToysRUsRevenues.xls")
+#tru.data <- read.csv("ToysRUsRevenues.csv")
+head(tru.data) #see data
+dim(tru.data)
+tru.ts <- ts(tru.data[, 2], start = c(1992, 1), end = c(1995, 4), freq = 4)
+plot(tru.ts,  ylab = "Revenue ($ millions)", xlab = "Time", bty = "l", 
+     xlim = c(1992,1996), ylim = c(0,4500),main = "")
+
+```
+
+a) Partition the data: validation set contains the last four quarters. Use everything else as the training set.  
+```{r}
+nValid <- 4
+nTrain <- length(tru.ts) - nValid
+train.ts <-window(tru.ts,start = c(1992,1), end = c(1992,nTrain))
+valid.ts <-window(tru.ts,start = c(1992,nTrain+1), end = c(1992,nTrain+nValid))
+tail(train.ts)
+head(valid.ts)
+
+```
+
+b) Fit a regression model with a linear trend and additive seasonality on the training set. Then find the forecast on the validatio set.
+```{r}
+library(forecast)
+train.lm.trend.season <- tslm(train.ts ~ trend + season)
+train.lm.trend.season.pred <- forecast(train.lm.trend.season, h=nValid, level = 0)
+head(train.lm.trend.season.pred$mean)
+
+```
+
+
+c) Fit a holt-winter method on the training set. Use ets() function to determine the specific argument. Then find the forecasts on the validation set.
+```{r}
+train.hwin <- ets(train.ts, model = "MAA")
+train.hwin.pred <- forecast(train.hwin, h = nValid, level = 0)
+head(train.hwin.pred)
+```
+
+d) Build an ARIMA model on the training set and find the forecast on the validation set. We'll learn this next week.
+```{r}
+train.arima <- #Fill your codes here
+train.arima.pred <- #Fill your codes here  
+```
+
+
+
+e) Fit a seasonal naive method on the training set and compute the forecast values on the validtion set.
+```{r}
+snaive.pred <- snaive(train.ts, h= nValid)
+head(snaive.pred$mean)
+
+```
+
+
+f) On the same graph, plot the forecast using the three models/methods used in parts b-e. To distinguish different forecast models and methods, choose 'blue' for forecasts generated by regression-based model, 'red' for forecasts by Holt-Winter, 'green' for those generated by ARIMA, and 'purple' for seasonal naive method. Also display the validation data. 
+```{r}
+plot (train.lm.trend.season.pred, include = 8)
+lines(train.hwin.pred$mean, col = 'purple', lwd = 2)
+lines(snaive.pred$mean, col = 'green', lwd = 2)
+lines(valid.ts, lwd = 2)
+```
+
+g) Use accuracy() function to compute forcast accuracy from the three models/methods in parts b-e against the validation set.
+```{r}
+accuracy(train.lm.trend.season.pred$mean, valid.ts)
+accuracy(train.hwin.pred$mean, valid.ts)
+accuracy(snaive.pred$mean, valid.ts)
+```
+
+
+h) Which model/method is most accurate from the prediction accuracy standpoint?
+
+Answer: 
+
+
+i) Let's apply the selected approach to compute the next four quarter for ToyRUs revenues
+```{r}
+
+```
+

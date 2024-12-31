@@ -1,0 +1,207 @@
+---
+title: "Predicting Churn at QWE Inc."
+author: "Miguel Garcia"
+date: "2024-09-23"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Libraries
+
+
+```{r}
+library(ggplot2)
+library(dplyr)
+library(readxl)
+file_path <- "C:/Users/miguel.garcia/Downloads/Predicting Customer Church at QWE Inc.xlsx"
+churn_data <- read_excel(file_path, sheet = "Case Data")
+head(churn_data)
+
+```
+
+## Preparation
+
+
+```{r}
+avg_churn_age <- churn_data %>%
+  group_by(`Customer Age (in months)`) %>%
+  summarise(avg_churn = mean(`Churn (1 = Yes, 0 = No)`))
+
+
+ggplot(avg_churn_age, aes(x = `Customer Age (in months)`, y = avg_churn)) +
+  geom_line() +
+  labs(title = "Average Churn by Customer Age", x = "Customer Age (Months)", y = "Average Churn")
+```
+```{r}
+churn_count_age <- churn_data %>%
+  group_by(`Customer Age (in months)`) %>%
+  summarise(churn_count = sum(`Churn (1 = Yes, 0 = No)`))
+
+
+
+ggplot(churn_count_age, aes(x = `Customer Age (in months)`, y = churn_count)) +
+  geom_bar(stat = "identity") +
+  labs(title = "Number of Customers Who Churn by Age", x = "Customer Age (Months)", y = "Churn Count")
+
+
+```
+The customer age with the highest average churn is 12 months, with an average churn rate of approximately 20.66%.
+Wall's intuition that churn rates depend on customer age is confirmed by the graphs. Both the average churn by customer age and the number of customers who churn by age show distinct trends, with certain age groups experiencing higher churn rates, particularly around the 12-month mark. This indicates that customer age plays a significant role in churn behavior.
+
+## Univariate Testing:
+
+```{r}
+univariate_test <- glm(`Churn (1 = Yes, 0 = No)` ~ ., data = churn_data, family = binomial)
+
+summary(univariate_test)
+
+```
+Significant predictors of churn (with p-values < 0.05):
+Customer Age (in months)
+CHI Score Month 0
+CHI Score 0-1
+Views 0-1
+Days Since Last Login 0-1
+
+## Logistic Regression
+
+```{r}
+full_model <- glm(`Churn (1 = Yes, 0 = No)` ~ ., data = churn_data, family = binomial)
+
+summary(full_model)
+
+```
+ Reduced Model
+
+```{r}
+reduced_model <- glm(`Churn (1 = Yes, 0 = No)` ~ `Customer Age (in months)` + 
+                     `CHI Score Month 0` + `CHI Score 0-1` + 
+                     `Views 0-1` + `Days Since Last Login 0-1`,
+                     data = churn_data, family = binomial)
+
+reduced_model_aic <- AIC(reduced_model)
+
+summary(reduced_model)
+
+```
+The AIC for the full logistic regression model is 2464.3, while the AIC for the reduced model is 2459.4, which indicates a slight improvement in model fit after reducing the variables.
+
+The significant variables in the reduced model are:
+
+Customer Age (in months)
+CHI Score Month 0
+CHI Score 0-1
+Views 0-1
+Days Since Last Login 0-1
+
+Predicted Probability for Specific Customers
+```{r}
+customers <- churn_data %>%
+  filter(ID %in% c(1023, 3769, 4168, 357))
+
+print(customers)
+
+
+predicted_probs <- predict(reduced_model, newdata = customers, type = "response")
+predicted_probs
+
+```
+the AIC value aligns with expectations. The reduction in AIC indicates that the reduced model has improved fit compared to the full model, which is expected when removing non-consequential variables. A lower AIC suggests a more parsimonious model that still explains the data well.
+
+Predicted probabilities for specific customers:
+
+Customer 1023:
+
+Predicted Probability: 2.37% (Low probability)
+The customer did not leave.
+Customer 3769:
+
+Predicted Probability: 8.28% (Low probability)
+The customer did not leave.
+Customer 4168:
+
+Predicted Probability: 6.50% (Low probability)
+The customer did not leave.
+Customer 357:
+
+Predicted Probability: 32.87% (Moderate probability)
+The customer did not leave.
+In summary, all of these customers were predicted to have a relatively low-to-moderate likelihood of leaving, and none of them churned.
+
+## Subsetting data per Wall's Intuition
+
+```{r}
+# 50 months
+threshold <- 50
+
+subset_data <- churn_data %>%
+  filter(`Customer Age (in months)` > threshold)
+
+head(subset_data)
+
+
+subset_full_model <- glm(`Churn (1 = Yes, 0 = No)` ~ ., data = subset_data, family = binomial)
+
+subset_reduced_model <- step(subset_full_model, direction = "both")
+
+subset_predicted_probs <- predict(subset_reduced_model, newdata = customers, type = "response")
+
+subset_predicted_probs
+
+```
+## Top 10 Customers Most Likely to Churn:
+```{r}
+
+churn_data$predicted_prob <- predict(reduced_model, newdata = churn_data, type = "response")
+
+top_10_customers <- churn_data %>%
+  arrange(desc(predicted_prob)) %>%
+  head(10)
+
+top_10_customers <- top_10_customers %>%
+  select(ID, predicted_prob, `Churn (1 = Yes, 0 = No)`)
+
+print(top_10_customers)
+
+```
+Which 10 customers are the most likely to churn?
+
+Using the reduced model, the 10 customers most likely to churn are:
+
+Customer ID: 2287
+Customer ID: 357
+Customer ID: 109
+Customer ID: 1971
+Customer ID: 1
+Customer ID: 2025
+Customer ID: 2076
+Customer ID: 14
+Customer ID: 1363
+Customer ID: 76
+What is their predicted probability of churn?
+
+Here are the predicted probabilities of churn for these customers:
+
+Customer 2287: 38.60%
+Customer 357: 32.87%
+Customer 109: 29.26%
+Customer 1971: 23.86%
+Customer 1: 22.19%
+Customer 2025: 21.92%
+Customer 2076: 20.83%
+Customer 14: 19.72%
+Customer 1363: 19.66%
+Customer 76: 19.66%
+Did they churn?
+
+Based on the actual churn data:
+
+Customer 357 and Customer 1363 did churn.
+The remaining 8 customers did not churn.
+Why did you select your solution?
+
+The reduced model was selected because it simplifies the logistic regression model by including only the most significant variables that impact churn, based on univariate testing and stepwise model selection. This approach balances predictive power and model interpretability, achieving a slightly lower AIC than the full model. By focusing on key variables like Customer Age, CHI Scores, Views, and Days Since Last Login, the model effectively identifies customers most likely to churn while avoiding overfitting. The lower predicted probabilities may reflect that churn in the dataset is influenced by more subtle patterns, which are captured in this simplified model.
+

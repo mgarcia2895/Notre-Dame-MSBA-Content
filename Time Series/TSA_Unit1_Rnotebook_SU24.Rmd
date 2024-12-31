@@ -1,0 +1,107 @@
+---
+title: "R Notebook: TSF-Week 1: Time Series Visualization and Data Analysis"
+output: html_notebook
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Cmd+Shift+Enter*. 
+
+```{r}
+plot(cars)
+```
+
+Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Cmd+Option+I*.
+
+When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Cmd+Shift+K* to preview the HTML file). 
+
+The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.
+
+#################################
+
+How to plot  time series
+
+Read and display data
+```{r}
+library(readxl)
+Amtrak.df <- read_excel("Amtrak data.xls")
+head(Amtrak.df) #list out the first 6 observations in the data set
+tail(Amtrak.df) # list out the last 6 observations in the data set
+head(Amtrak.df,10)#list out the first 10 observations in the data set
+
+```
+
+Let's now convert a data frame Amtrak.df to a time series object
+```{r}
+#install.packages("forecast")
+library(forecast)
+Amtrak.ts <- ts(Amtrak.df$Ridership, start=c(1991,1), end = c(2004,3), freq=12)
+head(Amtrak.ts)
+
+#Amtrak.ts1 <- ts(Amtrak.df$Ridership, start=c(1991,1), end = c(2004,3), freq=4) #INCORRECT
+#head(Amtrak.ts1)
+```
+Let's visualize the time series together
+```{r}
+plot(Amtrak.ts)
+```
+It seems to have a seasonality pattern. We can zoom in to see this pattern a bit clearer.
+Let's zoom in to the time from 1991-1992
+```{r}
+Amtrak.ts.5yrs <- window(Amtrak.ts, start=c(1991,1), end=c(1995,12))
+plot(Amtrak.ts.5yrs)
+```
+Next, we compute the average monthly ridership
+```{r}
+monthly.Amtrak.ts <- tapply(Amtrak.ts, cycle(Amtrak.ts), mean)
+#cycle(Amtrak.ts)
+#monthly.Amtrak.ts
+plot(monthly.Amtrak.ts, type='l', xaxt='n')
+axis(1, at=c(1:12), label = c('Jan', 'Feb', 'Mar', 'Apr','May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'))
+```
+
+Now, we compute the average ridership yearly
+```{r}
+annual.Amtrak.ts <- aggregate(Amtrak.ts, FUN =mean)
+plot(annual.Amtrak.ts, xaxt='n')
+axis(1,at = c(1991:2004))
+```
+
+
+
+
+Example: Toy R Us revenue
+1.Load the data file "ToysRUsRevenues.xls" to a data frame named 'TRUs.df'. Print out the first few observations
+2.Define 'TRUs.ts' as a quarterly time series of TRUs.df. Print out TRUs.ts
+3.Use 'ts.apply()' to calculate the average revenue of each quarter through out the years. Name this new series 'Quarterly.TRUs.ts' and plot it out.
+4.Use 'aggregate()' function to compute the average revenue for each year (name the new time series annual.TRUS.ts) and draw a time plot to see how the revenue behaves throughout the years.
+
+Solution:
+
+1.Load the data file "ToysRUsRevenues.xls" to a data frame named 'TRUs.df'. Print out the first few observations
+```{r}
+TRUs.df <- #Fill your code here
+head(TRUs.df)
+
+```
+
+
+2.Define 'TRUs.ts' as a quarterly time series of TRUs.df. Print out TRUs.ts
+```{r}
+TRUs.ts <- #Fill your codes here
+head(TRUs.ts)
+
+```
+
+3.Use 'tapply()' to calculate the average revenue of each quarter through out the years. Name this new series 'Quarterly.TRUs.ts' and plot it out.
+```{r}
+#Fill your codes here
+
+```
+
+4.Use 'aggregate()' function to compute the average revenue for each year (name the new time series annual.TRUS.ts) and draw a time plot to see how the revenue behaves throughout the years.
+```{r}
+#Fill your codes here
+
+```
+

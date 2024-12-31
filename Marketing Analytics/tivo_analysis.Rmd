@@ -1,0 +1,374 @@
+---
+title: "Segmentation at TiVo"
+author: "Miguel Garcia"
+date: "08/19/2024"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+#knitr::opts_chunk$set(echo = TRUE)
+# Clean out the environment
+rm(list = ls())
+# Set your working directory
+#setwd("~/Google Drive/My Drive/Teaching/MSBA70550.Marketing.Analytics/Assignments/Week 2/")
+options(scipen=999)
+# Load required packages
+if (!require(tidyverse)) {
+  install.packages('tidyverse')
+}
+if (!require(readxl)) {
+  install.packages('readxl')
+}
+if (!require(frequency)) {
+  install.packages('frequency')
+}
+if (!require(corrplot)) {
+  install.packages('corrplot')
+}
+if (!require(NbClust)) {
+  install.packages('NbClust')
+}
+if (!require(factoextra)) {
+  install.packages('factoextra')
+}
+if (!require(mclust)) {
+  install.packages('mclust')
+}
+# Add other packages as necessary
+library(tidyverse)
+library(readxl)
+library(frequency)
+library(corrplot)
+library(NbClust)
+library(factoextra)
+library(mclust)
+set.seed(1842)
+```
+
+# Segmentation at TiVo
+
+This analysis looks at customer segmentation at TiVo.
+
+## Data Preparation
+Load, prepare, explore, and analyze the TiVo data.
+
+```{r qwe}
+# Read data
+tivo_orig <- read_excel("C:/Users/miguel.garcia/Downloads/TiVo Segmentation Analytics Survey Data_KEL934-XLS-ENG.xlsx",sheet=2)
+```
+
+## Question 3: Data Exploration
+Create a table for each attribute (e.g., Gender) and record the percentage of responses for each answer (e.g., % of respondents answering "male" and % answering “female”).
+  
+```{r gender}
+# Gender
+gender_distribution <- tivo_orig %>%
+  count(Gender) %>%
+  mutate(Percentage = n / sum(n) * 100)
+print(gender_distribution)
+
+
+```
+
+```{r marital}
+# Marital Status
+marital_distribution <- tivo_orig %>%
+  count(`Marital Status`) %>%
+  mutate(Percentage = n / sum(n) * 100)
+print(marital_distribution)
+
+
+```
+
+```{r work}
+# Work Status
+work_status_distribution <- tivo_orig %>%
+  count(`Work Status`) %>%
+  mutate(Percentage = n / sum(n) * 100)
+print(work_status_distribution)
+
+```
+
+```{r education}
+# Education
+education_distribution <- tivo_orig %>%
+  count(Education) %>%
+  mutate(Percentage = n / sum(n) * 100)
+print(education_distribution)
+
+```
+
+```{r income}
+# Annual Income
+income_distribution <- tivo_orig %>%
+  count(`Annual Income (x1000 $)`) %>%
+  mutate(Percentage = n / sum(n) * 100)
+print(income_distribution)
+
+
+```
+
+```{r age}
+# Age
+age_distribution <- tivo_orig %>%
+  count(Age) %>%
+  mutate(Percentage = n / sum(n) * 100)
+print(age_distribution)
+
+```
+
+```{r location}
+# Location
+location_distribution <- tivo_orig %>%
+  count(Location) %>%
+  mutate(Percentage = n / sum(n) * 100)
+print(location_distribution)
+
+
+```
+
+```{r purchasingdm}
+# Purchasing Decision Maker
+purchasing_dm_distribution <- tivo_orig %>%
+  count(`Purchasing Decision-maker`) %>%
+  mutate(Percentage = n / sum(n) * 100)
+print(purchasing_dm_distribution)
+
+
+```
+
+```{r purchasingl}
+# Purchasing Location
+purchasing_location_distribution <- tivo_orig %>%
+  count(`Purchasing Location`) %>%
+  mutate(Percentage = n / sum(n) * 100)
+print(purchasing_location_distribution)
+
+```
+
+```{r monthlyespend}
+# Monthly Electronics Spend
+monthly_electronics_spend_distribution <- tivo_orig %>%
+  count(`Monthly Electronics Spend`) %>%
+  mutate(Percentage = n / sum(n) * 100)
+print(monthly_electronics_spend_distribution)
+
+
+```
+
+```{r purchasingfreq}
+# Purchasing Frequency
+purchasing_frequency_distribution <- tivo_orig %>%
+  count(`Purchasing Frequency (every x months)`) %>%
+  mutate(Percentage = n / sum(n) * 100)
+print(purchasing_frequency_distribution)
+
+
+```
+
+```{r tech}
+# tech adoption
+technology_adoption_distribution <- tivo_orig %>%
+  count(`Technology Adoption`) %>%
+  mutate(Percentage = n / sum(n) * 100)
+print(technology_adoption_distribution)
+
+```
+
+```{r tv}
+# TV Viewing
+tv_viewing_distribution <- tivo_orig %>%
+  count(`TV Viewing (hours/day)`) %>%
+  mutate(Percentage = n / sum(n) * 100)
+print(tv_viewing_distribution)
+
+
+```
+
+```{r favfeature}
+# Favorite Feature
+favorite_feature_distribution <- tivo_orig %>%
+  count(`Favorite feature`) %>%
+  mutate(Percentage = n / sum(n) * 100)
+print(favorite_feature_distribution)
+
+
+```
+
+## Question 4
+Answer the following questions.
+  
+### 4a. In the next two years, how many married men who are early adopters can afford to purchase a TiVo for $499, have enough money to purchase another electronic gadget, and are likely to do so?
+```{r}
+q4a <- tivo_orig %>%
+  filter(Gender == "male", `Marital Status` == "married", `Technology Adoption` == "early", 
+         `Annual Income (x1000 $)` >= 50) 
+q4a_count <- nrow(q4a)
+print(q4a_count)
+
+```
+
+### 4b. How many women with education of MA or PhD are making purchasing decisions for electronics without discussing them with a spouse, either because they are single, or because they are making purchasing decisions without the involvement of their spouses?
+```{r}
+q4b <- tivo_orig %>%
+  filter(Gender == "female", Education %in% c("MA", "PhD"), 
+         (`Marital Status` == "single" | `Purchasing Decision-maker` == "single"))
+q4b_count <- nrow(q4b)
+print(q4b_count)
+
+```
+
+### 4c. Among early adopters, how many purchase electronics at least once every year and do so in stores that specialize in electronics?
+```{r}
+q4c <- tivo_orig %>%
+  filter(`Technology Adoption` == "early", `Purchasing Frequency (every x months)` <= 12, 
+         `Purchasing Location` == "specialty stores")
+q4c_count <- nrow(q4c)
+print(q4c_count)
+
+```
+
+### 4d. How many seniors (above the age of 65) spend more than six hours a day watching TV?
+```{r}
+q4d <- tivo_orig %>%
+  filter(Age > 65, `TV Viewing (hours/day)` > 6)
+q4d_count <- nrow(q4d)
+print(q4d_count)
+
+```
+
+### 4e. What is the income range for seniors (above the age of 65) who spend more than six hours a day watching TV?
+```{r}
+q4e_income_range <- range(q4d$`Annual Income (x1000 $)`, na.rm = TRUE)
+print(q4e_income_range)
+
+```
+
+### 4f. What is the average annual income for seniors (above the age of 65) who spend more than six hours a day watching TV?
+```{r}
+q4f_avg_income <- mean(q4d$`Annual Income (x1000 $)`, na.rm = TRUE)
+print(q4f_avg_income)
+
+```
+
+## Question 5: Correlate Annual Income with Age
+What is the R^2?
+```{r}
+# R^2 of annual income and age
+model_income_age <- lm(`Annual Income (x1000 $)` ~ Age, data = tivo_orig)
+summary(model_income_age)$r.squared
+
+```
+
+## Question 6: Correlate Gender and Annual Income
+```{r}
+# R^2 of annual income and gender
+tivo_orig$Gender_numeric <- ifelse(tivo_orig$Gender == "male", 1, 0)
+
+model_income_gender <- lm(`Annual Income (x1000 $)` ~ Gender_numeric, data = tivo_orig)
+summary(model_income_gender)$r.squared
+
+```
+
+## Question 7: Correlation Analysis, Continued
+### 7a: Age and Purchasing Frequency
+```{r}
+# R^2
+model_age_frequency <- lm(`Purchasing Frequency (every x months)` ~ Age, data = tivo_orig)
+summary(model_age_frequency)$r.squared
+```
+
+### 7b: Annual Income and TV Viewing
+```{r}
+# R^2 
+model_income_tv <- lm(`Annual Income (x1000 $)` ~ `TV Viewing (hours/day)`, data = tivo_orig)
+summary(model_income_tv)$r.squared
+
+```
+
+### 7c: Monthly Electronics Spend and Monthly Household Spend
+```{r}
+# R^2 
+model_electronics_household <- lm(`Monthly Electronics Spend` ~ `Monthly Household Spend`, data = tivo_orig)
+summary(model_electronics_household)$r.squared
+
+
+```
+### 7d: Of the correlations, are any high enough to make one of the attributes redundant?  Are there any others to consider?
+Only the relationship between Monthly Electronics Spend and Monthly Household Spend shows a significant correlation, with an R-squared value of 0.6461. This suggests some overlap between these two attributes. In contrast, the correlations between Age and Purchasing Frequency R-squared value of 0.0000017 and Annual Income and TV Viewing R-squared value of 0.0071 are very low, indicating no meaningful relationship. Therefore, aside from Electronics and Household Spend, none of the other attributes are redundant based on these correlations.  
+  
+## Question 8: Segmentation
+Select one or more attributes to use as the basis for generating two segmentation schemes. For example, you could choose Age as the basis for creating segments based on age ranges. Or you could select two attributes that would help you segment by willingness to buy versus ability to pay.
+  
+As you generate segmentation schemes, apply it to the provided data to describe market size, average annual income, most appealing feature(s)/benefit(s), purchase location(s), and average electronics purchase.  Remember to try to create segments that are homogenous internally and heterogeneous across segments for the indicated number of segments.  Not all attributes will be used. 
+
+### 8a: Segmentation Scheme A
+```{r}
+# creating a function to calculate mode
+get_mode <- function(x) {
+  unique_x <- unique(na.omit(x))
+  unique_x[which.max(tabulate(match(x, unique_x)))]
+}
+
+segmentation_A <- tivo_orig %>%
+  mutate(Segment = case_when(
+    `Annual Income (x1000 $)` >= 50 & `Technology Adoption` == "early" ~ "High-Income Early Adopters",
+    `Annual Income (x1000 $)` < 50 & `Technology Adoption` == "early" ~ "Low-Income Early Adopters",
+    `Annual Income (x1000 $)` >= 50 & `Technology Adoption` == "late" ~ "High-Income Late Adopters",
+    `Annual Income (x1000 $)` < 50 & `Technology Adoption` == "late" ~ "Low-Income Late Adopters"
+  ))
+
+# Analyze the segments
+market_size_A <- segmentation_A %>%
+  group_by(Segment) %>%
+  summarise(
+    Market_Size = n() / nrow(tivo_orig) * 100,
+    Avg_Annual_Income = mean(`Annual Income (x1000 $)`, na.rm = TRUE),
+    Most_Appealing_Feature = get_mode(`Favorite feature`),
+    Stores_Shopped = get_mode(`Purchasing Location`),
+    Avg_Electronics_Purchase = mean(`Monthly Electronics Spend`, na.rm = TRUE)
+  )
+
+print(market_size_A)
+
+
+```
+
+### 8b: Segmentation Scheme B
+```{r}
+segmentation_B <- tivo_orig %>%
+  mutate(Segment = case_when(
+    Age <= 40 & `Purchasing Frequency (every x months)` <= 12 ~ "Young Frequent Buyers",
+    Age <= 40 & `Purchasing Frequency (every x months)` > 12 ~ "Young Infrequent Buyers",
+    Age > 40 & `Purchasing Frequency (every x months)` <= 12 ~ "Older Frequent Buyers",
+    Age > 40 & `Purchasing Frequency (every x months)` > 12 ~ "Older Infrequent Buyers"
+  ))
+
+market_size_B <- segmentation_B %>%
+  group_by(Segment) %>%
+  summarise(
+    Market_Size = n() / nrow(tivo_orig) * 100,
+    Avg_Annual_Income = mean(`Annual Income (x1000 $)`, na.rm = TRUE),
+    Most_Appealing_Feature = get_mode(`Favorite feature`),
+    Stores_Shopped = get_mode(`Purchasing Location`),
+    Avg_Electronics_Purchase = mean(`Monthly Electronics Spend`, na.rm = TRUE)
+  )
+
+print(market_size_B)
+
+```
+
+## Question 9
+Write a 150-word summary of your selected segmentation scheme and how you arrived at the segmentation. Include descriptive names for your segments that would be understandable to the marketing manager at TiVo.
+  
+For the segmentation analysis, I developed two schemes. The first scheme (Segmentation Scheme A) segments customers based on income level and technology adoption, creating four groups: High-Income Early Adopters, Low-Income Early Adopters, High-Income Late Adopters, and Low-Income Late Adopters. This segmentation is useful for identifying groups based on purchasing power and willingness to embrace new technology. The results show distinct differences in average income, preferred features, and shopping behaviors across these segments.
+
+The second scheme (Segmentation Scheme B) focuses on age and purchasing frequency. The segments include Young Frequent Buyers, Young Infrequent Buyers, Older Frequent Buyers, and Older Infrequent Buyers. This segmentation highlights behavioral patterns tied to life stage and spending habits, offering insights into where and how different age groups prefer to shop. Both schemes allow TiVo to target marketing efforts more effectively by understanding the unique characteristics and preferences of each segment.
+
+
+## Question 10
+As the analyst, what questions would have you have for TiVo to aid you in your analysis?
+
+1. Are there specific features or benefits that TiVo wants to emphasize in its marketing, beyond those captured in the survey?
+2. What are the key business objectives for TiVo’s segmentation (e.g., increasing market share, targeting high-income customers)?
+3. How does TiVo define success for each customer segment (e.g., lifetime value, conversion rate)?

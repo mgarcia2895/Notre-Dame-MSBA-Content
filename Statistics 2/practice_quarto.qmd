@@ -1,0 +1,43 @@
+---
+title: "practice"
+author: "yo momma"
+format: html
+---
+##Import Data
+
+```{r}
+load("/Users/miguel.garcia/Downloads/teamPerc.RData")
+```
+
+
+
+```{r}
+head(teamPerc)
+```
+## Linear Model
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+model <- lm(effect ~ Rater, data = teamPerc)
+
+summary(model)
+```
+## Viz
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+library(ggplot2)
+
+
+ggplot(teamPerc, aes(x = Rater, y = effect)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE, color = "blue") +
+  labs(title = "Scatter Plot of EffectRating vs. Rater",
+       x = "Rater",
+       y = "EffectRating")
+
+```
+

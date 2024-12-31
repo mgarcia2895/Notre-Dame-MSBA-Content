@@ -1,0 +1,106 @@
+---
+title: "Homework 1"
+author: "Miguel Garcia"
+format:
+  html:
+    toc: true
+    toc-location: left
+    self-contained: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+```
+
+# Section 1  
+
+Using the following data, produce a visualization with patient_days_admitted on the x-axis and dollar_spent_per_patient on the y-axis. After producing this visualization, explain what this relationship means and how this relationship might guide a decision.
+
+After looking at the bivariate relationship in the previous visualization, add department to the visualization as a grouping variable. Does this change your interpretation of the relationship or add any expanded understanding? If so, how? Does this visualization offer any additional explanatory power over the more simple visualization? Explain.
+
+```{r}
+library(ggplot2)
+library(dplyr)
+data <- read.csv("https://www.nd.edu/~sberry5/data/visualizationData.csv")
+print(data)
+
+ggplot(data, aes(x = patient_days_admitted, y = dollar_spent_per_patient)) +
+  geom_point() +
+  labs(x = "Patients Days Admitted", y= "Dollar Spent per Patient")
+
+```
+The visualization shows a linear positive correlation between the number of patient days admitted and the dollar spent per patient. However, the correlation is not strong, indicating that while there is a tendency for higher patient admissions to be associated with increased spending per patient, the relationship is not highly pronounced. This suggests that other factors may also influence healthcare expenditures per patient, and further analysis may be needed to understand the full scope of these influences.
+```{r}
+ggplot(data, aes(x = patient_days_admitted, y = dollar_spent_per_patient, color = department)) +
+  geom_point() +
+  geom_smooth() +
+  labs(x = "Patient Days Admitted", y = "Dollar Spent per Patient", color = "Department")
+
+
+```
+Adding "department" as a grouping variable to the visualization allows us to analyze the relationship between patient days admitted and dollars spent per patient within each department separately. Based on the updated visualization, there is a strong linear correlation for the general department, a moderate relationship for the cardiac department, and a weak relationship for the cancer department. However, there is less data available for the cancer department compared to the other two departments, likely due to the less common occurrence of cancer-related admissions. Similarly, the cardiac department has slightly fewer data points than the general department, possibly reflecting the specific nature of cardiac-related admissions.
+
+
+
+
+# Section 2  
+
+Using the following data, formulate a hypothesis for training.sessions.attended.year's effect on customer.satisfaction.scores.year. Please clearly state the relationship that you would expect to find. Using an appropriate technique from the general linear model, test your hypothesis and report your findings -- interpretation of your model's coefficients is critical. Describe your rationale for any data processing that you might undertake.
+
+After reporting and interpreting your findings, offer some insight as to how you could use these findings.
+
+
+My hypothesis: I predict the greater number of training sessions attended, the higher the satisfaction score. I expect a strong positive linear relationship. 
+```{r}
+glmData <- read.csv("https://www.nd.edu/~sberry5/data/glmData.csv")
+
+ggplot(glmData, aes(x = customer.satisfaction.scores.year, y = training.sessions.attended.year)) +
+  geom_point() +
+  geom_smooth() +
+  labs(y = "Training Sessions Attended", x = "Customer Satisfaction Score")
+
+```
+```{r}
+summary(glmData)
+```
+```{r}
+model <- glm(customer.satisfaction.scores.year ~ training.sessions.attended.year,
+             family = gaussian(link = "identity"), data = glmData)
+print(model)
+```
+
+Based on the summary of the model, the coefficient for "training.sessions.attended.year" suggests that for each additional training session attended per year, the customer satisfaction score is expected to increase by approximately 2.473 units. This implies a positive relationship between training sessions and customer satisfaction. As for data processing, further exploration may involve examining outliers, assessing multicollinearity, or considering interactions with other variables if available.
+
+These findings can be used to inform related to customer satisfaction improvement strategies. For example, organizations could focus on increasing the number of training sessions attended by customers to potentially enhance their satisfaction levels. 
+
+# Section 3  
+
+Using the following data, determine what variables influence a franchise's ultimate outcome -- failure or success. Using any variables available to you, select the appropriate method and test your model. Discuss your results and describe your rationale for any data processing that you might undertake.
+
+```{r}
+outcomeData <- read.csv("https://www.nd.edu/~sberry5/data/outcomeData.csv")
+
+library(ggplot2)
+
+model <- glm(outcomeClosedOpen  ~ ., data = outcomeData, family = gaussi)
+summary(model)
+```
+Based on the binomial GLM model results, none of the predictor variables (storeID, employeeCount, dailyNetProfitThousands, quartersWithHealthViolations, peoplePerSqMile) show statistically significant associations with the outcomeClosedOpen variable, as all their p-values are greater than 0.05. Therefore, based on this model, it seems that none of the variables included significantly influence a franchise's ultimate outcome of failure or success.
+
+
+# Section 4
+
+Using the modeldata package, select any data and create any model. You need to explain why you chose your data and model, and discuss your results. If you find yourself struggling to find one. the pd_speech is a great model for logistic regression and has plenty of data.
+
+```{r}
+library(modeldata)
+
+data("pd_speech")
+
+
+poisson_model <- glm(f1 ~ rapJitter + ppq5Jitter, data = pd_speech, family = poisson)
+
+summary(poisson_model)
+```
+Poisson regression is a suitable for the variable f1 since it represents counts, such as the number of events or occurrences.
+The Poisson GLM model suggests that rapJitter positively influences the outcome variable f1, whereas ppq5Jitter has a negative impact. These coefficients are statistically significant, indicating their importance in predicting the outcome variable. The model explains some of the variance in the outcome variable, but the AIC suggests that there may be better-fitting models.

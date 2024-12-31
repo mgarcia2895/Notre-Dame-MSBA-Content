@@ -1,0 +1,164 @@
+---
+title: "Lab 3"
+subtitle: "Machine Learning"
+author: "Miguel Garcia"
+output:
+html_document:
+toc: true
+toc_float: true
+theme: lumen
+highlight: zenburn
+df_print: paged
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+#Problem 1
+
+
+```{r}
+library(tidyverse)
+library(caret)
+library(broom)
+
+titanic <- read_csv("C:/Users/miguel.garcia/Downloads/titanic.csv")
+glimpse(titanic)
+```
+#Problem 2
+```{r}
+factor_cols <- c("Survived", "Sex", "Cabin", "Embarked")
+titanic[factor_cols] <- lapply(titanic[factor_cols], as.factor)
+
+glimpse(titanic)
+```
+
+#Problem 3
+```{r}
+titanic <- titanic %>%
+  select(-PassengerId, -Name, -Ticket, -Cabin)
+
+
+titanic <- titanic %>%
+  group_by(Sex) %>%
+  mutate(Age = ifelse(is.na(Age), round(mean(Age, na.rm = TRUE)), Age)) %>%
+  ungroup()
+
+summary(titanic)
+
+```
+
+#Problem 4
+```{r}
+RNGkind(sample.kind = "Rounding")
+set.seed(1234)
+sample_set <- createDataPartition(y = titanic$Survived, p = .8, list = FALSE)
+titanic_train <- titanic[sample_set, ]
+titanic_test <- titanic[-sample_set, ]
+```
+
+#Problem 5
+```{r}
+library(performanceEstimation)
+set.seed(1234)
+titanic_train <- smote(Survived ~ ., titanic_train, perc.over = 1, perc.under = 2)
+titanic_train %>% count(Survived) %>% mutate(prop = round(n/sum(n), 4)) %>% arrange(desc(n))
+
+```
+
+#Problem 6
+```{r}
+library(rpart)
+set.seed(1234)
+survived_mod <- train(
+  Survived ~ .,
+  data = titanic_train,
+  method = "glm",
+  metric = "Kappa",
+  trControl = trainControl(method = "boot632", number = 3)
+)
+survived_mod
+```
+
+#Problem 7
+```{r}
+
+grid <- 
+  expand.grid(
+    nIter = seq(from = 1, to = 5, by = 1)
+)
+
+grid
+```
+
+```{r}
+library(caTools)
+
+set.seed(1234)
+boost_mod <- train(
+  Survived ~ .,
+  data = titanic_train,
+  method = "LogitBoost",
+  metric = "Kappa",
+  trControl = trainControl(method = "boot632", number = 3),
+  tuneGrid = grid
+)
+boost_mod
+```
+
+#Problem 8
+```{r}
+set.seed(1234)
+grid <-
+  expand.grid(
+    model = "tree",
+    trials = c(5, 10, 15, 20, 25, 30),
+    winnow = FALSE
+  )
+library(C50)
+tree_mod <- train(
+  Survived ~ .,
+  data = titanic_train,
+  method = "C5.0",
+  metric = "Kappa",
+  trControl = trainControl(method = "boot632", number = 3),
+  tuneGrid = grid
+)
+tree_mod
+```
+#Problem 9 & 10
+```{r}
+get_viz_metrics <- function(model, data, labels, value, method){
+  library(AUC)
+  library(broom)
+  
+  metric <- predict(model, data, type = "prob") %>%
+    pull(value) %>%
+    roc(pull(data, labels)) %>% 
+    tidy() %>% 
+    mutate(approach = method) %>% 
+    select(approach, everything())
+  
+  return (metric)
+}
+
+```
+#visual
+```{r}
+v1 <- get_viz_metrics(survived_mod, titanic_test, "Survived", "1", "Logistic Regression")
+v2 <- get_viz_metrics(boost_mod, titanic_test, "Survived", "1", "Boosted Logistic Regression")
+v3 <- get_viz_metrics(tree_mod, titanic_test, "Survived", "1", "C5.0 Decision Tree")
+
+visualization <- bind_rows(v1, v2, v3)
+visualization %>%
+  ggplot(mapping  = aes(x = fpr, y = tpr, color = approach)) +
+  geom_line(size = 1) +
+  geom_abline(intercept = 0, slope = 1, color = "black", linetype = "dashed", size = 1) +
+  xlim(0, 1) +
+  labs(title = "ROC Curve for Income Prediction Model", 
+       x = "False Positive Rate (1- Specificity)", 
+       y = "True Positive Rate (Sensitivity)") +
+  theme_minimal()
+```
+
+#Answer: I would choose the C5.0 Decision Tree because it has the most area under the curve.

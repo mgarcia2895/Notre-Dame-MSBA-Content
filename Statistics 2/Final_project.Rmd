@@ -1,0 +1,110 @@
+---
+title: "Baseball = What Does It Take To Win?"
+author: "Miguel Garcia"
+date: "2024-04-06"
+output: html_document
+---
+
+```{r}
+library(dplyr)
+library(caret)
+library(data.table)
+
+
+mlb_stats <- read.csv("C:/Users/miguel.garcia/Downloads/2019.2023.mlb.team.stats.csv")
+
+###Data Cleaning
+mlb_stats <- mlb_stats[1:150, ]
+mlb_stats$mlbid <- as.character(mlb_stats$mlbid)
+names(mlb_stats)[names(mlb_stats) == "R"] <- "runs_scored"
+names(mlb_stats)[names(mlb_stats) == "R8"] <- "runs_allowed"
+names(mlb_stats)[names(mlb_stats) == "G3"] <- "games_pitched"
+names(mlb_stats)[names(mlb_stats) == "HR9"] <- "home_runs_allowed"
+
+
+
+#Run Differential column
+mlb_stats$run_differential <- mlb_stats$runs_scored - mlb_stats$runs_allowed
+
+mlb_stats$Team <- factor(mlb_stats$Team)
+mlb_stats$Year <- factor(mlb_stats$Year)
+mlb_stats$playoffs <- factor(mlb_stats$playoffs)
+
+```
+##Summary
+```{r}
+filtered_champs <- mlb_stats[mlb_stats$Champs == "y", ]
+
+selected_columns <- c("Year", "Team", "W", "L", "runs_scored", "runs_allowed", "run_differential")
+
+print(filtered_champs[selected_columns])
+```
+## Predicted statistics that contributes to a win.
+```{r}
+selected_columns <- c("Year", "HR", "SB", "BB", "H", "SO")
+
+sums_by_year <- mlb_stats %>%
+  select(all_of(selected_columns)) %>%
+  group_by(Year) %>%
+  summarise(across(everything(), sum, na.rm = TRUE))
+
+print(sums_by_year)
+
+```
+```{r}
+# Recode 'Champs' column to numeric
+mlb_stats$Champs_numeric <- ifelse(mlb_stats$Champs == "y", 1, 0)
+
+# Fit logistic regression model
+logTest <- glm(Champs_numeric ~ HR + SB + BB + strikeouts + doubles + W + triples, data = mlb_stats, family = binomial)
+
+summary(logTest)
+
+```
+Logistics Regression
+```{r}
+
+mlb_stats$predictedProbs <- predict(logTest, 
+                                      type = "response")
+
+
+ggplot(mlb_stats, aes(strikeouts, predictedProbs)) +
+  geom_line(linewidth = 1.5) +
+  theme_minimal()
+``` 
+
+```{r}
+twoPredictors <- glm(Champs_numeric ~ strikeouts + HR, data = mlb_stats, 
+              family = binomial)
+
+summary(twoPredictors)
+```
+```{r}
+exp(twoPredictors$coefficients)
+```
+```{r}
+library(plotly)
+
+
+twoPredictors <- glm(Champs_numeric ~ strikeouts + HR, 
+                     data = mlb_stats, 
+                     family = binomial)
+
+strikeouts <- unique(mlb_stats$strikeouts)
+HR <- unique(mlb_stats$HR)
+
+grid <- expand.grid(strikeouts, 
+                    HR)
+
+newData <- setNames(data.frame(grid), c("strikeouts", "HR"))
+predictedVals <- predict(twoPredictors, 
+                         newdata = newData, 
+                         type = "response")
+
+zMatrix <- matrix(predictedVals, 
+            nrow = length(unique(newData$strikeouts)), 
+            ncol = length(unique(newData$HR)))
+
+plot_ly() %>% 
+  add_surface(x = ~HR, y = ~strikeouts, z = ~zMatrix)
+```

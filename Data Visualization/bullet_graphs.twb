@@ -1,0 +1,1360 @@
+<?xml version='1.0' encoding='utf-8' ?>
+
+<!-- build 20233.23.1227.1336                               -->
+<workbook original-version='18.1' source-build='2023.3.1 (20233.23.1227.1336)' source-platform='win' version='18.1' xmlns:user='http://www.tableausoftware.com/xml/user'>
+  <document-format-change-manifest>
+    <_.fcp.AnimationOnByDefault.true...AnimationOnByDefault />
+    <_.fcp.MarkAnimation.true...MarkAnimation />
+    <_.fcp.ObjectModelEncapsulateLegacy.true...ObjectModelEncapsulateLegacy />
+    <_.fcp.ObjectModelTableType.true...ObjectModelTableType />
+    <_.fcp.SchemaViewerObjectModel.true...SchemaViewerObjectModel />
+    <SheetIdentifierTracking />
+    <WindowsPersistSimpleIdentifiers />
+  </document-format-change-manifest>
+  <preferences>
+    <preference name='ui.encoding.shelf.height' value='24' />
+    <preference name='ui.shelf.height' value='26' />
+  </preferences>
+  <_.fcp.AnimationOnByDefault.false...style>
+    <_.fcp.AnimationOnByDefault.false..._.fcp.MarkAnimation.true...style-rule element='animation'>
+      <_.fcp.AnimationOnByDefault.false...format attr='animation-on' value='ao-on' />
+    </_.fcp.AnimationOnByDefault.false..._.fcp.MarkAnimation.true...style-rule>
+  </_.fcp.AnimationOnByDefault.false...style>
+  <datasources>
+    <datasource caption='Apple Unit Sales by Quarter (1)' inline='true' name='federated.1szan2a13zwpbm10597hq1tuddaa' version='18.1'>
+      <connection class='federated'>
+        <named-connections>
+          <named-connection caption='Apple Unit Sales by Quarter (1)' name='excel-direct.1de6xna0af3f4y1gn6znz0qi32op'>
+            <connection class='excel-direct' cleaning='no' compat='no' dataRefreshTime='' filename='C:/Users/miguel.garcia/Downloads/Apple Unit Sales by Quarter (1).xlsx' interpretationMode='0' password='' server='' validate='no' />
+          </named-connection>
+        </named-connections>
+        <_.fcp.ObjectModelEncapsulateLegacy.false...relation name='Pivot' type='pivot'>
+          <columns>
+            <column datatype='string' name='Pivot Field Names' />
+            <column datatype='real' name='Pivot Field Values' />
+          </columns>
+          <tag name='Pivot Field Names'>
+            <value name='[Mac]' />
+            <value name='[Wearables]' />
+            <value name='[iPad]' />
+            <value name='[iPhone]' />
+            <value name='[iPod]' />
+          </tag>
+          <groups>
+            <group name='Pivot Field Values'>
+              <field name='[Unit Sales].[Mac]' />
+              <field name='[Unit Sales].[Wearables]' />
+              <field name='[Unit Sales].[iPad]' />
+              <field name='[Unit Sales].[iPhone]' />
+              <field name='[Unit Sales].[iPod]' />
+            </group>
+          </groups>
+          <relation connection='excel-direct.1de6xna0af3f4y1gn6znz0qi32op' name='Unit Sales' table='[&apos;Unit Sales$&apos;]' type='table'>
+            <columns gridOrigin='A1:H81:no:A1:H81:0' header='yes' outcome='6'>
+              <column datatype='date' name='Date Reported' ordinal='0' />
+              <column datatype='string' name='Calendar Quarter' ordinal='1' />
+              <column datatype='string' name='Fiscal Quarter' ordinal='2' />
+              <column datatype='real' name='iPhone' ordinal='3' />
+              <column datatype='real' name='iPad' ordinal='4' />
+              <column datatype='real' name='iPod' ordinal='5' />
+              <column datatype='real' name='Mac' ordinal='6' />
+              <column datatype='real' name='Wearables' ordinal='7' />
+            </columns>
+          </relation>
+        </_.fcp.ObjectModelEncapsulateLegacy.false...relation>
+        <_.fcp.ObjectModelEncapsulateLegacy.true...relation name='Pivot' type='pivot'>
+          <columns>
+            <column datatype='string' name='Pivot Field Names' />
+            <column datatype='real' name='Pivot Field Values' />
+          </columns>
+          <tag name='Pivot Field Names'>
+            <value name='[Mac]' />
+            <value name='[Wearables]' />
+            <value name='[iPad]' />
+            <value name='[iPhone]' />
+            <value name='[iPod]' />
+          </tag>
+          <groups>
+            <group name='Pivot Field Values'>
+              <field name='[Unit Sales].[Mac]' />
+              <field name='[Unit Sales].[Wearables]' />
+              <field name='[Unit Sales].[iPad]' />
+              <field name='[Unit Sales].[iPhone]' />
+              <field name='[Unit Sales].[iPod]' />
+            </group>
+          </groups>
+          <relation connection='excel-direct.1de6xna0af3f4y1gn6znz0qi32op' name='Unit Sales' table='[&apos;Unit Sales$&apos;]' type='table'>
+            <columns gridOrigin='A1:H81:no:A1:H81:0' header='yes' outcome='6'>
+              <column datatype='date' name='Date Reported' ordinal='0' />
+              <column datatype='string' name='Calendar Quarter' ordinal='1' />
+              <column datatype='string' name='Fiscal Quarter' ordinal='2' />
+              <column datatype='real' name='iPhone' ordinal='3' />
+              <column datatype='real' name='iPad' ordinal='4' />
+              <column datatype='real' name='iPod' ordinal='5' />
+              <column datatype='real' name='Mac' ordinal='6' />
+              <column datatype='real' name='Wearables' ordinal='7' />
+            </columns>
+          </relation>
+        </_.fcp.ObjectModelEncapsulateLegacy.true...relation>
+        <metadata-records>
+          <metadata-record class='capability'>
+            <remote-name />
+            <remote-type>0</remote-type>
+            <parent-name>[Unit Sales]</parent-name>
+            <remote-alias />
+            <aggregation>Count</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='integer' name='context'>0</attribute>
+              <attribute datatype='string' name='gridOrigin'>&quot;A1:H81:no:A1:H81:0&quot;</attribute>
+              <attribute datatype='boolean' name='header'>true</attribute>
+              <attribute datatype='integer' name='outcome'>6</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Date Reported</remote-name>
+            <remote-type>7</remote-type>
+            <local-name>[Date Reported]</local-name>
+            <parent-name>[Unit Sales]</parent-name>
+            <remote-alias>Date Reported</remote-alias>
+            <ordinal>0</ordinal>
+            <local-type>date</local-type>
+            <aggregation>Year</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;DATE&quot;</attribute>
+            </attributes>
+            <_.fcp.ObjectModelEncapsulateLegacy.true...object-id>[Unit Sales_793C04565AF8478E9EFA26C06991F1C8]</_.fcp.ObjectModelEncapsulateLegacy.true...object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Calendar Quarter</remote-name>
+            <remote-type>130</remote-type>
+            <local-name>[Calendar Quarter]</local-name>
+            <parent-name>[Unit Sales]</parent-name>
+            <remote-alias>Calendar Quarter</remote-alias>
+            <ordinal>1</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <contains-null>true</contains-null>
+            <collation flag='1' name='LEN_RUS_S2' />
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;WSTR&quot;</attribute>
+            </attributes>
+            <_.fcp.ObjectModelEncapsulateLegacy.true...object-id>[Unit Sales_793C04565AF8478E9EFA26C06991F1C8]</_.fcp.ObjectModelEncapsulateLegacy.true...object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Fiscal Quarter</remote-name>
+            <remote-type>130</remote-type>
+            <local-name>[Fiscal Quarter]</local-name>
+            <parent-name>[Unit Sales]</parent-name>
+            <remote-alias>Fiscal Quarter</remote-alias>
+            <ordinal>2</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <contains-null>true</contains-null>
+            <collation flag='1' name='LEN_RUS_S2' />
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;WSTR&quot;</attribute>
+            </attributes>
+            <_.fcp.ObjectModelEncapsulateLegacy.true...object-id>[Unit Sales_793C04565AF8478E9EFA26C06991F1C8]</_.fcp.ObjectModelEncapsulateLegacy.true...object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Pivot Field Names</remote-name>
+            <remote-type>129</remote-type>
+            <local-name>[Pivot Field Names]</local-name>
+            <parent-name>[Pivot]</parent-name>
+            <remote-alias>Pivot Field Names</remote-alias>
+            <ordinal>3</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <contains-null>true</contains-null>
+            <_.fcp.ObjectModelEncapsulateLegacy.true...object-id>[Unit Sales_793C04565AF8478E9EFA26C06991F1C8]</_.fcp.ObjectModelEncapsulateLegacy.true...object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Pivot Field Values</remote-name>
+            <remote-type>5</remote-type>
+            <local-name>[Pivot Field Values]</local-name>
+            <parent-name>[Pivot]</parent-name>
+            <remote-alias>Pivot Field Values</remote-alias>
+            <ordinal>4</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <_.fcp.ObjectModelEncapsulateLegacy.true...object-id>[Unit Sales_793C04565AF8478E9EFA26C06991F1C8]</_.fcp.ObjectModelEncapsulateLegacy.true...object-id>
+          </metadata-record>
+        </metadata-records>
+      </connection>
+      <aliases enabled='yes' />
+      <_.fcp.ObjectModelTableType.true...column caption='Unit Sales' datatype='table' name='[__tableau_internal_object_id__].[Unit Sales_793C04565AF8478E9EFA26C06991F1C8]' role='measure' type='quantitative' />
+      <layout _.fcp.SchemaViewerObjectModel.false...dim-percentage='0.5' _.fcp.SchemaViewerObjectModel.false...measure-percentage='0.4' dim-ordering='alphabetic' measure-ordering='alphabetic' show-structure='true' />
+      <semantic-values>
+        <semantic-value key='[Country].[Name]' value='&quot;United States&quot;' />
+      </semantic-values>
+      <_.fcp.ObjectModelEncapsulateLegacy.true...object-graph>
+        <objects>
+          <object caption='Unit Sales' id='Unit Sales_793C04565AF8478E9EFA26C06991F1C8'>
+            <properties context=''>
+              <relation name='Pivot' type='pivot'>
+                <columns>
+                  <column datatype='string' name='Pivot Field Names' />
+                  <column datatype='real' name='Pivot Field Values' />
+                </columns>
+                <tag name='Pivot Field Names'>
+                  <value name='[Mac]' />
+                  <value name='[Wearables]' />
+                  <value name='[iPad]' />
+                  <value name='[iPhone]' />
+                  <value name='[iPod]' />
+                </tag>
+                <groups>
+                  <group name='Pivot Field Values'>
+                    <field name='[Unit Sales].[Mac]' />
+                    <field name='[Unit Sales].[Wearables]' />
+                    <field name='[Unit Sales].[iPad]' />
+                    <field name='[Unit Sales].[iPhone]' />
+                    <field name='[Unit Sales].[iPod]' />
+                  </group>
+                </groups>
+                <relation connection='excel-direct.1de6xna0af3f4y1gn6znz0qi32op' name='Unit Sales' table='[&apos;Unit Sales$&apos;]' type='table'>
+                  <columns gridOrigin='A1:H81:no:A1:H81:0' header='yes' outcome='6'>
+                    <column datatype='date' name='Date Reported' ordinal='0' />
+                    <column datatype='string' name='Calendar Quarter' ordinal='1' />
+                    <column datatype='string' name='Fiscal Quarter' ordinal='2' />
+                    <column datatype='real' name='iPhone' ordinal='3' />
+                    <column datatype='real' name='iPad' ordinal='4' />
+                    <column datatype='real' name='iPod' ordinal='5' />
+                    <column datatype='real' name='Mac' ordinal='6' />
+                    <column datatype='real' name='Wearables' ordinal='7' />
+                  </columns>
+                </relation>
+              </relation>
+            </properties>
+          </object>
+        </objects>
+      </_.fcp.ObjectModelEncapsulateLegacy.true...object-graph>
+    </datasource>
+    <datasource caption='Unit Sales (Apple Unit Sales by Quarter (1))' inline='true' name='federated.1teufpn1wnpmdb19zvhp000lu4wt' version='18.1'>
+      <connection class='federated'>
+        <named-connections>
+          <named-connection caption='Apple Unit Sales by Quarter (1)' name='excel-direct.075c75n09ipl2v19jc7ah01iael4'>
+            <connection class='excel-direct' cleaning='no' compat='no' dataRefreshTime='' filename='C:/Users/miguel.garcia/Downloads/Apple Unit Sales by Quarter (1).xlsx' interpretationMode='0' password='' server='' validate='no' />
+          </named-connection>
+        </named-connections>
+        <_.fcp.ObjectModelEncapsulateLegacy.false...relation name='Pivot' type='pivot'>
+          <columns>
+            <column datatype='string' name='Pivot Field Names' />
+            <column datatype='real' name='Pivot Field Values' />
+          </columns>
+          <tag name='Pivot Field Names'>
+            <value name='[Mac]' />
+            <value name='[Wearables]' />
+            <value name='[iPad]' />
+            <value name='[iPhone]' />
+            <value name='[iPod]' />
+          </tag>
+          <groups>
+            <group name='Pivot Field Values'>
+              <field name='[Unit Sales].[Mac]' />
+              <field name='[Unit Sales].[Wearables]' />
+              <field name='[Unit Sales].[iPad]' />
+              <field name='[Unit Sales].[iPhone]' />
+              <field name='[Unit Sales].[iPod]' />
+            </group>
+          </groups>
+          <relation connection='excel-direct.075c75n09ipl2v19jc7ah01iael4' name='Unit Sales' table='[&apos;Unit Sales$&apos;]' type='table'>
+            <columns gridOrigin='A1:H81:no:A1:H81:0' header='yes' outcome='6'>
+              <column datatype='date' name='Date Reported' ordinal='0' />
+              <column datatype='string' name='Calendar Quarter' ordinal='1' />
+              <column datatype='string' name='Fiscal Quarter' ordinal='2' />
+              <column datatype='real' name='iPhone' ordinal='3' />
+              <column datatype='real' name='iPad' ordinal='4' />
+              <column datatype='real' name='iPod' ordinal='5' />
+              <column datatype='real' name='Mac' ordinal='6' />
+              <column datatype='real' name='Wearables' ordinal='7' />
+            </columns>
+          </relation>
+        </_.fcp.ObjectModelEncapsulateLegacy.false...relation>
+        <_.fcp.ObjectModelEncapsulateLegacy.true...relation name='Pivot' type='pivot'>
+          <columns>
+            <column datatype='string' name='Pivot Field Names' />
+            <column datatype='real' name='Pivot Field Values' />
+          </columns>
+          <tag name='Pivot Field Names'>
+            <value name='[Mac]' />
+            <value name='[Wearables]' />
+            <value name='[iPad]' />
+            <value name='[iPhone]' />
+            <value name='[iPod]' />
+          </tag>
+          <groups>
+            <group name='Pivot Field Values'>
+              <field name='[Unit Sales].[Mac]' />
+              <field name='[Unit Sales].[Wearables]' />
+              <field name='[Unit Sales].[iPad]' />
+              <field name='[Unit Sales].[iPhone]' />
+              <field name='[Unit Sales].[iPod]' />
+            </group>
+          </groups>
+          <relation connection='excel-direct.075c75n09ipl2v19jc7ah01iael4' name='Unit Sales' table='[&apos;Unit Sales$&apos;]' type='table'>
+            <columns gridOrigin='A1:H81:no:A1:H81:0' header='yes' outcome='6'>
+              <column datatype='date' name='Date Reported' ordinal='0' />
+              <column datatype='string' name='Calendar Quarter' ordinal='1' />
+              <column datatype='string' name='Fiscal Quarter' ordinal='2' />
+              <column datatype='real' name='iPhone' ordinal='3' />
+              <column datatype='real' name='iPad' ordinal='4' />
+              <column datatype='real' name='iPod' ordinal='5' />
+              <column datatype='real' name='Mac' ordinal='6' />
+              <column datatype='real' name='Wearables' ordinal='7' />
+            </columns>
+          </relation>
+        </_.fcp.ObjectModelEncapsulateLegacy.true...relation>
+        <metadata-records>
+          <metadata-record class='capability'>
+            <remote-name />
+            <remote-type>0</remote-type>
+            <parent-name>[Unit Sales]</parent-name>
+            <remote-alias />
+            <aggregation>Count</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='integer' name='context'>0</attribute>
+              <attribute datatype='string' name='gridOrigin'>&quot;A1:H81:no:A1:H81:0&quot;</attribute>
+              <attribute datatype='boolean' name='header'>true</attribute>
+              <attribute datatype='integer' name='outcome'>6</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Date Reported</remote-name>
+            <remote-type>7</remote-type>
+            <local-name>[Date Reported]</local-name>
+            <parent-name>[Unit Sales]</parent-name>
+            <remote-alias>Date Reported</remote-alias>
+            <ordinal>0</ordinal>
+            <local-type>date</local-type>
+            <aggregation>Year</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;DATE&quot;</attribute>
+            </attributes>
+            <_.fcp.ObjectModelEncapsulateLegacy.true...object-id>[Unit Sales_E3B0CAEA76654450973C6CDBABE1D174]</_.fcp.ObjectModelEncapsulateLegacy.true...object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Calendar Quarter</remote-name>
+            <remote-type>130</remote-type>
+            <local-name>[Calendar Quarter]</local-name>
+            <parent-name>[Unit Sales]</parent-name>
+            <remote-alias>Calendar Quarter</remote-alias>
+            <ordinal>1</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <contains-null>true</contains-null>
+            <collation flag='1' name='LEN_RUS_S2' />
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;WSTR&quot;</attribute>
+            </attributes>
+            <_.fcp.ObjectModelEncapsulateLegacy.true...object-id>[Unit Sales_E3B0CAEA76654450973C6CDBABE1D174]</_.fcp.ObjectModelEncapsulateLegacy.true...object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Fiscal Quarter</remote-name>
+            <remote-type>130</remote-type>
+            <local-name>[Fiscal Quarter]</local-name>
+            <parent-name>[Unit Sales]</parent-name>
+            <remote-alias>Fiscal Quarter</remote-alias>
+            <ordinal>2</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <contains-null>true</contains-null>
+            <collation flag='1' name='LEN_RUS_S2' />
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;WSTR&quot;</attribute>
+            </attributes>
+            <_.fcp.ObjectModelEncapsulateLegacy.true...object-id>[Unit Sales_E3B0CAEA76654450973C6CDBABE1D174]</_.fcp.ObjectModelEncapsulateLegacy.true...object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Pivot Field Names</remote-name>
+            <remote-type>129</remote-type>
+            <local-name>[Pivot Field Names]</local-name>
+            <parent-name>[Pivot]</parent-name>
+            <remote-alias>Pivot Field Names</remote-alias>
+            <ordinal>3</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <contains-null>true</contains-null>
+            <_.fcp.ObjectModelEncapsulateLegacy.true...object-id>[Unit Sales_E3B0CAEA76654450973C6CDBABE1D174]</_.fcp.ObjectModelEncapsulateLegacy.true...object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Pivot Field Values</remote-name>
+            <remote-type>5</remote-type>
+            <local-name>[Pivot Field Values]</local-name>
+            <parent-name>[Pivot]</parent-name>
+            <remote-alias>Pivot Field Values</remote-alias>
+            <ordinal>4</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <_.fcp.ObjectModelEncapsulateLegacy.true...object-id>[Unit Sales_E3B0CAEA76654450973C6CDBABE1D174]</_.fcp.ObjectModelEncapsulateLegacy.true...object-id>
+          </metadata-record>
+        </metadata-records>
+      </connection>
+      <aliases enabled='yes' />
+      <column caption='Device' datatype='string' name='[Pivot Field Names]' role='dimension' type='nominal' />
+      <column caption='Sales' datatype='real' name='[Pivot Field Values]' role='measure' type='quantitative' />
+      <_.fcp.ObjectModelTableType.true...column caption='Unit Sales' datatype='table' name='[__tableau_internal_object_id__].[Unit Sales_E3B0CAEA76654450973C6CDBABE1D174]' role='measure' type='quantitative' />
+      <layout _.fcp.SchemaViewerObjectModel.false...dim-percentage='0.5' _.fcp.SchemaViewerObjectModel.false...measure-percentage='0.4' dim-ordering='alphabetic' measure-ordering='alphabetic' show-structure='true' />
+      <semantic-values>
+        <semantic-value key='[Country].[Name]' value='&quot;United States&quot;' />
+      </semantic-values>
+      <_.fcp.ObjectModelEncapsulateLegacy.true...object-graph>
+        <objects>
+          <object caption='Unit Sales' id='Unit Sales_E3B0CAEA76654450973C6CDBABE1D174'>
+            <properties context=''>
+              <relation name='Pivot' type='pivot'>
+                <columns>
+                  <column datatype='string' name='Pivot Field Names' />
+                  <column datatype='real' name='Pivot Field Values' />
+                </columns>
+                <tag name='Pivot Field Names'>
+                  <value name='[Mac]' />
+                  <value name='[Wearables]' />
+                  <value name='[iPad]' />
+                  <value name='[iPhone]' />
+                  <value name='[iPod]' />
+                </tag>
+                <groups>
+                  <group name='Pivot Field Values'>
+                    <field name='[Unit Sales].[Mac]' />
+                    <field name='[Unit Sales].[Wearables]' />
+                    <field name='[Unit Sales].[iPad]' />
+                    <field name='[Unit Sales].[iPhone]' />
+                    <field name='[Unit Sales].[iPod]' />
+                  </group>
+                </groups>
+                <relation connection='excel-direct.075c75n09ipl2v19jc7ah01iael4' name='Unit Sales' table='[&apos;Unit Sales$&apos;]' type='table'>
+                  <columns gridOrigin='A1:H81:no:A1:H81:0' header='yes' outcome='6'>
+                    <column datatype='date' name='Date Reported' ordinal='0' />
+                    <column datatype='string' name='Calendar Quarter' ordinal='1' />
+                    <column datatype='string' name='Fiscal Quarter' ordinal='2' />
+                    <column datatype='real' name='iPhone' ordinal='3' />
+                    <column datatype='real' name='iPad' ordinal='4' />
+                    <column datatype='real' name='iPod' ordinal='5' />
+                    <column datatype='real' name='Mac' ordinal='6' />
+                    <column datatype='real' name='Wearables' ordinal='7' />
+                  </columns>
+                </relation>
+              </relation>
+            </properties>
+          </object>
+        </objects>
+      </_.fcp.ObjectModelEncapsulateLegacy.true...object-graph>
+    </datasource>
+    <datasource caption='Resolved Incidents (Data Prep - Flights)' inline='true' name='federated.146uwx71y5r2h6160zny51oyt6x6' version='18.1'>
+      <connection class='federated'>
+        <named-connections>
+          <named-connection caption='Data Prep - Flights' name='excel-direct.1hmic411t0aqrj19dff050hxvrz7'>
+            <connection class='excel-direct' cleaning='yes' compat='no' dataRefreshTime='' filename='C:/Users/miguel.garcia/Downloads/Data Prep - Flights.xlsx' interpretationMode='1' password='' server='' validate='no' />
+          </named-connection>
+        </named-connections>
+        <_.fcp.ObjectModelEncapsulateLegacy.false...relation name='Pivot' type='pivot'>
+          <columns>
+            <column datatype='date' date-parse-format='MM/dd/yyyy' name='Pivot Field Names' />
+            <column datatype='integer' name='Pivot Field Values' />
+          </columns>
+          <tag name='Pivot Field Names'>
+            <value name='[1/1/2014]' />
+            <value name='[2/1/2014]' />
+            <value name='[3/1/2014]' />
+            <value name='[4/1/2014]' />
+            <value name='[5/1/2014]' />
+            <value name='[6/1/2014]' />
+            <value name='[7/1/2014]' />
+          </tag>
+          <groups>
+            <group name='Pivot Field Values'>
+              <field name='[Resolved Incidents].[1/1/2014]' />
+              <field name='[Resolved Incidents].[2/1/2014]' />
+              <field name='[Resolved Incidents].[3/1/2014]' />
+              <field name='[Resolved Incidents].[4/1/2014]' />
+              <field name='[Resolved Incidents].[5/1/2014]' />
+              <field name='[Resolved Incidents].[6/1/2014]' />
+              <field name='[Resolved Incidents].[7/1/2014]' />
+            </group>
+          </groups>
+          <relation connection='excel-direct.1hmic411t0aqrj19dff050hxvrz7' name='Resolved Incidents' table='[&apos;Resolved Incidents$&apos;]' type='table'>
+            <columns gridOrigin='B1:N35:no:B1:N35:1' header='no' lost='0' outcome='1' processed='321'>
+              <column datatype='string' name='Employee' ordinal='0' />
+              <column datatype='integer' name='1/1/2014' ordinal='1' />
+              <column datatype='integer' name='2/1/2014' ordinal='2' />
+              <column datatype='integer' name='3/1/2014' ordinal='3' />
+              <column datatype='integer' name='4/1/2014' ordinal='4' />
+              <column datatype='integer' name='5/1/2014' ordinal='5' />
+              <column datatype='integer' name='6/1/2014' ordinal='6' />
+              <column datatype='integer' name='7/1/2014' ordinal='7' />
+              <column datatype='integer' name='8/1/2014' ordinal='8' />
+              <column datatype='integer' name='9/1/2014' ordinal='9' />
+              <column datatype='integer' name='10/1/2014' ordinal='10' />
+              <column datatype='integer' name='11/1/2014' ordinal='11' />
+              <column datatype='integer' name='12/1/2014' ordinal='12' />
+            </columns>
+          </relation>
+        </_.fcp.ObjectModelEncapsulateLegacy.false...relation>
+        <_.fcp.ObjectModelEncapsulateLegacy.true...relation name='Pivot' type='pivot'>
+          <columns>
+            <column datatype='date' date-parse-format='MM/dd/yyyy' name='Pivot Field Names' />
+            <column datatype='integer' name='Pivot Field Values' />
+          </columns>
+          <tag name='Pivot Field Names'>
+            <value name='[1/1/2014]' />
+            <value name='[2/1/2014]' />
+            <value name='[3/1/2014]' />
+            <value name='[4/1/2014]' />
+            <value name='[5/1/2014]' />
+            <value name='[6/1/2014]' />
+            <value name='[7/1/2014]' />
+          </tag>
+          <groups>
+            <group name='Pivot Field Values'>
+              <field name='[Resolved Incidents].[1/1/2014]' />
+              <field name='[Resolved Incidents].[2/1/2014]' />
+              <field name='[Resolved Incidents].[3/1/2014]' />
+              <field name='[Resolved Incidents].[4/1/2014]' />
+              <field name='[Resolved Incidents].[5/1/2014]' />
+              <field name='[Resolved Incidents].[6/1/2014]' />
+              <field name='[Resolved Incidents].[7/1/2014]' />
+            </group>
+          </groups>
+          <relation connection='excel-direct.1hmic411t0aqrj19dff050hxvrz7' name='Resolved Incidents' table='[&apos;Resolved Incidents$&apos;]' type='table'>
+            <columns gridOrigin='B1:N35:no:B1:N35:1' header='no' lost='0' outcome='1' processed='321'>
+              <column datatype='string' name='Employee' ordinal='0' />
+              <column datatype='integer' name='1/1/2014' ordinal='1' />
+              <column datatype='integer' name='2/1/2014' ordinal='2' />
+              <column datatype='integer' name='3/1/2014' ordinal='3' />
+              <column datatype='integer' name='4/1/2014' ordinal='4' />
+              <column datatype='integer' name='5/1/2014' ordinal='5' />
+              <column datatype='integer' name='6/1/2014' ordinal='6' />
+              <column datatype='integer' name='7/1/2014' ordinal='7' />
+              <column datatype='integer' name='8/1/2014' ordinal='8' />
+              <column datatype='integer' name='9/1/2014' ordinal='9' />
+              <column datatype='integer' name='10/1/2014' ordinal='10' />
+              <column datatype='integer' name='11/1/2014' ordinal='11' />
+              <column datatype='integer' name='12/1/2014' ordinal='12' />
+            </columns>
+          </relation>
+        </_.fcp.ObjectModelEncapsulateLegacy.true...relation>
+        <metadata-records>
+          <metadata-record class='capability'>
+            <remote-name />
+            <remote-type>0</remote-type>
+            <parent-name>[Resolved Incidents]</parent-name>
+            <remote-alias />
+            <aggregation>Count</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='integer' name='context'>2</attribute>
+              <attribute datatype='string' name='gridOrigin'>&quot;B1:N35:no:B1:N35:1&quot;</attribute>
+              <attribute datatype='integer' name='lost'>0</attribute>
+              <attribute datatype='integer' name='outcome'>1</attribute>
+              <attribute datatype='integer' name='processed'>321</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Employee</remote-name>
+            <remote-type>130</remote-type>
+            <local-name>[Employee]</local-name>
+            <parent-name>[Resolved Incidents]</parent-name>
+            <remote-alias>Employee</remote-alias>
+            <ordinal>0</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <contains-null>true</contains-null>
+            <collation flag='1' name='LEN_RUS_S2' />
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;WSTR&quot;</attribute>
+            </attributes>
+            <_.fcp.ObjectModelEncapsulateLegacy.true...object-id>[Resolved Incidents_DD57755E2DC144639C0C23289139CF06]</_.fcp.ObjectModelEncapsulateLegacy.true...object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>8/1/2014</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[8/1/2014]</local-name>
+            <parent-name>[Resolved Incidents]</parent-name>
+            <remote-alias>8/1/2014</remote-alias>
+            <ordinal>1</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;I8&quot;</attribute>
+            </attributes>
+            <_.fcp.ObjectModelEncapsulateLegacy.true...object-id>[Resolved Incidents_DD57755E2DC144639C0C23289139CF06]</_.fcp.ObjectModelEncapsulateLegacy.true...object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>9/1/2014</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[9/1/2014]</local-name>
+            <parent-name>[Resolved Incidents]</parent-name>
+            <remote-alias>9/1/2014</remote-alias>
+            <ordinal>2</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;I8&quot;</attribute>
+            </attributes>
+            <_.fcp.ObjectModelEncapsulateLegacy.true...object-id>[Resolved Incidents_DD57755E2DC144639C0C23289139CF06]</_.fcp.ObjectModelEncapsulateLegacy.true...object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>10/1/2014</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[10/1/2014]</local-name>
+            <parent-name>[Resolved Incidents]</parent-name>
+            <remote-alias>10/1/2014</remote-alias>
+            <ordinal>3</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;I8&quot;</attribute>
+            </attributes>
+            <_.fcp.ObjectModelEncapsulateLegacy.true...object-id>[Resolved Incidents_DD57755E2DC144639C0C23289139CF06]</_.fcp.ObjectModelEncapsulateLegacy.true...object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>11/1/2014</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[11/1/2014]</local-name>
+            <parent-name>[Resolved Incidents]</parent-name>
+            <remote-alias>11/1/2014</remote-alias>
+            <ordinal>4</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;I8&quot;</attribute>
+            </attributes>
+            <_.fcp.ObjectModelEncapsulateLegacy.true...object-id>[Resolved Incidents_DD57755E2DC144639C0C23289139CF06]</_.fcp.ObjectModelEncapsulateLegacy.true...object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>12/1/2014</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[12/1/2014]</local-name>
+            <parent-name>[Resolved Incidents]</parent-name>
+            <remote-alias>12/1/2014</remote-alias>
+            <ordinal>5</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;I8&quot;</attribute>
+            </attributes>
+            <_.fcp.ObjectModelEncapsulateLegacy.true...object-id>[Resolved Incidents_DD57755E2DC144639C0C23289139CF06]</_.fcp.ObjectModelEncapsulateLegacy.true...object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Pivot Field Names</remote-name>
+            <remote-type>7</remote-type>
+            <local-name>[Pivot Field Names]</local-name>
+            <parent-name>[Pivot]</parent-name>
+            <remote-alias>Pivot Field Names</remote-alias>
+            <ordinal>6</ordinal>
+            <local-type>date</local-type>
+            <aggregation>Year</aggregation>
+            <contains-null>true</contains-null>
+            <_.fcp.ObjectModelEncapsulateLegacy.true...object-id>[Resolved Incidents_DD57755E2DC144639C0C23289139CF06]</_.fcp.ObjectModelEncapsulateLegacy.true...object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Pivot Field Values</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[Pivot Field Values]</local-name>
+            <parent-name>[Pivot]</parent-name>
+            <remote-alias>Pivot Field Values</remote-alias>
+            <ordinal>7</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <_.fcp.ObjectModelEncapsulateLegacy.true...object-id>[Resolved Incidents_DD57755E2DC144639C0C23289139CF06]</_.fcp.ObjectModelEncapsulateLegacy.true...object-id>
+          </metadata-record>
+        </metadata-records>
+      </connection>
+      <aliases enabled='yes' />
+      <column caption='Employee - Split 1' datatype='string' name='[Employee - Split 1]' role='dimension' type='nominal' user:SplitFieldIndex='1' user:SplitFieldOrigin='[federated.146uwx71y5r2h6160zny51oyt6x6].[Employee]'>
+        <calculation class='tableau' formula='TRIM( SPLIT( [Employee], &quot;-&quot;, 1 ) )' />
+      </column>
+      <column caption='Employee - Split 2' datatype='string' datatype-customized='true' name='[Employee - Split 2]' role='dimension' type='nominal' user:SplitFieldIndex='2' user:SplitFieldOrigin='[federated.146uwx71y5r2h6160zny51oyt6x6].[Employee]'>
+        <calculation class='tableau' formula='SPLIT( [Employee], &quot;-&quot;, 2 )' />
+      </column>
+      <column caption='Date' datatype='date' name='[Pivot Field Names]' role='dimension' type='ordinal' />
+      <column caption='Incidents' datatype='integer' name='[Pivot Field Values]' role='measure' type='quantitative' />
+      <_.fcp.ObjectModelTableType.true...column caption='Resolved Incidents' datatype='table' name='[__tableau_internal_object_id__].[Resolved Incidents_DD57755E2DC144639C0C23289139CF06]' role='measure' type='quantitative' />
+      <column-instance column='[__tableau_internal_object_id__].[Resolved Incidents_DD57755E2DC144639C0C23289139CF06]' derivation='Count' name='[__tableau_internal_object_id__].[cnt:Resolved Incidents_DD57755E2DC144639C0C23289139CF06:qk]' pivot='key' type='quantitative' />
+      <column-instance column='[Pivot Field Values]' derivation='Sum' name='[sum:Pivot Field Values:qk]' pivot='key' type='quantitative' />
+      <layout _.fcp.SchemaViewerObjectModel.false...dim-percentage='0.5' _.fcp.SchemaViewerObjectModel.false...measure-percentage='0.4' dim-ordering='alphabetic' measure-ordering='alphabetic' show-structure='true' />
+      <style>
+        <style-rule element='mark'>
+          <encoding attr='color' field='[:Measure Names]' type='palette'>
+            <map to='#4e79a7'>
+              <bucket>&quot;[federated.146uwx71y5r2h6160zny51oyt6x6].[__tableau_internal_object_id__].[cnt:Resolved Incidents_DD57755E2DC144639C0C23289139CF06:qk]&quot;</bucket>
+            </map>
+            <map to='#e15759'>
+              <bucket>&quot;[federated.146uwx71y5r2h6160zny51oyt6x6].[sum:Pivot Field Values:qk]&quot;</bucket>
+            </map>
+            <map to='#f28e2b'>
+              <bucket>&quot;[federated.146uwx71y5r2h6160zny51oyt6x6]&quot;</bucket>
+            </map>
+          </encoding>
+        </style-rule>
+      </style>
+      <semantic-values>
+        <semantic-value key='[Country].[Name]' value='&quot;United States&quot;' />
+      </semantic-values>
+      <_.fcp.ObjectModelEncapsulateLegacy.true...object-graph>
+        <objects>
+          <object caption='Resolved Incidents' id='Resolved Incidents_DD57755E2DC144639C0C23289139CF06'>
+            <properties context=''>
+              <relation name='Pivot' type='pivot'>
+                <columns>
+                  <column datatype='date' date-parse-format='MM/dd/yyyy' name='Pivot Field Names' />
+                  <column datatype='integer' name='Pivot Field Values' />
+                </columns>
+                <tag name='Pivot Field Names'>
+                  <value name='[1/1/2014]' />
+                  <value name='[2/1/2014]' />
+                  <value name='[3/1/2014]' />
+                  <value name='[4/1/2014]' />
+                  <value name='[5/1/2014]' />
+                  <value name='[6/1/2014]' />
+                  <value name='[7/1/2014]' />
+                </tag>
+                <groups>
+                  <group name='Pivot Field Values'>
+                    <field name='[Resolved Incidents].[1/1/2014]' />
+                    <field name='[Resolved Incidents].[2/1/2014]' />
+                    <field name='[Resolved Incidents].[3/1/2014]' />
+                    <field name='[Resolved Incidents].[4/1/2014]' />
+                    <field name='[Resolved Incidents].[5/1/2014]' />
+                    <field name='[Resolved Incidents].[6/1/2014]' />
+                    <field name='[Resolved Incidents].[7/1/2014]' />
+                  </group>
+                </groups>
+                <relation connection='excel-direct.1hmic411t0aqrj19dff050hxvrz7' name='Resolved Incidents' table='[&apos;Resolved Incidents$&apos;]' type='table'>
+                  <columns gridOrigin='B1:N35:no:B1:N35:1' header='no' lost='0' outcome='1' processed='321'>
+                    <column datatype='string' name='Employee' ordinal='0' />
+                    <column datatype='integer' name='1/1/2014' ordinal='1' />
+                    <column datatype='integer' name='2/1/2014' ordinal='2' />
+                    <column datatype='integer' name='3/1/2014' ordinal='3' />
+                    <column datatype='integer' name='4/1/2014' ordinal='4' />
+                    <column datatype='integer' name='5/1/2014' ordinal='5' />
+                    <column datatype='integer' name='6/1/2014' ordinal='6' />
+                    <column datatype='integer' name='7/1/2014' ordinal='7' />
+                    <column datatype='integer' name='8/1/2014' ordinal='8' />
+                    <column datatype='integer' name='9/1/2014' ordinal='9' />
+                    <column datatype='integer' name='10/1/2014' ordinal='10' />
+                    <column datatype='integer' name='11/1/2014' ordinal='11' />
+                    <column datatype='integer' name='12/1/2014' ordinal='12' />
+                  </columns>
+                </relation>
+              </relation>
+            </properties>
+          </object>
+        </objects>
+      </_.fcp.ObjectModelEncapsulateLegacy.true...object-graph>
+    </datasource>
+  </datasources>
+  <worksheets>
+    <worksheet name='Sheet 1'>
+      <table>
+        <view>
+          <datasources>
+            <datasource caption='Apple Unit Sales by Quarter (1)' name='federated.1szan2a13zwpbm10597hq1tuddaa' />
+          </datasources>
+          <datasource-dependencies datasource='federated.1szan2a13zwpbm10597hq1tuddaa'>
+            <column datatype='date' name='[Date Reported]' role='dimension' type='ordinal' />
+            <column datatype='real' name='[iPhone]' role='measure' type='quantitative' />
+            <column datatype='real' name='[iPod]' role='measure' type='quantitative' />
+            <column-instance column='[Date Reported]' derivation='Quarter' name='[qr:Date Reported:ok]' pivot='key' type='ordinal' />
+            <column-instance column='[iPhone]' derivation='Sum' name='[sum:iPhone:qk]' pivot='key' type='quantitative' />
+            <column-instance column='[iPod]' derivation='Sum' name='[sum:iPod:qk]' pivot='key' type='quantitative' />
+          </datasource-dependencies>
+          <aggregation value='true' />
+        </view>
+        <style />
+        <panes>
+          <pane selection-relaxation-option='selection-relaxation-allow'>
+            <view>
+              <breakdown value='on' />
+            </view>
+            <mark class='Automatic' />
+            <encodings>
+              <size column='[federated.1szan2a13zwpbm10597hq1tuddaa].[sum:iPhone:qk]' />
+              <color column='[federated.1szan2a13zwpbm10597hq1tuddaa].[sum:iPod:qk]' />
+              <text column='[federated.1szan2a13zwpbm10597hq1tuddaa].[qr:Date Reported:ok]' />
+            </encodings>
+            <style>
+              <style-rule element='mark'>
+                <format attr='mark-labels-show' value='true' />
+                <format attr='mark-labels-cull' value='true' />
+                <format attr='mark-labels-line-first' value='true' />
+                <format attr='mark-labels-line-last' value='true' />
+                <format attr='mark-labels-range-min' value='true' />
+                <format attr='mark-labels-range-max' value='true' />
+                <format attr='mark-labels-mode' value='all' />
+                <format attr='mark-labels-range-scope' value='pane' />
+                <format attr='mark-labels-range-field' value='' />
+              </style-rule>
+            </style>
+          </pane>
+        </panes>
+        <rows />
+        <cols />
+      </table>
+      <simple-id uuid='{56A3A0BF-ED84-424C-BE1D-F3687D2B2E23}' />
+    </worksheet>
+    <worksheet name='Sheet 2'>
+      <table>
+        <view>
+          <datasources>
+            <datasource caption='Unit Sales (Apple Unit Sales by Quarter (1))' name='federated.1teufpn1wnpmdb19zvhp000lu4wt' />
+          </datasources>
+          <datasource-dependencies datasource='federated.1teufpn1wnpmdb19zvhp000lu4wt'>
+            <column datatype='date' name='[Date Reported]' role='dimension' type='ordinal' />
+            <column caption='Device' datatype='string' name='[Pivot Field Names]' role='dimension' type='nominal' />
+            <column caption='Sales' datatype='real' name='[Pivot Field Values]' role='measure' type='quantitative' />
+            <column-instance column='[Pivot Field Names]' derivation='None' name='[none:Pivot Field Names:nk]' pivot='key' type='nominal' />
+            <column-instance column='[Pivot Field Values]' derivation='Sum' name='[sum:Pivot Field Values:qk]' pivot='key' type='quantitative' />
+            <column-instance column='[Date Reported]' derivation='Quarter-Trunc' name='[tqr:Date Reported:qk]' pivot='key' type='quantitative' />
+          </datasource-dependencies>
+          <filter class='categorical' column='[federated.1teufpn1wnpmdb19zvhp000lu4wt].[none:Pivot Field Names:nk]'>
+            <groupfilter function='except' user:ui-domain='database' user:ui-enumeration='inclusive' user:ui-marker='enumerate'>
+              <groupfilter function='level-members' level='[none:Pivot Field Names:nk]' />
+              <groupfilter function='union'>
+                <groupfilter function='member' level='[none:Pivot Field Names:nk]' member='&quot;Wearables&quot;' />
+                <groupfilter function='member' level='[none:Pivot Field Names:nk]' member='%null%' />
+              </groupfilter>
+            </groupfilter>
+          </filter>
+          <slices>
+            <column>[federated.1teufpn1wnpmdb19zvhp000lu4wt].[none:Pivot Field Names:nk]</column>
+          </slices>
+          <aggregation value='true' />
+        </view>
+        <style />
+        <panes>
+          <pane selection-relaxation-option='selection-relaxation-allow'>
+            <view>
+              <breakdown value='auto' />
+            </view>
+            <mark class='Bar' />
+            <mark-sizing custom-mark-size-in-axis-units='1.0' mark-alignment='mark-alignment-left' mark-sizing-setting='marks-scaling-on' use-custom-mark-size='false' />
+            <encodings>
+              <color column='[federated.1teufpn1wnpmdb19zvhp000lu4wt].[none:Pivot Field Names:nk]' />
+            </encodings>
+          </pane>
+        </panes>
+        <rows>[federated.1teufpn1wnpmdb19zvhp000lu4wt].[sum:Pivot Field Values:qk]</rows>
+        <cols>[federated.1teufpn1wnpmdb19zvhp000lu4wt].[tqr:Date Reported:qk]</cols>
+      </table>
+      <simple-id uuid='{64EAD5A7-07C4-4B2B-AC53-E0F5C3A4ABE7}' />
+    </worksheet>
+    <worksheet name='Sheet 3'>
+      <table>
+        <view>
+          <datasources>
+            <datasource caption='Resolved Incidents (Data Prep - Flights)' name='federated.146uwx71y5r2h6160zny51oyt6x6' />
+          </datasources>
+          <datasource-dependencies datasource='federated.146uwx71y5r2h6160zny51oyt6x6'>
+            <column caption='Date' datatype='date' name='[Pivot Field Names]' role='dimension' type='ordinal' />
+            <column caption='Incidents' datatype='integer' name='[Pivot Field Values]' role='measure' type='quantitative' />
+            <column-instance column='[Pivot Field Values]' derivation='Sum' name='[sum:Pivot Field Values:qk]' pivot='key' type='quantitative' />
+            <column-instance column='[Pivot Field Names]' derivation='Month-Trunc' name='[tmn:Pivot Field Names:qk]' pivot='key' type='quantitative' />
+          </datasource-dependencies>
+          <aggregation value='true' />
+        </view>
+        <style>
+          <style-rule element='label'>
+            <format attr='text-format' field='[federated.146uwx71y5r2h6160zny51oyt6x6].[tmn:Pivot Field Names:qk]' value='*mmm-yy' />
+          </style-rule>
+        </style>
+        <panes>
+          <pane selection-relaxation-option='selection-relaxation-allow'>
+            <view>
+              <breakdown value='auto' />
+            </view>
+            <mark class='Automatic' />
+            <reference-line axis-column='[federated.146uwx71y5r2h6160zny51oyt6x6].[sum:Pivot Field Values:qk]' enable-instant-analytics='true' fill-above='false' fill-below='false' formula='confidence' id='refline0' label-type='none' paired-distribution-id='refline1' probability='95' scope='per-pane' show-lines='both' symmetric='false' value-column='[federated.146uwx71y5r2h6160zny51oyt6x6].[sum:Pivot Field Values:qk]' z-order='1' />
+            <reference-line axis-column='[federated.146uwx71y5r2h6160zny51oyt6x6].[sum:Pivot Field Values:qk]' enable-instant-analytics='true' formula='average' id='refline1' label-type='automatic' paired-distribution-id='refline0' probability='95' scope='per-pane' value-column='[federated.146uwx71y5r2h6160zny51oyt6x6].[sum:Pivot Field Values:qk]' z-order='2' />
+          </pane>
+        </panes>
+        <rows>[federated.146uwx71y5r2h6160zny51oyt6x6].[sum:Pivot Field Values:qk]</rows>
+        <cols>[federated.146uwx71y5r2h6160zny51oyt6x6].[tmn:Pivot Field Names:qk]</cols>
+      </table>
+      <simple-id uuid='{01178DC1-9B1F-4125-8074-85FCF33051E2}' />
+    </worksheet>
+    <worksheet name='Sheet 4'>
+      <table>
+        <view>
+          <datasources>
+            <datasource caption='Resolved Incidents (Data Prep - Flights)' name='federated.146uwx71y5r2h6160zny51oyt6x6' />
+          </datasources>
+          <datasource-dependencies datasource='federated.146uwx71y5r2h6160zny51oyt6x6'>
+            <column caption='Date' datatype='date' name='[Pivot Field Names]' role='dimension' type='ordinal' />
+            <column caption='Incidents' datatype='integer' name='[Pivot Field Values]' role='measure' type='quantitative' />
+            <column-instance column='[Pivot Field Names]' derivation='Month' name='[mn:Pivot Field Names:ok]' pivot='key' type='ordinal' />
+            <column-instance column='[Pivot Field Names]' derivation='Quarter' name='[qr:Pivot Field Names:ok]' pivot='key' type='ordinal' />
+            <column-instance column='[Pivot Field Values]' derivation='Sum' name='[sum:Pivot Field Values:qk]' pivot='key' type='quantitative' />
+            <column-instance column='[Pivot Field Names]' derivation='Year' name='[yr:Pivot Field Names:ok]' pivot='key' type='ordinal' />
+          </datasource-dependencies>
+          <aggregation value='true' />
+        </view>
+        <style />
+        <panes>
+          <pane id='3' selection-relaxation-option='selection-relaxation-allow'>
+            <view>
+              <breakdown value='auto' />
+            </view>
+            <mark class='Bar' />
+            <encodings>
+              <color column='[federated.146uwx71y5r2h6160zny51oyt6x6].[qr:Pivot Field Names:ok]' />
+              <lod column='[federated.146uwx71y5r2h6160zny51oyt6x6].[mn:Pivot Field Names:ok]' />
+            </encodings>
+          </pane>
+        </panes>
+        <rows>[federated.146uwx71y5r2h6160zny51oyt6x6].[sum:Pivot Field Values:qk]</rows>
+        <cols>([federated.146uwx71y5r2h6160zny51oyt6x6].[yr:Pivot Field Names:ok] / ([federated.146uwx71y5r2h6160zny51oyt6x6].[qr:Pivot Field Names:ok] / [federated.146uwx71y5r2h6160zny51oyt6x6].[mn:Pivot Field Names:ok]))</cols>
+      </table>
+      <simple-id uuid='{9F939735-7BA4-4B01-AD10-18D52083CEFD}' />
+    </worksheet>
+  </worksheets>
+  <windows source-height='89'>
+    <window class='worksheet' name='Sheet 1'>
+      <cards>
+        <edge name='left'>
+          <strip size='200'>
+            <card type='pages' />
+            <card type='filters' />
+            <card type='marks' />
+          </strip>
+        </edge>
+        <edge name='top'>
+          <strip size='2147483647'>
+            <card type='columns' />
+          </strip>
+          <strip size='2147483647'>
+            <card type='rows' />
+          </strip>
+          <strip size='2147483647'>
+            <card type='title' />
+          </strip>
+        </edge>
+        <edge name='right'>
+          <strip size='200'>
+            <card pane-specification-id='0' param='[federated.1szan2a13zwpbm10597hq1tuddaa].[sum:iPod:qk]' type='color' />
+          </strip>
+        </edge>
+      </cards>
+      <viewpoint>
+        <highlight>
+          <color-one-way>
+            <field>[federated.1szan2a13zwpbm10597hq1tuddaa].[:Measure Names]</field>
+            <field>[federated.1szan2a13zwpbm10597hq1tuddaa].[qr:Date Reported:ok]</field>
+            <field>[federated.1szan2a13zwpbm10597hq1tuddaa].[yr:Date Reported:ok]</field>
+          </color-one-way>
+        </highlight>
+      </viewpoint>
+      <simple-id uuid='{7C6C5AFE-896E-4547-8246-0E09F1162E12}' />
+    </window>
+    <window class='worksheet' name='Sheet 2'>
+      <cards>
+        <edge name='left'>
+          <strip size='200'>
+            <card type='pages' />
+            <card type='filters' />
+            <card type='marks' />
+          </strip>
+        </edge>
+        <edge name='top'>
+          <strip size='2147483647'>
+            <card type='columns' />
+          </strip>
+          <strip size='2147483647'>
+            <card type='rows' />
+          </strip>
+          <strip size='2147483647'>
+            <card type='title' />
+          </strip>
+        </edge>
+        <edge name='right'>
+          <strip size='200'>
+            <card pane-specification-id='0' param='[federated.1teufpn1wnpmdb19zvhp000lu4wt].[none:Pivot Field Names:nk]' type='color' />
+          </strip>
+        </edge>
+      </cards>
+      <viewpoint>
+        <highlight>
+          <color-one-way>
+            <field>[federated.1teufpn1wnpmdb19zvhp000lu4wt].[none:Pivot Field Names:nk]</field>
+            <field>[federated.1teufpn1wnpmdb19zvhp000lu4wt].[yr:Date Reported:ok]</field>
+          </color-one-way>
+        </highlight>
+      </viewpoint>
+      <simple-id uuid='{AED724A5-E3DC-4B3F-A23A-FDABA86FCB98}' />
+    </window>
+    <window class='worksheet' maximized='true' name='Sheet 3'>
+      <cards>
+        <edge name='left'>
+          <strip size='200'>
+            <card type='pages' />
+            <card type='filters' />
+            <card type='marks' />
+          </strip>
+        </edge>
+        <edge name='top'>
+          <strip size='2147483647'>
+            <card type='columns' />
+          </strip>
+          <strip size='2147483647'>
+            <card type='rows' />
+          </strip>
+          <strip size='2147483647'>
+            <card type='title' />
+          </strip>
+        </edge>
+      </cards>
+      <viewpoint>
+        <highlight>
+          <color-one-way>
+            <field>[federated.146uwx71y5r2h6160zny51oyt6x6].[yr:Pivot Field Names:ok]</field>
+          </color-one-way>
+        </highlight>
+      </viewpoint>
+      <simple-id uuid='{1DA225E6-7133-4F60-B327-8AC3630DDB70}' />
+    </window>
+    <window class='worksheet' name='Sheet 4'>
+      <cards>
+        <edge name='left'>
+          <strip size='200'>
+            <card type='pages' />
+            <card type='filters' />
+            <card type='marks' />
+          </strip>
+        </edge>
+        <edge name='top'>
+          <strip size='2147483647'>
+            <card type='columns' />
+          </strip>
+          <strip size='2147483647'>
+            <card type='rows' />
+          </strip>
+          <strip size='2147483647'>
+            <card type='title' />
+          </strip>
+        </edge>
+        <edge name='right'>
+          <strip size='200'>
+            <card pane-specification-id='3' param='[federated.146uwx71y5r2h6160zny51oyt6x6].[qr:Pivot Field Names:ok]' type='color' />
+          </strip>
+        </edge>
+      </cards>
+      <viewpoint>
+        <highlight>
+          <color-one-way>
+            <field>[federated.146uwx71y5r2h6160zny51oyt6x6].[qr:Pivot Field Names:ok]</field>
+            <field>[federated.146uwx71y5r2h6160zny51oyt6x6].[tmn:Pivot Field Names:ok]</field>
+            <field>[federated.146uwx71y5r2h6160zny51oyt6x6].[tmn:Pivot Field Names:qk]</field>
+            <field>[federated.146uwx71y5r2h6160zny51oyt6x6].[tqr:Pivot Field Names:ok]</field>
+          </color-one-way>
+        </highlight>
+      </viewpoint>
+      <simple-id uuid='{FB3EBB53-07FA-40D7-8BCF-B6D748805E91}' />
+    </window>
+  </windows>
+  <thumbnails>
+    <thumbnail height='192' name='Sheet 1' width='192'>
+      iVBORw0KGgoAAAANSUhEUgAAAMAAAADACAYAAABS3GwHAAAACXBIWXMAABJ0AAASdAHeZh94
+      AAAEVElEQVR4nO3YTW+UZRTH4TN9o29OqaVQoEibIgtREmMiGxcm+jH9CK5cuDORYCRRkxIQ
+      8AUBLaEWqLVSaUuRcWE0kIxFJ8NU87+u3Z15zuRsfsnz3I1Wq9UqCNW31wvAXhIA0QaePJy/
+      dKO+uPrDXu0CHXnnrZO1b3zg2Q+28dTUZ5dv1nsfnO/KUtArswv7qzkz3NGsVyCi/U0AjTo5
+      f7SOTI5UVdXBA/trZLDRw7Xg32u1Htf1ixdqeXm1NtdX68L5z+vB1qNdZ9oG8NLx2WptrNWJ
+      +dkaHh6pN19bqJnxweeyNHTL8pXFejwxW0tfXqidGqz5uQN19dK3u860DWB0uL9W1zdrY3un
+      zpyaq/5Go44eaD6XpaFbNje2a3J6ssZGR6qvv1HffX2zRkd3/zZo++l8/fuVOnNqoWaa++r9
+      s5erOTlZQw/vP5eloVuOvfpKLX56ru7cXa+pIz/W4+qvkU4CeLi1WecWr9X42B/D62tr3d8W
+      umxobH+defft2lhfr9Fms2bmX37mzK6Xpxu/bnVtOeiV8YmJf/ysa1CiCYBoAiCaAIgmAKIJ
+      gGgCIJoAiCYAogmAaAIgmgCIJgCiCYBoAiCaAIgmAKIJgGgCIJoAiCYAogmAaAIgmgCIJgCi
+      CYBoAiCaAIgmAKIJgGgCIJoAiCYAogmAaAIgmgCIJgCiCYBoAiCaAIgmAKIJgGgCIJoAiCYA
+      ogmAaAIgmgCIJgCiCYBoAiCaAIgmAKIJgGgCIJoAiCYAogmAaAIgmgCIJgCiCYBoAiCaAIgm
+      AKIJgGgCIJoAiCYAogmAaAIgmgCIJgCiCYBoAiCaAIgmAKIJgGgCIJoAiCYAogmAaAIgmgCI
+      JgCiCYBoAiCaAIgmAKIJgGgCIJoAiCYAogmAaAIgmgCIJgCiDTx5eOP08fptuLFXu0BHpqfG
+      a7sedTT7VADNg2M1OzjdlaWgV4ZGB2t7p7MAvAIRrX0ArVZtrP1UW1sPq6pVWw82e7sV9Ejb
+      AFZvXq1r3yzV4tlP6peV23Xuw496vRf0RNsA1u/8XAuvn64Xm6M1NHW4Dh2e6vVe0BNtA5g5
+      MVdXzn5cS8urtbmyVLev36jbt+70ejd47hqtVqv15+HivZX6au3eXz/eXbpVU7NHq6/hapT/
+      rrmJF+r+TmffqQO7/Th9bLajP4X/C9egRBMA0QRANAEQTQBEEwDRBEA0ARBNAEQTANEEQDQB
+      EE0ARBMA0QRANAEQTQBEEwDRBEA0ARBNAEQTANEEQDQBEE0ARBMA0QRANAEQTQBEEwDRBEA0
+      ARBNAEQTANEEQDQBEE0ARBMA0QRANAEQTQBEEwDRBEA0ARBNAEQTANEEQDQBEE0ARBMA0QRA
+      NAEQTQBEEwDRBEA0ARBNAEQTANEEQDQBEE0ARBMA0QRANAEQTQBEEwDRBEA0ARBNAEQTANEE
+      QDQBEE0ARBt48jA+OFSHRsb2ahfoSHNwuAb6Gh3N/g6vEZxvjG2/swAAAABJRU5ErkJggg==
+    </thumbnail>
+    <thumbnail height='192' name='Sheet 2' width='192'>
+      iVBORw0KGgoAAAANSUhEUgAAAMAAAADACAYAAABS3GwHAAAACXBIWXMAABJ0AAASdAHeZh94
+      AAAT2UlEQVR4nO3dSW8j6X3H8W8t3ClREqXWvra2XqbHM7bjJAMHjg8+BAlgIEGA+JhbDkEO
+      eQMDH+Jj4ARJgNwTB47tJF6QjDOAJ/aMx9vs3dOtpbWLFCWKFEmRVWRtOZBDSb3MaNiU1Or6
+      fwABfFAs1iOyflXFh8/zlOJ5nocQPqVedAWEuEhtD4DjOO1+SSHOjJwBhK9JAISvSQCEr0kA
+      hK9JAISvSQCEr0kAhK9JAISvfaoA2DWDheUV8FxWlu6xndknv5fmw4VlHOlQIS4h/dM82bIc
+      qkYFo7SPGu3lML9HERhOxsnslxjoieF5Hq7rnlF1hWivT3UGiMTi6JoKKOB51LvReUh/OnFZ
+      faozwEE2Q7VapWRpeOYuieQVoqpFOnfIzEwHqgKe56Gq8tVCXA5Ku7tDO46DpmntfEkhzowc
+      qoWvSQCEr0kAhK9JAISvSQCEr0kAhK9JAISvSQCEr0kAhK9JAISvSQCEr7UWAM+jcJDDrNnY
+      tSr5g2KbqyXE+fhUvUE/UinukdotY1a2CQcgoKs46jS9naF210+IM9VSAAKhKJaxQ6lcIdrX
+      w9CVLnKGgRPTcV1XxgeIS6OlAGh6iHBQY2h4hKBbYWE1xdyNW2ha/YpKukOLy0LGAwhfk1Yg
+      4WsSAOFrEgDhaxIA4WsSAOFrEgDhaxIA4WsSAOFrEgDhaxIA4WsSAOFrEgDhay31BrWrZT64
+      s4gejtEZ8sgVDeZuPEc0KJ3gxOXSUgDAo2bVcLUgVT3A3NQQuXyRUG+njAcQl0pLAaiZZSLx
+      bqxqBcdy2UplSI7MNrtBS3docVm0Nh7A8ygVC2ihKCENDs0aiY44IOMBxOUiA2KEr0krkPA1
+      CYDwNQmA8DUJgPA1CYDwNQmA8DUJgPA1CYDwNQmA8DUJgPA1CYDwtZbHAyyvbGArOsPJDnZy
+      h8zOTqMp7a6eEGer5c5wrl1laWUbz60xmIxTVhIM9MRwXRdVlROLuBxa3lNTG+sMjo0DHjL8
+      RVxWLY8IC3f20BnWcHu72cmVmZnpQFXA8zw5A4hLQ8YDCF+TQ7XwNQmA8DUJgPA1CYDwNQmA
+      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
+      7aFlEgDha/8PEwz4QCbtPTcAAAAASUVORK5CYII=
+    </thumbnail>
+    <thumbnail height='192' name='Sheet 3' width='192'>
+      iVBORw0KGgoAAAANSUhEUgAAAMAAAADACAYAAABS3GwHAAAACXBIWXMAABJ0AAASdAHeZh94
+      AAAPOUlEQVR4nO3d228b2X3A8e/cSA6vkkjJliXF6429XnsvXaRJmqaXh77lpchLgPyPfQyK
+      okCDLgo0aQu02DS217Zk67KSKEokxctcOMOZOX2QrN001mYlUxfq/D4vEmSBOLTnyzlzPIc0
+      lFIKITRlXvUAhLhKEw8gTdNJP6QQF0bOAEJrEoDQmgQgtCYBCK1JAEJrEoDQ2pkDiOMYUISB
+      TxQnZGmCH4QXMDQhLp59ll/2+h3++8kqP/3BI758sYlCUc6bZCqjsfKQ+WrhosYpxIU4UwDl
+      Wp352RaGaTOOQ6xcEew89+7UafV90pJDlmXI3RViWpwpgH6nxd7eHtVqGcfJYVgmeTPjy5eb
+      3H/8KZZlAZx8FeI6iscph8OQ7YMBxqRvhkvTVAIQV04pyLKMIBrT7Hhs7PXY2OvR7Hh4Ycxs
+      ucDyQlUCENNPKYVS0Dr02Gj22Gj12dzrcdALKORs7jTK3L01w3uLM9ypV5ipFDANA2DyAcRx
+      PJEb4o6elFxLiD+kgL4fsX8Yst322Gz12W0PCUYRs+U8y/MV3rtV4+7tGW7PlTCOD/TTTDyA
+      0Wg0kQDCMCTLsgmMSEwjpRRBlHA4jNjpeGy3PZrdgEEQU8rbLMwWWW6UWW6UWZhxKeRsLPPb
+      D/a3uaAAEn73m89Z/PSvqbsmpgGZgvE4IZdzSNMEwzAZJymFfI44ijBtB0OlKMPEsW0JQBNK
+      KZJU4YUxOx2f7bbHbsfnoB9iGgazlTzLjTJLjTKLs0VqpRy2ZfEnXti/swsJIB4NWdtokiUZ
+      So1xbYPD4ZCtzS3uP3rE0Eu5t1jlt//5P3z82ScEYUqSRHS31/GtKj//2d9JADfUKE5odn12
+      2kcH+07bJ0pSSgWHpXqJ5UaZO/XSyav6RbuQAHbWnvDVICUOQh6s1Flr+dTzGXaxgpu3sIsL
+      HGx9STqOUPkyluMShgPUKObWyl3uLi9KAFMuTlK6g4hm982B7tHzYwAW6yWW6yWWjqcwxYKN
+      AX9yvn4RLiSAKIqwbJs0STBNkyTNcCwDLwgpui6GYZKlY+JxgqXGfPHkS2qNJd5fnidVBm4h
+      LwFMiSTN8EdjWscXpTsdj4N+SBSnzFYKLM4VT6YwM6Ucece6kgP9NBMPoNlssrW19c6Pk6ap
+      rAJdA0pBphRJmjEMYnp+TM+P6HkRncGIYRhjmSa1Yo5GzWWpUWK+5lJ2nZOlxuts4gF4nkcQ
+      BJN8SHFJonFKZzDioB+y3wvY7x19HcUppmkwVymwMOOyMFNkYcalXilQLeWm4kA/zcVfZZyR
+      UoruMMK2TAo5i5xtXqtT5jR7s7Q4COLjg/zoAG/3RwRRAkC9WmC+VmBhpshffFhjYcalmD9a
+      YryJ/w7XLoBxmvGr/1in70eMxilJmpF3LNycTSFnU3YdKq5z/DV38rVYsHEsE9sysa2b+Y/1
+      XWSZYjROGQYx+29eyQ9DusMRgyDGto+mK/O1o1fyH31wi0bt6CDX8cXm2k+B0kwRxQlhnDKK
+      E7zRGC8cMwxihuHx92FMECWM04wkyciUopi3KRUcSoU3weSoFL8Op+I6FPMOpnm0+nBVqxBn
+      pZRCcfT30vMi9nsBrV7I/mFAezCi70fkbIuy63DreKqyMFNkrpqnWsyRs+U2lW+69gGcR5Yp
+      /GiMH74JJj4O5ej74fH3QTQ+OfANw6CUPz7DFHN/dJYp5h1KBRs3Z2Oe438cz2OcZHS9EZ3+
+      6OsDvRfgj8YoBbVSnoUZ9+RAb9RcZsv5SxvfTTDxAHzfZzQaTfIhL8ybFY4sU6SZIoiOwhgG
+      XwczPI4niBKC0ZgwTjBNA8cycCyT4ptoTqZjR9+XXOdk2lb4lmjCaEzfj2gfz8lb35iTZwpm
+      K3nqVZdb37j4rLg5rad5k3SmAOJwyLO1bf7s44esr73EdGuUzDHNzpAPHz8mZxk3/m5QpRRx
+      khKPU6Jxih/G9P2IgR8xCCL63ohBEDEIYkbRUTBRnJJzrOOziEM+Z+OFMYfDEAOolgrcmi2x
+      2Khwp17m1lyZajGPm7flIL9gZ7sItnI4liL2u3zVPGRx2SUaj3hwd569/R5LC1UtdoRZBrg5
+      CzdnMVPKsdQof+vvKyCKj84g/uho6lVxc8xVv/2/++VtJi/emQLI5fIYgGnZNG7dRkU+41QR
+      BAGW05AdYd/CsW3KRdkzfd2ceUtklmV0fZiv2mT2IjXXpNkecO/ut78KCnEdyY4woTV5Yyyh
+      NQlAaE0CEFqTAITWJAChNQlAaE0CEFqTAITWJAChNQlAaE0CEFqTAITWJAChtTMFkCVjNre2
+      AUgij62dfbxeh5dr62Q3ew+MuKHOtB9gNAppdzp8b2WJV683iTMLf5Cx2KiwezBgab4i7+sv
+      psqZAiiWq7h5h2jYpjsI6A897i4vksvlyILsZDukvKenmBZn3hHm+z79+A5/+eMf0jo4wFFj
+      Xm0f8ujRw5MPKJANMWJayI4woTVZBRJakwCE1iQAoTUJQGhNAhBakwCE1iQAoTUJQGhNAhBa
+      kwCE1iQAoTUJQGhNAhBaO3MAw+EQUPQ6+xwOfJI4pHXQvYChCXHxzhSA1+/wxZPnZGlClCi2
+      Xq/xcnWNeHjA3uHVfjSqEOdxpg0x5Vqdeq2FYdqEw0Pm76zg9drML8zRGoSk1bwWH5Inbo4z
+      7wjrdDrs7m7TPOgzb5Uo5S2er+3wweNPsKyjE4psiBHTQnaECa3JKpDQmgQgtCYBCK1JAEJr
+      EoDQmgQgtCYBCK1JAEJrEoDQmgQgtCYBCK2dGsCrV6/4zb/+Ey839y9zPEJcqlMDWP39fxE5
+      VboHEoC4ud4aQJal3Hn/I/7qzz+hkD/THdNCTJW3Ht2D9i5ffPEFu809fvTTvz35eTjs8WRt
+      ix9++ohnz57hFGepOAmtQ4+Hjz/GdeSSQkyXtwYws7DCnbkSveGAg84h9coiALlihVLeZhT2
+      qNRXiL02/RQ+fH+R1kGP5Vs12REmpsqp8xvP88Au/b+fKpIkAWy84SFZHGOa0O32yFWWTjbC
+      yIYYMS1ODeDHP/kJkVWmWq6e/CwY9imVSvhjm9tzRZzSEgUr5eDQZ3GueCkDFmKSTt0S+et/
+      /kdyxSJYNf7mpz/4zg8oWyLFNHnrVWtz6zXeoMfnn/87jeWVyx6TEJfmrQEUyxUy2+WXv/w5
+      nd3mZY9JiEtz6hRo2N3n+ettPvnsMwr2d1/elCmQmCZvvQh+8eQLVl+9ZjD0cSrzfPZQpkHi
+      ZnrrS/vDjz9jtr7AL37x94z6h5c9JiEuzalzm9v1Cv/y69/y4PHDyxyPEJfq9JvhXjwnCH3a
+      bXnnZ3FznRpAkiYopZCbGsRN9taL4M3VpxRnFykCbt655CEJcXneugw6CgNGUQxAoViikPvu
+      EcgyqJgm8u7QQmtyA7/QmgQgtHau/Y5pHPL7p8+xCiVmXYP2oc+Djz6hlJOpj5gu59zwq4jj
+      GMtw8K0cHz5YpnXQo3B7RnaEialyrgDGkU+hUicZDUnHiubePsXGPdkRJqbO+VaBlKJ32MHK
+      l3Adg543ojE3A8gqkJgusgwqtCarQEJrEoDQmgQgtCYBCK1JAEJrEoDQmgQgtCYBCK1JAEJr
+      EoDQmgQgtCYBCK1JAEJr5wtAKQ4Pmuy02kTBgPWtHWQPjJhG5wogiTy+XN3ENE1er29RsWN2
+      O96kxybEhTvXjrBkPKI8s0B3bwczl6NULhH4Y9I0lS2RYqqcK4B8aY48LXArzLgGq5v7PHz0
+      EZZlALIlUkwP2REmtCarQEJrEoDQmgQgtCYBCK1JAEJrEoDQmgQgtCYBCK1JAEJrEoDQmgQg
+      tCYBCK1JAEJr5w5AqYxRFJOlCX4QTnJMQlyac39G2Pb6S3Z7CbMFRaoyGisPma8WJjs6IS7Y
+      uQIYDbus73ZJ0oxaaZ57Sw1afZ+05MiOMDFVzrUhRmUpURSzvrlF0VZ0BwH3H39KpWDLhhgx
+      VWRHmNCarAIJrUkAQmsSgNCaBCC0JgEIrUkAQmsSgNCaBCC0JgEIrUkAQmsSgNCaBCC0JgEI
+      rUkAQmvn2hCTpQlrL1+QOUXqRYtmZ8iHjx+TO/6EGCGmxfk2xChFOg55+mKDfM7i7uIsB77D
+      0kKVLMswDAlBTIdznQFUGvPs+Ws++uQjVp89IwgCLKdxshFGNsSIaXGuawClMhzLYGNjm/fu
+      LtMfWdyplyc9NiEunGyJFFqTVSChNQlAaE0CEFqTAITWJAChNQlAaE0CEFqTAITWJAChNQlA
+      aO2dAwiHPV6tb5HJRwKIKfTOAWx8tcNsUdFsDycxHiEu1TsHYFo2ruuSJskkxiPEpXrnAOrV
+      IqtbbW4vzExiPEJcqondDv3mYeR2aDFNzvkpkW+XZdkffH2XxzHN67lApZR65y2f1/n5wdme
+      43V+Lt/leUwsAMMwJvbKbxjGtf1LnYSb9Pym/blMfEeYENPkitMd89VXe6f8mWJz9RkH/QCl
+      FE9//zvi5N2mVpdt9csnvFh7TXo87H6nTfyN6WGvvcfaxjYAe1urNDveVQzzT+ru77DT6hKH
+      A54+f/XW34lDj/99+hyAcNDl+avNyxziuU30GuDsEjqdQ9JogJ+a5NSIIIx5//FnVPJQLhXx
+      wohu0GY4Gp8cSNOi1+8xd7tKa3eDTqdHIe/iN5vMzt3i7p0FCuUZ4v3XxOGA3nCAkc2xeA3f
+      XMALY7zAI/MtonHM3s4mrc6Q2YrLcAwfffB9MG0sIwMUmzst0imZWFzdGUApxlGMacDBYY+d
+      7R0Mx+X+coO95h67+z0K+RwA7W6PsN+l0xtc2XDPo1iZ5b2VJb7a2ECZJpky+P79+wy7+6y9
+      2qRQKADQ3j8gjiP22+0rHvHpio5BL1K4NhzsH3Cwt40XKu4/eJ/1tVWUncMAomEHb5Sws9tk
+      Gk7YV3cNkI1ZXV1n5d49WtubmIUKM5UirmMyNl1cO+Xli5ck5Hn46D7hsE+hVMU2p+dNt/r9
+      PrVaDX/QZbt1yNLtBts7e9y9933cvMXu1jqdvs+9Bx9StBO8kUm1nL/qYf8R3/NwbANvlGEZ
+      GSOvjz9W1GfnqNQqmEC/02Jrd5+FxRVuNWZOnvt1JxfBQmvTu34lxARIAEJrV7wKJMTlGoU+
+      plPASMckypQAhF7+7Vf/QPa9H1DuP2XdX5QpkNCLU1kgC/YxnTxquCdnAKGXYrFE3hpTqq1Q
+      Cz1ZBhV6kymQ0Nr/AR1NSa/wM4w6AAAAAElFTkSuQmCC
+    </thumbnail>
+    <thumbnail height='192' name='Sheet 4' width='192'>
+      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
+      LmBoAAAAAElFTkSuQmCC
+    </thumbnail>
+  </thumbnails>
+</workbook>

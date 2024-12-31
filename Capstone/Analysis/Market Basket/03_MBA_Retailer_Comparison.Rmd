@@ -1,0 +1,124 @@
+---
+title: "Numerator - Market Basket Analysis"
+author: "Andrea Ayala"
+date: "2024-10-30"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+
+library(arules)
+library(tidyverse)
+library(data.table)
+library(arulesViz)
+
+
+MBA_Basket_Kroger <- read_csv('C:/Users/Gugu/Documents/Notre Dame/Capstone/Market Basket Analysis/Data/MBA_Data_Kroger.csv')
+
+MBA_Basket_Publix <- read_csv('C:/Users/Gugu/Documents/Notre Dame/Capstone/Market Basket Analysis/Data/MBA_Data_Publix.csv')
+
+MBA_Basket_Kroger$Basket_ID <- as.character(MBA_Basket_Kroger$Basket_ID)
+
+MBA_Basket_Publix$Basket_ID <- as.character(MBA_Basket_Publix$Basket_ID)
+
+
+```
+
+
+Change data to transaction object
+```{r}
+
+MBA_Basket_Kroger <- MBA_Basket_Kroger %>% 
+                          select(Basket_ID, CATEGORY_DESCRIPTION)
+
+MBA_Basket_Publix <- MBA_Basket_Publix %>% 
+                          select(Basket_ID, CATEGORY_DESCRIPTION)
+
+MBA_Basket_Kroger <- as.data.table(MBA_Basket_Kroger)
+
+MBA_Basket_Publix <- as.data.table(MBA_Basket_Publix)
+
+
+transactions_Kroger <- as(split(MBA_Basket_Kroger$CATEGORY_DESCRIPTION, MBA_Basket_Kroger$Basket_ID), "transactions")
+
+transactions_Publix <- as(split(MBA_Basket_Publix$CATEGORY_DESCRIPTION, MBA_Basket_Publix$Basket_ID), "transactions")
+
+```
+
+
+```{r}
+
+## support = % of transactions where an item/itemset is included
+## confidence = specifies how accurate a rule has to be in order to be included in a rule set.
+
+num_rules_Kroger <-
+  apriori(transactions_Kroger,
+          parameter = list(
+            support = 365 * 5 / nrow(transactions_Kroger),
+            confidence = 0.5,  ##0.8 is the default. 
+            minlen = 2
+          ))
+
+num_rules_Publix <-
+  apriori(transactions_Publix,
+          parameter = list(
+            support = 365 * 5 / nrow(transactions_Publix),
+            confidence = 0.5,  ##0.8 is the default. 
+            minlen = 2
+          ))
+
+
+```
+
+
+Compare Rules
+```{r}
+
+rules_to_df <- function(rules) {
+  df <- as(rules, "data.frame")
+  
+  # Extract LHS and RHS from the 'rules' column
+  df$lhs <- sapply(strsplit(as.character(df$rules), " => "), `[`, 1)
+  df$rhs <- sapply(strsplit(as.character(df$rules), " => "), `[`, 2)
+  
+  # Return the relevant columns
+  return(df[, c("lhs", "rhs", "support", "confidence", "lift")])  # Adjust as needed
+}
+
+# Create a list of rules
+rules_list <- list(Kroger = num_rules_Kroger, Publix = num_rules_Publix)
+
+# Convert each set of rules to a data frame
+rules_df_list <- lapply(rules_list, rules_to_df)
+
+# Combine into one data frame
+combined_rules <- do.call(rbind, lapply(names(rules_df_list), function(name) {
+  df <- rules_df_list[[name]]
+  df$store <- name
+  return(df)
+}))
+
+
+# Identify common rules
+common_rules <- Reduce(function(x, y) {
+  merge(x, y, by = c("lhs", "rhs"), suffixes = c("_Kroger", "_Publix"), all = FALSE)
+}, rules_df_list)
+
+# View common rules
+print(common_rules)
+```
+
+
+
+
+
+
+
+
+
+
+

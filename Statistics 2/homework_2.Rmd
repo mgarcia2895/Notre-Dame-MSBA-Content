@@ -1,0 +1,124 @@
+---
+title: "Homework_2"
+author: "Miguel"
+date: "2024-03-23"
+output: html_document
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+```
+##########
+Step #1
+
+Explore the railroad accident data to find an outcome/target/DV and a set of predictor variables. 
+Perform any generalized linear model with those variables. Explain the outcomes of your model. 
+Do not put comments into the code blocks! Just have your comments be plain text within your markdown.
+
+```{r}
+Train_data <- read.csv("C:/Users/miguel.garcia/Downloads/Rail_Equipment_Accident_Incident_Data.csv")
+
+model <- glm(Hazmat.Cars.Damaged ~ Visibility + Track.Type + Weather.Condition,
+             family = poisson(link = "log"), data = Train_data)
+
+summary(model)
+
+
+```
+
+It appears that the predictor variables related to visibility (VisibilityDark, VisibilityDawn, VisibilityDay, and VisibilityDusk) have statistically significant coefficients with positive estimates. This suggests that different visibility conditions are associated with an increase in the expected number of damaged hazmat cars.
+
+############
+
+Step #2
+
+Perform 1000 bootstrap samples on your model. You can pick any type of bootstrapping that you want, 
+but it has to be parallelized. Do these results help to support your initial model?
+
+```{r}
+library(data.table)
+Train_data <- read.csv("C:/Users/miguel.garcia/Downloads/Rail_Equipment_Accident_Incident_Data.csv")
+
+bootstrapping <- function(df) {
+  sampledRows <- sample(1:nrow(df), nrow(df), replace = TRUE)
+  df <- df[sampledRows, ]
+  
+  bsMod <- glm(Hazmat.Cars.Damaged ~ Visibility + Track.Type + Weather.Condition,
+               family = poisson(link = "log"), data = df)
+  
+  results <- broom::tidy(bsMod)
+  
+  return(results)
+}
+
+modelVars <- Train_data[, c("Hazmat.Cars.Damaged", "Visibility", "Track.Type", "Weather.Condition")]
+
+boot_results <- bootstrapping(modelVars)
+
+print(boot_results)
+```
+
+```{r}
+library(parallel)
+library(doParallel)
+
+boot_fun <- function(data) {
+  boot_indices <- sample(nrow(data), replace = TRUE)
+  
+  boot_data <- data[boot_indices, ]
+  
+  model <- glm(Hazmat.Cars.Damaged ~ Visibility + Track.Type + Weather.Condition,
+               family = poisson(link = "log"), data = boot_data)
+  
+  return(coef(model))
+}
+
+n_iterations <- 1000
+
+n_cores <- detectCores() - 1
+cl <- makeCluster(n_cores)
+registerDoParallel(cl)
+
+boot_results <- foreach(i = 1:n_iterations, .combine = rbind) %dopar% {
+  boot_fun(Train_data)
+}
+
+stopCluster(cl)
+
+boot_results <- as.data.frame(boot_results)
+print(boot_results)
+```
+```{r}
+#confidence intervals
+boot_ci <- t(apply(boot_results, 2, function(x) quantile(x, c(0.025, 0.975))))
+
+boot_ci
+```
+It seems that the predictor variables related to visibility (VisibilityDark, VisibilityDawn, VisibilityDay, and VisibilityDusk) have statistically significant coefficients with positive estimates. This aligns with the interpretation from the initial model.
+
+Specifically, the confidence intervals for these visibility variables do not include zero, indicating statistical significance. Additionally, the estimates are positive, suggesting that different visibility conditions are indeed associated with an increase in the expected number of damaged hazmat cars.
+
+Therefore, based on the consistency of the confidence interval results with the interpretations from the initial model, it can be inferred that these results support the initial model's conclusions regarding the relationship between visibility conditions and the number of damaged hazmat cars.
+
+#########
+Step #3
+
+Explore your data further and find any variables that will work for a mixed-effects model and construct a new model. What does adding this new level to your model tell you?
+
+```{r}
+library(lme4)
+Train_data <- read.csv("C:/Users/miguel.garcia/Downloads/Rail_Equipment_Accident_Incident_Data.csv")
+
+Train_data$Hazmat.Cars.Damaged <- as.numeric(gsub(",", "", Train_data$Hazmat.Cars.Damaged))
+
+Train_data$Visibility[Train_data$Visibility == ""] <- NA
+
+
+(fit_mer <- lmer(Hazmat.Cars.Damaged ~ Track.Type + (Track.Type | Visibility), 
+               Train_data))
+
+```
+The updated linear mixed-effects model incorporates Track.Type as a random effect within the Visibility grouping factor. This model reveals variability in Hazmat.Cars.Damaged across different visibility conditions, with most of the variation explained by other factors. For Track.Type, variability in intercepts across different types of tracks (Industry, Main, Siding, Yard) within each visibility level is captured. The estimates for fixed effects indicate the average change in Hazmat.Cars.Damaged associated with different track types. Overall, this model offers a more detailed understanding of how the relationship between Hazmat.Cars.Damaged and Track.Type varies across different visibility conditions, considering potential differences between tracks within each visibility level.
+
+
+
+

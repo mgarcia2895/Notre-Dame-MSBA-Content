@@ -1,0 +1,108 @@
+---
+title: "R Notebook - Homework for Units 1 and 2 - Miguel Garcia"
+output: html_notebook
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Cmd+Shift+Enter*. 
+
+```{r}
+plot(cars)
+```
+
+Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Cmd+Option+I*.
+
+When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Cmd+Shift+K* to preview the HTML file). 
+
+The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.
+
+Enter your text and codes for each of the problem in the homework here.
+
+Problem 1:
+
+```{r}
+library(forecast)
+library(readxl)
+
+sales.df <- read_excel("C:/Users/miguel.garcia/OneDrive - Wesley International/Documents/ND/Time Series Analysis/PTSF-Datasets-20240524T164257Z-001/PTSF-Datasets/SouvenirSales.xls")
+#create the time series object
+sales.ts <- ts(sales.df$Sales, start = c(1995, 1), end = c(2001, 12), freq = 12)
+sales.df
+```
+
+```{r}
+average_sales <- tapply(sales.ts, cycle(sales.ts), mean)
+print(average_sales)
+
+```
+Problem #2
+```{r}
+train.ts <- window(sales.ts, end = c(2001, 3))
+
+valid.ts <- window(sales.ts, start = c(2001, 4), end = c(2002, 3))
+
+seasonal_naive_forecast <- snaive(train.ts, h = 12)
+
+print(seasonal_naive_forecast)
+
+```
+Problem #3
+```{r}
+
+stepsAhead <- 12
+
+nTrain <- length(sales.ts) - stepsAhead
+
+train.ts <- window(sales.ts, start = A, end = B)
+
+valid.ts <- window(sales.ts, start = C, end = D)
+
+```
+
+Problem #5
+```{r}
+
+seasonal <- snaive(train.ts, h = length(valid.ts))
+seasonal_fc <- forecast(seasonal)
+
+accuracy_results <- accuracy(seasonal_fc, valid.ts)
+
+mape <- accuracy_results[2, "MAPE"]
+
+print(mape)
+
+```
+Problems #7-10
+```{r}
+library(readxl)
+
+#load the data
+dept.store.data<-read_excel("C:/Users/miguel.garcia/OneDrive - Wesley International/Documents/ND/Time Series Analysis/PTSF-Datasets-20240524T164257Z-001/PTSF-Datasets/DepartmentStoreSales.xls")
+head(dept.store.data)
+tail(dept.store.data)
+#create the time series object for Sales and plot
+sales.all.ts <- ts(dept.store.data$Sales, freq = 4, start= 1900)
+plot(sales.all.ts)
+```
+#partition
+```{r}
+n.train <- 20
+n.valid <- 2
+sales.train.ts <- window(sales.all.ts, start = c(1900, 1), end = c(1900, n.train) )
+sales.valid.ts <- window(sales.all.ts, start = c(1900, n.train + 1), end = c(1900, n.train + n.valid))
+sales.lm.expo <- tslm(sales.train.ts ~ trend + season, lambda = 0)
+summary(sales.lm.expo)
+
+```
+Problem #10
+```{r}
+forecast_quarters <- forecast(sales.lm.expo, h = 2)
+actual_sales <- window(sales.valid.ts, start = c(1900, 21), end = c(1900, 22))
+rmse <- sqrt(mean((forecast_quarters$mean - actual_sales)^2))
+rmse <- round(rmse, 3)
+
+print(rmse)
+
+```
+

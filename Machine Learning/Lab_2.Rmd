@@ -1,0 +1,126 @@
+---
+title: "Predicting Building Permit Decisions"
+subtitle: "Machine Learning"
+author: "Miguel Garcia"
+output:
+html_document:
+toc: true
+toc_float: true
+theme: lumen
+highlight: zenburn
+df_print: paged
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Problem 1
+
+
+```{r}
+library(tidyverse)
+library(caret)
+library(broom)
+
+Titanic <- read_csv("C:/Users/miguel.garcia/Downloads/titanic.csv")
+glimpse(Titanic)
+
+```
+
+## Problem 2
+
+
+```{r}
+names <- c('Survived', 'Sex', 'Cabin', 'Embarked')
+
+Titanic <- Titanic %>%
+  mutate(across(names, as.factor))
+
+str(Titanic)
+```
+
+## Problem 3
+
+```{r}
+Titanic <- Titanic %>%
+  select(-PassengerId, -Name, -Ticket, -Cabin)
+
+```
+## Problem 4
+
+```{r}
+Titanic <- Titanic %>%
+  group_by(Sex) %>%
+  mutate(Age = ifelse(is.na(Age), round(mean(Age, na.rm = TRUE)), Age)) %>%
+  ungroup()
+
+summary(Titanic)
+```
+## Problem 5
+
+```{r}
+RNGkind(sample.kind = "Rounding") 
+set.seed(1234)
+sample_set <- createDataPartition(Titanic$Survived, p = .8, list = FALSE)
+titanic_train <- Titanic[sample_set, ]
+titanic_test <- Titanic[-sample_set, ]
+```
+
+## Problem 6
+
+```{r}
+library(performanceEstimation)
+set.seed(1234)
+titanic_train <- smote(Survived ~ ., titanic_train, perc.over = 1, perc.under = 2)
+titanic_train %>% count(Survived) %>% mutate(prop = round(n/sum(n), 4)) %>% arrange(desc(n))
+
+```
+## Problem 7
+
+```{r}
+titanic_mod <- 
+  glm(
+    data = titanic_train,
+    family = binomial,
+    formula = Survived ~ .
+  )
+  
+summary(titanic_mod)
+```
+
+
+## Problem 8
+
+```{r}
+titanic_mod <- 
+  glm(
+    data = titanic_train,
+    family = binomial,
+    formula = Survived ~ . -Parch - Fare
+  )
+  
+summary(titanic_mod)
+```
+
+## Problem 9
+
+```{r}
+tidy(titanic_mod) %>%
+  select(term, estimate) %>%
+  filter(term == 'Age') %>%
+  mutate(odds = exp(estimate))
+
+
+```
+
+## Problem 10
+
+```{r}
+tidy(titanic_mod) %>%
+  select(term, estimate) %>%
+  filter(term == 'Sexmale') %>%
+  mutate(odds = exp(estimate))
+
+
+```

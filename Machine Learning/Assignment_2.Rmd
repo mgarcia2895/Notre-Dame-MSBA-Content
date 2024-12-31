@@ -1,0 +1,167 @@
+---
+title: "Assignment 2"
+subtitle: "Machine Learning"
+author: "Miguel Garcia"
+output:
+html_document:
+toc: true
+toc_float: true
+theme: lumen
+highlight: zenburn
+df_print: paged
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+``` {r}
+library(tidyverse)
+library(rpart)
+library(performanceEstimation)
+library(caret)
+
+```
+# Part I: Data Preprocessing
+
+# 1. Importing and previewing the data
+
+```{r}
+loans <- read_csv("C:/Users/miguel.garcia/Downloads/lendingclub.csv")
+glimpse(loans)
+```
+
+# 2. Converting features to factors
+
+```{r}
+factor_cols <- c("Grade", "EmploymentLength", "HomeOwnership", "IncomeVerified", "LoanPurpose", "Default")
+loans[factor_cols] <- lapply(loans[factor_cols], as.factor)
+glimpse(loans)
+```
+
+# 3. Descriptive statistics
+
+```{r}
+summary(loans)
+```
+
+# 4. Splitting dataset into training and test sets
+
+```{r}
+set.seed(1234)
+RNGkind(sample.kind = "Rounding") 
+train_indices <- createDataPartition(loans$Default, p = 0.75, list = FALSE)
+loans_train <- loans[train_indices, ]
+loans_test <- loans[-train_indices, ]
+```
+
+# 5. Balance training set using SMOTE
+
+```{r}
+set.seed(1234)
+loans_train_balanced <- smote(Default ~ ., loans_train, perc.over = 1, perc.under = 2)
+loans_train_balanced %>% count(Default) %>% mutate(prop = round(n / sum(n), 4)) %>% arrange(desc(n))
+```
+
+# 6. Converting double-precision features to integers
+
+```{r}
+double_cols <- c("Delinquencies", "Inquiries", "OpenAccounts", "TotalAccounts", "PublicRecords")
+loans_train_balanced[double_cols] <- lapply(loans_train_balanced[double_cols], as.integer)
+loans_test[double_cols] <- lapply(loans_test[double_cols], as.integer)
+glimpse(loans_train_balanced)
+glimpse(loans_test)
+```
+
+# Part II: Train the Model
+
+# 1. Training decision tree model
+
+```{r}
+model <- rpart(Default ~ .,
+               method = "class",
+               data = loans_train_balanced,
+               cp = 0.02)
+
+```
+
+# 2. Visualization of the decision tree model
+
+```{r}
+library(rpart.plot)
+rpart.plot(model)
+```
+
+# 3. Importance
+
+```{r}
+varImp(model)
+```
+
+# Part III: Evaluate the Model
+
+# 1. Predicted outcomes on test dataset
+
+```{r}
+predictions <- predict(model, loans_test, type = "class")
+head(predictions)
+```
+
+# 2. Adding predicted outcome column to test dataset
+
+```{r}
+loans_test$Prediction <- predictions
+glimpse(loans_test)
+
+```
+
+# 3. Calculating accuracy
+
+```{r}
+accuracy <- mean(predictions == loans_test$Default)
+accuracy
+```
+
+# Part IV: Interpret the Results
+
+# 1. Calculating profit from loans paid back in full
+
+```{r}
+full_paid_loans <- loans_test$LoanAmount[loans_test$Default == "No"]
+total_profit <- sum(full_paid_loans) * 0.12
+print(total_profit)
+
+```
+
+# 2. Calculating loss from bad loans
+
+```{r}
+bad_loans <- loans_test$LoanAmount[loans_test$Prediction == "Yes"]
+total_loss <- sum(bad_loans) * 0.70
+print(total_loss)
+```
+
+# 3. Calculating total servicing cost
+
+```{r}
+servicing_cost <- sum(loans_test$LoanAmount) * 0.02
+print(servicing_cost)
+```
+
+# Checking if profit or loss
+
+```{r}
+profit_or_loss <- total_profit - total_loss - servicing_cost
+print(profit_or_loss)
+```
+
+# 4. Opportunity cost
+
+```{r}
+subset_full_paid_loans <- full_paid_loans[loans_test$Prediction == "Yes"]
+
+subset_full_paid_loans_no_na <- na.omit(subset_full_paid_loans)
+
+opportunity_cost <- sum(subset_full_paid_loans_no_na) * 0.12
+print(opportunity_cost)
+```

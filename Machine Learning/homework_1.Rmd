@@ -1,0 +1,16 @@
+---
+title: "Homework 1"
+author: "Miguel Garcia"
+date: "2024-03-28"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(tidyverse)
+inspections <- read.csv("C:/Users/miguel.garcia/Downloads/inspections.csv")
+
+```

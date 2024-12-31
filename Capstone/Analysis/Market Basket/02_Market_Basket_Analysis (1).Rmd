@@ -1,0 +1,141 @@
+---
+title: "Numerator - Market Basket Analysis"
+author: "Andrea Ayala"
+date: "2024-10-06"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+
+library(arules)
+library(tidyverse)
+library(data.table)
+install.packages("arulesViz")
+
+
+MBA_Basket <- read_csv('C:/Users/Gugu/Documents/Notre Dame/Capstone/Market Basket Analysis/Data/MBA_Data_Kroger.csv')
+
+MBA_Basket$Basket_ID <- as.character(MBA_Basket$Basket_ID)
+
+
+# Display the first few rows
+head(MBA_Basket)
+
+```
+Double Check for no unknown rows.
+```{r}
+MBA_Basket %>%
+  filter(CATEGORY_DESCRIPTION == 'unknown') %>%
+  count()
+
+```
+
+Change data to transaction object
+```{r}
+
+MBA_Basket <- MBA_Basket %>% 
+                          select(Basket_ID, CATEGORY_DESCRIPTION)
+
+MBA_Basket <- as.data.table(MBA_Basket)
+
+head(MBA_Basket$Basket_ID)
+head(MBA_Basket)
+str(transactions)
+
+
+transactions <- as(split(MBA_Basket$CATEGORY_DESCRIPTION, MBA_Basket$Basket_ID), "transactions")
+
+# Check the transactions object
+summary(transactions)
+inspect(transactions[1:5])
+```
+
+```{r}
+duplicates_check <- MBA_Basket[, .N, by = .(Basket_ID, CATEGORY_DESCRIPTION)][N > 1]
+print(duplicates_check)
+
+```
+
+
+```{r}
+
+## support = % of transactions where an item/itemset is included
+## confidence = specifies how accurate a rule has to be in order to be included in a rule set.
+
+num_rules <-
+  apriori(transactions,
+          parameter = list(
+            support = 365 * 5 / nrow(transactions),
+            confidence = 0.65,  ##0.8 is the default. 
+            minlen = 2
+          ))
+
+num_rules
+```
+
+```{r}
+summary(num_rules)
+
+## 1 rule with 3 items
+## 49 rules with 4 items
+```
+
+Look at first 10 rules
+```{r}
+inspect(num_rules[1:10])
+
+
+rules_df <- data.frame(lhs = labels(lhs(num_rules)),
+                        rhs = labels(rhs(num_rules)),
+                        support = quality(num_rules)$support,
+                        confidence = quality(num_rules)$confidence,
+                        lift = quality(num_rules)$lift)
+
+# write.csv(rules_df, "C:/Users/Gugu/Documents/Notre Dame/Capstone/Market Basket Analysis/market_basket_rules.csv", row.names = FALSE)
+
+# reorder by lift
+rules_df <- rules_df %>%
+  arrange(desc(lift))
+
+View(rules_df)
+```
+
+
+```{r}
+# total_transactions <- n_distinct(MBA_Basket$Basket_ID)
+# 
+# Calculate the transaction count for each rule
+# rules_df$total_tran <- rules_df$support * total_transactions
+# 
+# rules_df$total_tran_per_day <- rules_df$total_tran / 365
+# 
+# View(rules_df)
+
+```
+
+
+ASK CHATGPT THE FOLLOWING: how to compare multiple market basket rules in R
+
+Compare Rules
+```{r}
+install.packages("arulesViz")
+library(arulesViz)
+
+# Plotting the rules
+plot(rules_df)
+```
+
+
+
+
+
+
+
+
+
+
+

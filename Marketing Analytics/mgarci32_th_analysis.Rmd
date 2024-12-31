@@ -1,0 +1,74 @@
+---
+title: "Bancaja-Developing Customer Intelligence"
+author: "Miguel Garcia"
+date: "2024-10-25"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Libraries
+```{r}
+library(readxl)
+library(dplyr)
+library(ROCR)
+```
+
+# Data
+```{r}
+bancaja <- read_excel("C:/Users/miguel.garcia/Downloads/Bancaja-Developing Customer Intelligence Spreadsheet.xlsx", sheet = "SQL Results")
+head(bancaja)
+```
+
+# Split dataset based on age: under 40 and 40 or older
+```{r}
+under_40 <- filter(bancaja, AGE < 40)
+age_40_and_over <- filter(bancaja, AGE >= 40)
+```
+
+# AUC for both age Segments
+```{r}
+auc_prob1_under_40 <- performance(prediction(under_40$PROB1, under_40$HASCARD), "auc")@y.values[[1]]
+auc_prob2_under_40 <- performance(prediction(under_40$PROB2, under_40$HASCARD), "auc")@y.values[[1]]
+
+auc_prob1_40_and_over <- performance(prediction(age_40_and_over$PROB1, age_40_and_over$HASCARD), "auc")@y.values[[1]]
+auc_prob2_40_and_over <- performance(prediction(age_40_and_over$PROB2, age_40_and_over$HASCARD), "auc")@y.values[[1]]
+
+print(auc_prob1_under_40)
+print(auc_prob2_under_40)
+print(auc_prob1_40_and_over)
+print(auc_prob2_40_and_over)
+```
+
+# Expected Sales
+```{r}
+top_5000_prob1 <- bancaja %>% arrange(desc(PROB1)) %>% head(5000)
+top_5000_prob2 <- bancaja %>% arrange(desc(PROB2)) %>% head(5000)
+
+expected_sales_prob1 <- sum(top_5000_prob1$PROB1)
+expected_sales_prob2 <- sum(top_5000_prob2$PROB2)
+
+print(top_5000_prob1)
+print(top_5000_prob2)
+print(expected_sales_prob1)
+print(expected_sales_prob2)
+```
+
+# Results
+```{r}
+cat("AUC for PROB1 (Under 40):", auc_prob1_under_40, "
+")
+cat("AUC for PROB2 (Under 40):", auc_prob2_under_40, "
+")
+cat("AUC for PROB1 (40 and Over):", auc_prob1_40_and_over, "
+")
+cat("AUC for PROB2 (40 and Over):", auc_prob2_40_and_over, "
+")
+
+cat("Expected sales for PROB1 (Top 5000):", expected_sales_prob1, "
+")
+cat("Expected sales for PROB2 (Top 5000):", expected_sales_prob2, "
+")
+```

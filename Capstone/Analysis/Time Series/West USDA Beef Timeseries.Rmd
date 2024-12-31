@@ -1,0 +1,184 @@
+---
+title: "R Notebook"
+output:
+  html_document:
+    df_print: paged
+---
+
+Importing beef sales by pounds into file. 
+
+```{r}
+library(tidyverse)
+library(forecast)
+library(lubridate)
+library(readxl)
+USDA <- read_excel('D:/Capstone/Timeseries Analysis/Beefsalesbyregionusda.xlsx')
+```
+Consolidating by month for total national beef 
+
+```{r}
+beef <- USDA%>%
+  rename('Date'= 'Report Date',
+         'Nationalpounds'='National in Pounds',
+         'Westpounds'='Westcoast in Pounds')%>%
+  arrange(Date)%>%
+  select(Date, Month,Westpounds )%>%
+  mutate(Month=format(Month, "%m-%Y"))%>%
+  group_by(Month)%>%
+  summarize(National=sum(Westpounds))
+
+beef
+
+```
+
+I had to export it to Excel so I can organize the dates properly
+```{r}
+write.csv(beef, 'D:/Capstone/Timeseries Analysis/westbeef.csv', row.names = TRUE)
+```
+
+Reading my organized file back into R
+```{r}
+beef <- read_excel('D:/Capstone/Timeseries Analysis/westbeef.xlsx')
+```
+
+```{r}
+beef.ts.month <- ts(beef$National, start = c(2021,9), end = c(2024,8), frequency = 12)
+plot(beef.ts.month)
+```
+
+
+```{r}
+nvalid <- 6
+ntrain <- length(beef.ts.month) - nvalid
+train.ts <- window(beef.ts.month, start = c(2021,9), end = c(2021,ntrain))
+valid.ts <- window(beef.ts.month, start= c(2021, ntrain+1), end = c(2021,ntrain+nvalid))
+```
+
+```{r}
+plot(train.ts)
+```
+```{r}
+Acf(beef.ts.month)
+```
+
+There a couple points of white noise. But lets see how the Models look.
+
+Plot shows seasonality and some linear trend. Build model that captures both.
+
+
+```{r}
+reg_linear_season <- tslm(train.ts ~ trend + season)
+
+reg_linear_season_pred <- forecast(reg_linear_season, h=nvalid, level = 0)
+
+plot(reg_linear_season_pred, include = 20)
+lines(valid.ts, lwd=2)
+res_valid <- valid.ts - reg_linear_season_pred$mean # forecast error = true value - forecasted value
+
+data.frame(actual = valid.ts, forecasted = reg_linear_season_pred$mean, forecast_error=res_valid)
+accuracy(reg_linear_season_pred$mean, valid.ts)
+
+```
+```{r}
+poly_season_mod <- tslm(train.ts ~ trend + I(trend^2) + season)
+options(scipen = 999)
+summary(poly_season_mod)
+poly_season_mod_pred <- forecast(poly_season_mod, h=nvalid, level = 0)
+head(poly_season_mod_pred$mean)
+
+```
+
+simple exponential smoothing
+
+```{r}
+ses_pred <- ses(train.ts, h=nvalid)
+head(ses_pred$mean)
+```
+Next, we also consider a Holt-Winter method
+
+Holt Winter method
+
+```{r}
+hw_pred <- hw(train.ts, h=nvalid)
+head(hw_pred$mean)
+```
+
+```{r}
+ets_aan <- ets(train.ts, model = "AAN")
+ets_aan_pred <- forecast(ets_aan, h=nvalid, level = 0)
+head(ets_aan_pred$mean)
+head(ses_pred$mean)
+```
+ETS Model
+
+```{r}
+ets_r <- ets(train.ts)
+summary(ets_r)
+ets_r_pred <- forecast(ets_r, h=nvalid, level = 0)
+head(ets_r_pred$mean)
+```
+Naive Method
+
+```{r}
+snaive_pred <- snaive(train.ts, h=nvalid, level = 0)
+```
+
+
+```{r}
+plot(poly_season_mod_pred, include = 24)
+lines(ets_aan_pred$mean, col='red', lwd=2)
+lines(hw_pred$mean, col='orange', lwd=2)
+lines(ets_r_pred$mean, col='pink', lwd=2)
+lines(snaive_pred$mean, col='green', lwd=2)
+lines(reg_linear_season_pred$mean, col='blue', lwd=2)
+lines(valid.ts,col='purple', lwd=2)
+lines(poly_season_mod_pred$mean, col='black',lwd=2)
+```
+```{r}
+accuracy(ets_aan_pred)
+accuracy(ets_r_pred)
+accuracy(poly_season_mod_pred)
+accuracy(reg_linear_season_pred)
+accuracy(ses_pred)
+accuracy(snaive_pred)
+```
+The best model is Poly season Mod
+
+Now that we select ETS(M,A,A) as our model, we'll apply this to the entire data set ridership.ts to compute the 'future'forecast
+
+```{r}
+reg_linear_season_pred_all <- tslm(train.ts ~ trend + season)
+nFuture <- 60
+reg_linear_season_forecast <- forecast(reg_linear_season_pred_all, h=nFuture, level=95)
+reg_linear_season_forecast
+plot(reg_linear_season_forecast, include = 24)
+```
+
+```{r}
+res_valid <- valid.ts - reg_linear_season_pred$mean # forecast error = true value - forecasted value
+
+data.frame(actual = valid.ts, forecasted = reg_linear_season_pred$mean, forecast_error=res_valid/valid.ts)
+```
+
+```{r}
+print(reg_linear_season_forecast)
+```
+```{r}
+
+accuracy(reg_linear_season_pred)
+accuracy(snaive_pred)
+```
+```{r}
+reg_linear_season_pred <- forecast(reg_linear_season, h=nvalid, level = 0)
+
+reg_linear_season_pred
+plot(reg_linear_season_pred, include = 24)
+lines(valid.ts,col='green', lwd=2)
+```
+```{r}
+print(reg_linear_season_forecast)
+
+write.csv(reg_linear_season_forecast, 'D:/Capstone/Timeseries Analysis/reglinforecast.csv', row.names = TRUE)
+
+```
+

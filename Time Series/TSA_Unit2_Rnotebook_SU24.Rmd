@@ -1,0 +1,271 @@
+---
+title: "R Notebook: TSF - Week2: Regression-Based Forecasting and Model Evaluations"
+output: html_notebook
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Cmd+Shift+Enter*. 
+
+```{r}
+plot(cars)
+```
+
+Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Cmd+Option+I*.
+
+When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Cmd+Shift+K* to preview the HTML file). 
+
+The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.
+
+
+
+```{r}
+library(forecast)
+library(readxl)
+Amtrak.data <- read_excel("Amtrak data.xls")
+
+ridership.ts <- ts(Amtrak.data$Ridership, start = c(1991, 1), end = c(2004, 3), freq = 12)
+plot(ridership.ts)
+## Figure 3-1
+# plot(ridership.ts, ylim = c(1300, 2600),  ylab = "Ridership", xlab = "Time", bty = "l", xaxt = "n", xlim = c(1991,2006.25))
+# axis(1, at = seq(1991, 2006, 1), labels = format(seq(1991, 2006, 1), digits = 2))
+# lines(c(2004.25 - 3 , 2004.25 - 3), c(0, 3500))
+# lines(c(2004.25, 2004.25), c(0, 3500))
+# text(1996.25, 2500, "Training")
+# text(2002.75, 2500, "Validation")
+# text(2005.25, 2500, "Future")
+# arrows(2004 - 3,2450,1991.25,2450,code=3,length=0.1,lwd=1,angle=30)
+# arrows(2004.5 - 3,2450,2004,2450,code=3,length=0.1,lwd=1,angle=30)
+# arrows(2004.5,2450,2006,2450,code=3,length=0.1,lwd=1,angle=30)
+
+```
+Lets partition the data. Lets use the last 36 months for validation,that is from Apr 2001 to mar 2004. The remaining is for training data, which is from jan 1991 to mar 2001.
+We are going to partition the data: train.ts is from Jan 1991 to Mar 2001, and valid.ts is from April 2001 to Mar 2004
+```{r}
+nValid <- 36 #this is 36 months in validation set
+train.ts <- window(ridership.ts, start = c(1991,1), end = c(2001,3))
+valid.ts <- window(ridership.ts,start = c(2001,4),end = c(2004,3))
+#length(valid.ts)
+#length(valid.ts)+ length(train.ts)
+#length(ridership.ts)
+tail(train.ts)
+tail(valid.ts)
+```
+Lets introduce a more systematic way to do partition.
+```{r}
+#Let's consider an alternative way to build train.ts and valid.ts
+nValid <- 36
+nTrain <- length(ridership.ts) - nValid
+train.ts1<- window(ridership.ts, start = c(1991,1), end = c(1991,nTrain))
+valid.ts1 <- window(ridership.ts, start=c(1991, nTrain+1), end = c(1991, nTrain+nValid))
+length(train.ts1) + length(valid.ts1)
+length(valid.ts1)
+```
+
+Let's build a regression based forecasting model on train.ts1
+```{r}
+plot(train.ts1)
+```
+From the plot we see that there is a linear trend and seasonality in the time series train.ts1
+Let's build a regression based forecasting model on train.ts1
+```{r}
+reg_linear_season <- tslm(train.ts1 ~ trend + season)
+summary(reg_linear_season)
+```
+This implies
+ y_t = 1551.0115+ 0.38*t +(-43.31)season2 + 260.01Season3 + ... +228.53Season12
+  where t is the number of months starting from 1991 AND season2, season3, ..., season12 are dummy variable for seasonality
+  
+  
+For example, lets estimate the ridership in dec 1992, lets estimate the ridership in Dec 1992.
+For dec 1992, t = 24 and season 2 = season 3 = ... = season 11 = 0, season 12= 1
+therefore, the estimated value ridership is dec 1992 is:
+y_t = 1551.0115 + 0.3764 *24 + (-43.3066 *0 + 260.0149 *0 + ... +  2258.5331*1
+  = 1788.578
+  
+```{r}
+1551.0115 + 0.3764 * 24 +228.5331 *1
+```
+
+We can also get this value using R
+```{r}
+reg_linear_season$fitted.values[1:24]
+```
+Now, lets compute the forecasted value starting from Apr 2001.
+```{r}
+reg_linear_season_pred <- forecast(reg_linear_season, h=nValid, level = 0)
+reg_linear_season_pred
+plot(reg_linear_season_pred, include = 24)
+lines(valid.ts1, lwd=2)
+```
+now we have the forecast, we can compute the forecast accuracy metrics, MAE,RMSE, and MAPE.
+To do this, we first compute the forecast error on validation set.
+```{r}
+res_valid <- valid.ts1 - reg_linear_season_pred$mean # forecast error = true value - forecasted value
+data.frame(actual = valid.ts1, forecasted = reg_linear_season_pred$mean, forecast_error = res_valid)
+```
+next, we compute the mae, rmse, and mape.
+
+```{r}
+mae_valid <- mean(abs(res_valid))
+rmse_valid <- sqrt(mean(res_valid^2))
+MAPE_valid <- mean(abs(res_valid/valid.ts1)*100)
+mae_valid 
+#aim for smallest metric
+rmse_valid
+#aim for smallest metric
+MAPE_valid
+#aim for smallest metric
+
+```
+we can also compute forecast accuracy using accuracy function
+```{r}
+accuracy(reg_linear_season_pred$mean, valid.ts1) #accuracy(estimated values, actual values)
+```
+
+lets see ow well tis reg_linear_season model fits versus how well it forecast
+```{r}
+accuracy(reg_linear_season_pred$fitted, train.ts1) 
+```
+We can compare this model to a bench mark forecasting method, say seasonal naive
+```{r}
+snaive_pred <- snaive(train.ts1,nValid, level = 0)
+head(snaive_pred$mean)
+```
+next we plot the forecast using regression based model and season naive method on thhe same graph
+
+```{r}
+plot(reg_linear_season_pred, include = 24, ylim = c(1500, 2200))
+lines(snaive_pred$mean, lwd=2, col = 'green')
+lines(valid.ts1, lwd=2)
+```
+from the graph, it looks seasonal naive performs better than the regression based model.
+however, lets go ahead and compute the forecast accuracy for both.
+
+```{r}
+accuracy(reg_linear_season_pred$mean, valid.ts1)
+accuracy(snaive_pred$mean, valid.ts1)
+```
+its clear the snsive performed better.
+can we improve the regression based model?
+lets take a look at the graph of train.ts1
+```{r}
+plot(train.ts1)
+```
+from the graph, we can try a parabola (polynomial) trend and seasonality.
+```{r}
+reg_poly_season <- tslm(train.ts1 ~ trend + I(trend^2) + season)
+options(scipen = 999)
+summary(reg_poly_season)
+#the estimated regression equation is
+#y_t = 1696.98 + (-7.15)t + 0.06t^2 + (-43.25)season2 + 260.01season3 + ...+ 242.93season12
+
+```
+we can compute the forecast of reg_poly_season on the validation set and compare to the reg_linear_season and seasonal naive method.
+```{r}
+reg_poly_season_pred <- forecast(reg_poly_season, h=nValid, level = 0)
+plot(reg_linear_season_pred, include = 24, ylim = c(1500, 2400))
+lines(reg_poly_season_pred$mean, col = 'red', lwd =2)
+lines(snaive_pred$mean, col = 'green', lwd =2)
+lines(valid.ts1, lwd=2)
+```
+we can now compute the forecast accuracy of the three approaches:
+```{r}
+accuracy(reg_linear_season_pred$mean, valid.ts1)
+accuracy(reg_poly_season_pred$mean, valid.ts1)
+accuracy(snaive_pred$mean, valid.ts1)
+```
+
+##########Practice Problems##########
+
+Let's recall the Toy R Us example:
+Toy R Us revenue 
+1.Load the data file ToysRUsRevenues.xls to a data frame named TRUs.df. Print out the first few observations. Define TRUs.df as a quarterly time series of TRUs.df. Print out TRUs.ts 
+
+Solution:
+```{r}
+#1.
+library(readxl)
+TRUs.df <- read_excel("ToysRUsRevenues.xls")
+
+head(TRUs.df)
+TRUs.ts <- ts(TRUs.df$`Revenue(in million $)`, start = c(1992,1), end = c(1995,4), freq = 4)
+plot(TRUs.ts, xlab = "Year", ylab = "Revenue (in million $)")
+```
+
+2.Use t.apply() to calculate the average revenue of each quarter through out the years. Name this new series Quarterly.TRUs.df and plot it out. 
+
+```{r}
+#2.
+help("tapply")
+Quarterly.TRUs.ts <- tapply(TRUs.ts, cycle(TRUs.ts), mean)
+plot(Quarterly.TRUs.ts, xlab = "Quarter", ylab = "Average Revenue (in million $)", type = "l", xaxt = 'n')
+
+## set x labels
+axis(1, at = c(1:4), labels = c("Q1","Q2","Q3", "Q4"))
+
+```
+3.Use aggregate() function to compute the average revenue for each year and draw a time plot to see how the revenue behaves throughout the years.
+```{r}
+#3.
+annual.TRUs.ts <- aggregate(TRUs.ts, FUN = mean)
+plot(annual.TRUs.ts, xlab = "Year", ylab = "Average Revenue (in million $)", xaxt='n')
+axis(1,at=c(1991:1995))
+
+
+
+```
+4. Partition the data so that the last four quarters are in validation. Everything before that is in training data. Build a model that capture both trend and seasonality on training data
+```{r}
+nValid <- 4
+nTrain <- length(TRUs.ts) - nValid
+train.ts <- window(TRUs.ts, start = c(1992, 1), end = c(1992, nTrain ))
+valid.ts <- window(TRUs.ts, start = c(1992, nTrain + 1), end = c(1992, nTrain + nValid ))
+ 
+library(forecast)
+TRUs.mod1 <- tslm(train.ts ~ trend + season)
+summary(TRUs.mod1)
+
+```
+5. Use forecast() to build forecast for the module from part 4. with nValid = 4. Plot the forecasts and compare to the validation data.
+```{r}
+TRUs.mod1.pred <- forecast(TRUs.mod1, h=nValid, level = 0)
+plot(TRUs.mod1.pred, include = 24)
+lines(TRUs.mod1.pred$mean, col = 'blue', lwd = 2)
+lines(valid.ts, lwd=2)
+  
+```
+
+6. Compute RMSE and MAPE "manually" with R on both training and validation set
+```{r}
+train.res <- train.ts - TRUs.mod1.pred$fitted
+valid.res <- valid.ts - TRUs.mod1.pred$mean
+train.RMSE <- sqrt(mean(train.res^2))
+valid.RMSE <- sqrt(mean(valid.res^2))
+train.MAPE <- mean(abs(train.res/train.ts))*100
+valid.MAPE <- mean(abs(valid.res/valid.ts))*100
+data.frame(RMSE_train = train.RMSE,MAPE_train = train.MAPE, RMSE_valid = valid.RMSE, MAPE_valid = valid.MAPE )
+```
+
+7. Check the results above with the outcomes from using accuracy() function
+```{r}
+accuracy(TRUs.mod1.pred$fitted, train.ts)
+accuracy(TRUs.mod1.pred$mean, valid.ts)
+```
+
+8. Compare the forecast accuracy from the above models with naive, seasonal naive, and average of past value method:
+```{r}
+naive.pred <- naive(train.ts, h=nValid, level = 0)
+snaive.pred <- snaive(train.ts, h=nValid, level = 0)
+mean.pred <- meanf(train.ts, h=nValid, level = 0)
+
+#Fill your codes below to plot data with all of the forecasts
+plMMOMommommmmmmmmomomommmmmmmmmmmmmm
+  
+  
+#Fill your codes below to apply accuracy() function to all of the forecasts and compare the forecast accuracy 
+
+  
+  
+```
+

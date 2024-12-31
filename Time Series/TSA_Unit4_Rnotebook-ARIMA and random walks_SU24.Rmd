@@ -1,0 +1,278 @@
+---
+title: "R Notebook: TSF- Week4: ARIMA models and random walks"
+output: html_notebook
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Cmd+Shift+Enter*. 
+
+```{r}
+plot(cars)
+```
+
+Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Cmd+Option+I*.
+
+When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Cmd+Shift+K* to preview the HTML file). 
+
+The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.
+
+Next, we examine the auto-correlation struture of the ridership.ts
+```{r}
+Acf(ridership.ts)
+```
+Let consider y_t is the series of normal random variable
+```{r}
+y_t <- rnorm(100,0,1) # Generate 100 standard (mean =0 and standard deviation =1) normal random variables
+#y_t
+Acf(y_t)
+```
+
+Let revisit the concept of random walk
+y_t = y_{t-1} + e_t
+where y_t is the position (value) of the time series at time t
+      e_t is the noise (residual) at time t 
+      
+This implies y_t - y_{t-1} = e_t
+and {e_t} is white noise. So, they should have zero auto-correlation
+
+Let's check to see if the ridership.ts is a random walk
+```{r}
+Acf(diff(ridership.ts,12))
+```
+Now, we will explore ARIMA model to forecast
+```{r}
+train.arima <- auto.arima(train.ts)
+summary(train.arima)
+train.arima.pred <- forecast(train.arima, h=nValid, level=0)
+plot(train.arima.pred,include=24)
+lines(ets.aaa.pred$mean, col='red', lwd=2)
+lines(poly_season_mod_pred$mean, col = 'green', lwd=2)
+lines(valid.ts, lwd=2)
+```
+
+
+Compare holt-winter to regression-based model and seasonal naive method
+```{r}
+
+#### Figure 18.5
+library(forecast)
+# run Holt-Winters exponential smoothing
+# use ets() with option model = "MAA" to fit Holt-Winter's exponential smoothing 
+# with multiplicative error, additive trend, and additive seasonality. 
+hwin <- ets(train.ts, model = "MAA")
+
+# create predictions
+hwin.pred <- forecast(hwin, h = nValid, level = 0)
+
+# plot the series
+plot(hwin.pred, ylim = c(1300, 2600),  ylab = "Ridership", xlab = "Time", 
+     bty = "l", xaxt = "n", main = "", flty = 2)
+##try to add ', include =nValid + 12' to the end
+
+axis(1, at = seq(1991, 2006, 1), labels = format(seq(1991, 2006, 1)))
+#lines(hwin.pred$fitted, lwd = 2, col = "blue")
+lines(valid.ts)
+
+
+# fit regression model with polynomial trend and seasonality
+train.lm.trend.season <- tslm(train.ts ~ trend + I(trend^2) + season)
+train.lm.trend.season.pred <- forecast(train.lm.trend.season, h= nValid, level = 0)
+lines(train.lm.trend.season.pred$mean, col = 'red')
+
+#Revisit seasonal naive
+snaive.pred <- snaive(train.ts, h = nValid) #seasonal naive method: an approach that uses the most recent period in the previous
+lines(snaive.pred$mean, lwd = 2, col = "blue", lty = 1)
+
+#Check accuracy()
+accuracy(hwin.pred$mean,valid.ts)
+accuracy(train.lm.trend.season.pred$mean,valid.ts)
+accuracy(snaive.pred$mean,valid.ts)
+```
+
+
+
+```{r}
+library(forecast)
+library(zoo)
+#install.packages('xls')
+library(readxl)
+Amtrak.data <-read_excel("Amtrak data.xls")
+#Amtrak.data <- read.csv("Amtrak data.csv")
+
+ridership.ts <- ts(Amtrak.data$Ridership, start = c(1991, 1), end = c(2004, 3), freq = 12)
+ridership.24.ts <- window(ridership.ts, start = c(1991, 1), end = c(1991, 24))
+
+# Figure 7-2
+Acf(ridership.24.ts, lag.max = 12, main = "")
+
+
+```
+
+
+
+###Practice Problems####
+Problem 17.3 Toys "R" Us Revenues. Figure 17.13 is a time plot of the 
+quarterly revenues of Toys "R" Us between 1992 and 1995 (thanks to Chris 
+Albright for suggesting the use of these data, which are available in
+oysRUsRevenues.csv). 
+
+```{r}
+#load the data and create time series object
+library(readxl)
+tru.data <- read_excel("ToysRUsRevenues.xls")
+#tru.data <- read.csv("ToysRUsRevenues.csv")
+head(tru.data) #see data
+dim(tru.data)
+tru.ts <- ts(tru.data[, 2], start = c(1992, 1), end = c(1995, 4), freq = 4)
+plot(tru.ts,  ylab = "Revenue ($ millions)", xlab = "Time", bty = "l", 
+     xlim = c(1992,1996), ylim = c(0,4500),main = "")
+
+```
+
+a) Partition the data: validation set contains the last four quarters. Use everything else as the training set.  
+```{r}
+nValid <- 4
+nTrain <- length(tru.ts) - nValid
+train.ts <-window(tru.ts,start = c(1992,1), end = c(1992,nTrain))
+valid.ts <-window(tru.ts,start = c(1992,nTrain+1), end = c(1992,nTrain+nValid))
+tail(train.ts)
+head(valid.ts)
+
+```
+
+b) Fit a regression model with a linear trend and additive seasonality on the training set. Then find the forecast on the validatio set.
+```{r}
+library(forecast)
+train.lm.trend.season <- #Fill in your codes here
+train.lm.trend.season.pred <- #Fill in your codes here
+head(train.lm.trend.season.pred$mean)
+
+```
+
+
+c) Fit a holt-winter method on the training set. Use ets() function to determine the specific argument. Then find the forecasts on the validation set.
+```{r}
+train.hwin <- #Fill in your codes here
+train.hwin.pred <- #Fill in your codes here
+```
+
+d) Build an ARIMA model on the training set and find the forecast on the validation set.
+```{r}
+train.arima <- #Fill your codes here
+train.arima.pred <- #Fill your codes here  
+```
+
+
+
+e) Fit a seasonal naive method on the training set and compute the forecast values on the validtion set.
+```{r}
+snaive.pred <-#Fill in your codes here
+head(snaive.pred$mean)
+
+```
+
+
+f) On the same graph, plot the forecast using the three models/methods used in parts b-e. To distinguish different forecast models and methods, choose 'blue' for forecasts generated by regression-based model, 'red' for forecasts by Holt-Winter, 'green' for those generated by ARIMA, and 'purple' for seasonal naive method. Also display the validation data. 
+```{r}
+#Fill your codes here
+```
+
+g) Use accuracy() function to compute forcast accuracy from the three models/methods in parts b-e against the validation set.
+```{r}
+#Fill your codes here
+
+```
+
+
+h) Which model/method is most accurate from the prediction accuracy standpoint?
+
+Answer: 
+
+
+
+
+
+
+BONUS:
+Use 'austourists' data from 'fpp' package.
+Install and load package 'fpp'
+```{r}
+#install.packages("fpp")
+library(fpp)
+plot(austourists)
+help("austourists")
+#Let's partition the data
+head(austourists)
+tail(austourists)
+```
+1. Partition the time series so that there are 12 quarters in the validation data set. Everything prior to that is in the training data. 
+```{r}
+nValid <- #fill our the rest of the codes here and below
+nTrain <-#fill our the rest of the codes here and below
+austourists_train <-#fill our the rest of the codes here and below
+austourists_valid <-#fill our the rest of the codes here and below
+```
+
+2. Let's build ts_reg1 as a regression-based model to capture the seasonality on training  data.
+```{r}
+ts_reg1 <- #fill our the rest of the codes here and below
+summary(ts_reg1)
+ts_reg1_pred <- #fill our the rest of the codes here and below
+```
+
+3. Let's build ts_reg2 as a regression-based model to capture the trend and seasonality on training  data.
+```{r}
+#Let's try linear trend and seasonal
+ts_reg2 <- #fill our the rest of the codes here and below
+summary(ts_reg2)
+ts_reg2_pred <- #fill our the rest of the codes here and below
+```
+
+4. Let's build ts_reg3 as a regression-based model to capture the exponential trend and seasonality on training  data.
+```{r}
+#Let's try expontial trend and seasonal
+ts_reg3 <- #fill our the rest of the codes here and below
+summary(ts_reg3)
+ts_reg3_pred <- #fill our the rest of the codes here and below
+```
+
+5. Let's build ts_hwin as a Holt-Winter mthod to capture the trend and seasonality on training  data.
+```{r}
+#Let's try Holt-Winter using ets()
+ts_hwin <- #fill our the rest of the codes here and below
+summary(ts_hwin)
+ts_hwin_pred <- #fill our the rest of the codes here and below
+```
+
+6. Build an ARIMA model on training data using auto.arima()
+```{r}
+#Let's try auto.arima()
+ts_arima <-#fill our the rest of the codes here and below
+summary(ts_arima)
+ts_arima_pred <- #fill our the rest of the codes here and below
+```
+7. Last but not least, let's consider a benchmark seasonal naive
+```{r}
+ts_snaive <- #fill our the rest of the codes here and below
+```
+
+8. Let's plots all of the forecasts and compare ti the validation data.
+```{r}
+
+```
+
+
+9. Let's check forecast accuracy of all approaches we establisted in parts 2-7.
+```{r}
+
+
+```
+
+10. From parts 8 and 9, what is the most appropriate model/method we should use? Apply that to the entire time series austourists and cimpute the forecast for the next year (four quarters on 2011)
+```{r}
+
+
+```
+
+

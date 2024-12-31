@@ -1,0 +1,3011 @@
+<?xml version='1.0' encoding='utf-8' ?>
+
+<!-- build 20233.23.1227.1336                               -->
+<workbook original-version='18.1' source-build='2023.3.1 (20233.23.1227.1336)' source-platform='win' version='18.1' xmlns:user='http://www.tableausoftware.com/xml/user'>
+  <document-format-change-manifest>
+    <_.fcp.AnimationOnByDefault.true...AnimationOnByDefault />
+    <IntuitiveSorting />
+    <IntuitiveSorting_SP2 />
+    <_.fcp.MarkAnimation.true...MarkAnimation />
+    <_.fcp.ObjectModelEncapsulateLegacy.true...ObjectModelEncapsulateLegacy />
+    <_.fcp.ObjectModelTableType.true...ObjectModelTableType />
+    <_.fcp.SchemaViewerObjectModel.true...SchemaViewerObjectModel />
+    <SheetIdentifierTracking />
+    <SortTagCleanup />
+    <WindowsPersistSimpleIdentifiers />
+  </document-format-change-manifest>
+  <preferences>
+    <preference name='ui.encoding.shelf.height' value='24' />
+    <preference name='ui.shelf.height' value='26' />
+  </preferences>
+  <_.fcp.AnimationOnByDefault.false...style>
+    <_.fcp.AnimationOnByDefault.false..._.fcp.MarkAnimation.true...style-rule element='animation'>
+      <_.fcp.AnimationOnByDefault.false...format attr='animation-on' value='ao-on' />
+    </_.fcp.AnimationOnByDefault.false..._.fcp.MarkAnimation.true...style-rule>
+  </_.fcp.AnimationOnByDefault.false...style>
+  <datasources>
+    <datasource caption='HomePrices' inline='true' name='federated.1dux3641s8y23n1fwqcx40pii7l6' version='18.1'>
+      <connection class='federated'>
+        <named-connections>
+          <named-connection caption='HomePrices' name='textscan.176jek20qy0ds81ap5n4q067i4s3'>
+            <connection class='textscan' directory='C:/Users/miguel.garcia/Downloads' filename='HomePrices.csv' password='' server='' />
+          </named-connection>
+        </named-connections>
+        <_.fcp.ObjectModelEncapsulateLegacy.false...relation connection='textscan.176jek20qy0ds81ap5n4q067i4s3' name='HomePrices.csv' table='[HomePrices#csv]' type='table'>
+          <columns character-set='UTF-8' header='yes' locale='en_US' separator=','>
+            <column datatype='string' name='Id' ordinal='0' />
+            <column datatype='integer' name='MSSubClass' ordinal='1' />
+            <column datatype='string' name='MSZoning' ordinal='2' />
+            <column datatype='string' name='LotFrontage' ordinal='3' />
+            <column datatype='integer' name='LotArea' ordinal='4' />
+            <column datatype='string' name='Street' ordinal='5' />
+            <column datatype='string' name='Alley' ordinal='6' />
+            <column datatype='string' name='LotShape' ordinal='7' />
+            <column datatype='string' name='LandContour' ordinal='8' />
+            <column datatype='string' name='Utilities' ordinal='9' />
+            <column datatype='string' name='LotConfig' ordinal='10' />
+            <column datatype='string' name='LandSlope' ordinal='11' />
+            <column datatype='string' name='Neighborhood' ordinal='12' />
+            <column datatype='string' name='Condition1' ordinal='13' />
+            <column datatype='string' name='Condition2' ordinal='14' />
+            <column datatype='string' name='BldgType' ordinal='15' />
+            <column datatype='string' name='HouseStyle' ordinal='16' />
+            <column datatype='integer' name='OverallQual' ordinal='17' />
+            <column datatype='integer' name='OverallCond' ordinal='18' />
+            <column datatype='integer' name='YearBuilt' ordinal='19' />
+            <column datatype='integer' name='YearRemodAdd' ordinal='20' />
+            <column datatype='string' name='RoofStyle' ordinal='21' />
+            <column datatype='string' name='RoofMatl' ordinal='22' />
+            <column datatype='string' name='Exterior1st' ordinal='23' />
+            <column datatype='string' name='Exterior2nd' ordinal='24' />
+            <column datatype='string' name='MasVnrType' ordinal='25' />
+            <column datatype='integer' name='MasVnrArea' ordinal='26' />
+            <column datatype='string' name='ExterQual' ordinal='27' />
+            <column datatype='string' name='ExterCond' ordinal='28' />
+            <column datatype='string' name='Foundation' ordinal='29' />
+            <column datatype='string' name='BsmtQual' ordinal='30' />
+            <column datatype='string' name='BsmtCond' ordinal='31' />
+            <column datatype='string' name='BsmtExposure' ordinal='32' />
+            <column datatype='string' name='BsmtFinType1' ordinal='33' />
+            <column datatype='integer' name='BsmtFinSF1' ordinal='34' />
+            <column datatype='string' name='BsmtFinType2' ordinal='35' />
+            <column datatype='integer' name='BsmtFinSF2' ordinal='36' />
+            <column datatype='integer' name='BsmtUnfSF' ordinal='37' />
+            <column datatype='integer' name='TotalBsmtSF' ordinal='38' />
+            <column datatype='string' name='Heating' ordinal='39' />
+            <column datatype='string' name='HeatingQC' ordinal='40' />
+            <column datatype='string' name='CentralAir' ordinal='41' />
+            <column datatype='string' name='Electrical' ordinal='42' />
+            <column datatype='integer' name='1stFlrSF' ordinal='43' />
+            <column datatype='integer' name='2ndFlrSF' ordinal='44' />
+            <column datatype='integer' name='LowQualFinSF' ordinal='45' />
+            <column datatype='integer' name='GrLivArea' ordinal='46' />
+            <column datatype='integer' name='BsmtFullBath' ordinal='47' />
+            <column datatype='integer' name='BsmtHalfBath' ordinal='48' />
+            <column datatype='integer' name='FullBath' ordinal='49' />
+            <column datatype='integer' name='HalfBath' ordinal='50' />
+            <column datatype='integer' name='BedroomAbvGr' ordinal='51' />
+            <column datatype='integer' name='KitchenAbvGr' ordinal='52' />
+            <column datatype='string' name='KitchenQual' ordinal='53' />
+            <column datatype='integer' name='TotRmsAbvGrd' ordinal='54' />
+            <column datatype='string' name='Functional' ordinal='55' />
+            <column datatype='integer' name='Fireplaces' ordinal='56' />
+            <column datatype='string' name='FireplaceQu' ordinal='57' />
+            <column datatype='string' name='GarageType' ordinal='58' />
+            <column datatype='string' name='GarageYrBlt' ordinal='59' />
+            <column datatype='string' name='GarageFinish' ordinal='60' />
+            <column datatype='integer' name='GarageCars' ordinal='61' />
+            <column datatype='integer' name='GarageArea' ordinal='62' />
+            <column datatype='string' name='GarageQual' ordinal='63' />
+            <column datatype='string' name='GarageCond' ordinal='64' />
+            <column datatype='string' name='PavedDrive' ordinal='65' />
+            <column datatype='integer' name='WoodDeckSF' ordinal='66' />
+            <column datatype='integer' name='OpenPorchSF' ordinal='67' />
+            <column datatype='integer' name='EnclosedPorch' ordinal='68' />
+            <column datatype='integer' name='3SsnPorch' ordinal='69' />
+            <column datatype='integer' name='ScreenPorch' ordinal='70' />
+            <column datatype='integer' name='PoolArea' ordinal='71' />
+            <column datatype='string' name='PoolQC' ordinal='72' />
+            <column datatype='string' name='Fence' ordinal='73' />
+            <column datatype='string' name='MiscFeature' ordinal='74' />
+            <column datatype='integer' name='MiscVal' ordinal='75' />
+            <column datatype='integer' name='MoSold' ordinal='76' />
+            <column datatype='integer' name='YrSold' ordinal='77' />
+            <column datatype='string' name='SaleType' ordinal='78' />
+            <column datatype='string' name='SaleCondition' ordinal='79' />
+            <column datatype='integer' name='SalePrice' ordinal='80' />
+          </columns>
+        </_.fcp.ObjectModelEncapsulateLegacy.false...relation>
+        <_.fcp.ObjectModelEncapsulateLegacy.true...relation connection='textscan.176jek20qy0ds81ap5n4q067i4s3' name='HomePrices.csv' table='[HomePrices#csv]' type='table'>
+          <columns character-set='UTF-8' header='yes' locale='en_US' separator=','>
+            <column datatype='string' name='Id' ordinal='0' />
+            <column datatype='integer' name='MSSubClass' ordinal='1' />
+            <column datatype='string' name='MSZoning' ordinal='2' />
+            <column datatype='string' name='LotFrontage' ordinal='3' />
+            <column datatype='integer' name='LotArea' ordinal='4' />
+            <column datatype='string' name='Street' ordinal='5' />
+            <column datatype='string' name='Alley' ordinal='6' />
+            <column datatype='string' name='LotShape' ordinal='7' />
+            <column datatype='string' name='LandContour' ordinal='8' />
+            <column datatype='string' name='Utilities' ordinal='9' />
+            <column datatype='string' name='LotConfig' ordinal='10' />
+            <column datatype='string' name='LandSlope' ordinal='11' />
+            <column datatype='string' name='Neighborhood' ordinal='12' />
+            <column datatype='string' name='Condition1' ordinal='13' />
+            <column datatype='string' name='Condition2' ordinal='14' />
+            <column datatype='string' name='BldgType' ordinal='15' />
+            <column datatype='string' name='HouseStyle' ordinal='16' />
+            <column datatype='integer' name='OverallQual' ordinal='17' />
+            <column datatype='integer' name='OverallCond' ordinal='18' />
+            <column datatype='integer' name='YearBuilt' ordinal='19' />
+            <column datatype='integer' name='YearRemodAdd' ordinal='20' />
+            <column datatype='string' name='RoofStyle' ordinal='21' />
+            <column datatype='string' name='RoofMatl' ordinal='22' />
+            <column datatype='string' name='Exterior1st' ordinal='23' />
+            <column datatype='string' name='Exterior2nd' ordinal='24' />
+            <column datatype='string' name='MasVnrType' ordinal='25' />
+            <column datatype='integer' name='MasVnrArea' ordinal='26' />
+            <column datatype='string' name='ExterQual' ordinal='27' />
+            <column datatype='string' name='ExterCond' ordinal='28' />
+            <column datatype='string' name='Foundation' ordinal='29' />
+            <column datatype='string' name='BsmtQual' ordinal='30' />
+            <column datatype='string' name='BsmtCond' ordinal='31' />
+            <column datatype='string' name='BsmtExposure' ordinal='32' />
+            <column datatype='string' name='BsmtFinType1' ordinal='33' />
+            <column datatype='integer' name='BsmtFinSF1' ordinal='34' />
+            <column datatype='string' name='BsmtFinType2' ordinal='35' />
+            <column datatype='integer' name='BsmtFinSF2' ordinal='36' />
+            <column datatype='integer' name='BsmtUnfSF' ordinal='37' />
+            <column datatype='integer' name='TotalBsmtSF' ordinal='38' />
+            <column datatype='string' name='Heating' ordinal='39' />
+            <column datatype='string' name='HeatingQC' ordinal='40' />
+            <column datatype='string' name='CentralAir' ordinal='41' />
+            <column datatype='string' name='Electrical' ordinal='42' />
+            <column datatype='integer' name='1stFlrSF' ordinal='43' />
+            <column datatype='integer' name='2ndFlrSF' ordinal='44' />
+            <column datatype='integer' name='LowQualFinSF' ordinal='45' />
+            <column datatype='integer' name='GrLivArea' ordinal='46' />
+            <column datatype='integer' name='BsmtFullBath' ordinal='47' />
+            <column datatype='integer' name='BsmtHalfBath' ordinal='48' />
+            <column datatype='integer' name='FullBath' ordinal='49' />
+            <column datatype='integer' name='HalfBath' ordinal='50' />
+            <column datatype='integer' name='BedroomAbvGr' ordinal='51' />
+            <column datatype='integer' name='KitchenAbvGr' ordinal='52' />
+            <column datatype='string' name='KitchenQual' ordinal='53' />
+            <column datatype='integer' name='TotRmsAbvGrd' ordinal='54' />
+            <column datatype='string' name='Functional' ordinal='55' />
+            <column datatype='integer' name='Fireplaces' ordinal='56' />
+            <column datatype='string' name='FireplaceQu' ordinal='57' />
+            <column datatype='string' name='GarageType' ordinal='58' />
+            <column datatype='string' name='GarageYrBlt' ordinal='59' />
+            <column datatype='string' name='GarageFinish' ordinal='60' />
+            <column datatype='integer' name='GarageCars' ordinal='61' />
+            <column datatype='integer' name='GarageArea' ordinal='62' />
+            <column datatype='string' name='GarageQual' ordinal='63' />
+            <column datatype='string' name='GarageCond' ordinal='64' />
+            <column datatype='string' name='PavedDrive' ordinal='65' />
+            <column datatype='integer' name='WoodDeckSF' ordinal='66' />
+            <column datatype='integer' name='OpenPorchSF' ordinal='67' />
+            <column datatype='integer' name='EnclosedPorch' ordinal='68' />
+            <column datatype='integer' name='3SsnPorch' ordinal='69' />
+            <column datatype='integer' name='ScreenPorch' ordinal='70' />
+            <column datatype='integer' name='PoolArea' ordinal='71' />
+            <column datatype='string' name='PoolQC' ordinal='72' />
+            <column datatype='string' name='Fence' ordinal='73' />
+            <column datatype='string' name='MiscFeature' ordinal='74' />
+            <column datatype='integer' name='MiscVal' ordinal='75' />
+            <column datatype='integer' name='MoSold' ordinal='76' />
+            <column datatype='integer' name='YrSold' ordinal='77' />
+            <column datatype='string' name='SaleType' ordinal='78' />
+            <column datatype='string' name='SaleCondition' ordinal='79' />
+            <column datatype='integer' name='SalePrice' ordinal='80' />
+          </columns>
+        </_.fcp.ObjectModelEncapsulateLegacy.true...relation>
+        <metadata-records>
+          <metadata-record class='capability'>
+            <remote-name />
+            <remote-type>0</remote-type>
+            <parent-name>[HomePrices.csv]</parent-name>
+            <remote-alias />
+            <aggregation>Count</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='character-set'>&quot;UTF-8&quot;</attribute>
+              <attribute datatype='string' name='collation'>&quot;en_US&quot;</attribute>
+              <attribute datatype='string' name='field-delimiter'>&quot;,&quot;</attribute>
+              <attribute datatype='string' name='header-row'>&quot;true&quot;</attribute>
+              <attribute datatype='string' name='locale'>&quot;en_US&quot;</attribute>
+              <attribute datatype='string' name='single-char'>&quot;&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Id</remote-name>
+            <remote-type>129</remote-type>
+            <local-name>[Id]</local-name>
+            <parent-name>[HomePrices.csv]</parent-name>
+            <remote-alias>Id</remote-alias>
+            <ordinal>0</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <scale>1</scale>
+            <width>1073741823</width>
+            <contains-null>true</contains-null>
+            <collation flag='0' name='LEN_RUS' />
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>MSSubClass</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[MSSubClass]</local-name>
+            <parent-name>[HomePrices.csv]</parent-name>
+            <remote-alias>MSSubClass</remote-alias>
+            <ordinal>1</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>MSZoning</remote-name>
+            <remote-type>129</remote-type>
+            <local-name>[MSZoning]</local-name>
+            <parent-name>[HomePrices.csv]</parent-name>
+            <remote-alias>MSZoning</remote-alias>
+            <ordinal>2</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <scale>1</scale>
+            <width>1073741823</width>
+            <contains-null>true</contains-null>
+            <collation flag='0' name='LEN_RUS' />
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>LotFrontage</remote-name>
+            <remote-type>129</remote-type>
+            <local-name>[LotFrontage]</local-name>
+            <parent-name>[HomePrices.csv]</parent-name>
+            <remote-alias>LotFrontage</remote-alias>
+            <ordinal>3</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <scale>1</scale>
+            <width>1073741823</width>
+            <contains-null>true</contains-null>
+            <collation flag='0' name='LEN_RUS' />
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>LotArea</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[LotArea]</local-name>
+            <parent-name>[HomePrices.csv]</parent-name>
+            <remote-alias>LotArea</remote-alias>
+            <ordinal>4</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Street</remote-name>
+            <remote-type>129</remote-type>
+            <local-name>[Street]</local-name>
+            <parent-name>[HomePrices.csv]</parent-name>
+            <remote-alias>Street</remote-alias>
+            <ordinal>5</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <scale>1</scale>
+            <width>1073741823</width>
+            <contains-null>true</contains-null>
+            <collation flag='0' name='LEN_RUS' />
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Alley</remote-name>
+            <remote-type>129</remote-type>
+            <local-name>[Alley]</local-name>
+            <parent-name>[HomePrices.csv]</parent-name>
+            <remote-alias>Alley</remote-alias>
+            <ordinal>6</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <scale>1</scale>
+            <width>1073741823</width>
+            <contains-null>true</contains-null>
+            <collation flag='0' name='LEN_RUS' />
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>LotShape</remote-name>
+            <remote-type>129</remote-type>
+            <local-name>[LotShape]</local-name>
+            <parent-name>[HomePrices.csv]</parent-name>
+            <remote-alias>LotShape</remote-alias>
+            <ordinal>7</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <scale>1</scale>
+            <width>1073741823</width>
+            <contains-null>true</contains-null>
+            <collation flag='0' name='LEN_RUS' />
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>LandContour</remote-name>
+            <remote-type>129</remote-type>
+            <local-name>[LandContour]</local-name>
+            <parent-name>[HomePrices.csv]</parent-name>
+            <remote-alias>LandContour</remote-alias>
+            <ordinal>8</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <scale>1</scale>
+            <width>1073741823</width>
+            <contains-null>true</contains-null>
+            <collation flag='0' name='LEN_RUS' />
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Utilities</remote-name>
+            <remote-type>129</remote-type>
+            <local-name>[Utilities]</local-name>
+            <parent-name>[HomePrices.csv]</parent-name>
+            <remote-alias>Utilities</remote-alias>
+            <ordinal>9</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <scale>1</scale>
+            <width>1073741823</width>
+            <contains-null>true</contains-null>
+            <collation flag='0' name='LEN_RUS' />
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>LotConfig</remote-name>
+            <remote-type>129</remote-type>
+            <local-name>[LotConfig]</local-name>
+            <parent-name>[HomePrices.csv]</parent-name>
+            <remote-alias>LotConfig</remote-alias>
+            <ordinal>10</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <scale>1</scale>
+            <width>1073741823</width>
+            <contains-null>true</contains-null>
+            <collation flag='0' name='LEN_RUS' />
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>LandSlope</remote-name>
+            <remote-type>129</remote-type>
+            <local-name>[LandSlope]</local-name>
+            <parent-name>[HomePrices.csv]</parent-name>
+            <remote-alias>LandSlope</remote-alias>
+            <ordinal>11</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <scale>1</scale>
+            <width>1073741823</width>
+            <contains-null>true</contains-null>
+            <collation flag='0' name='LEN_RUS' />
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Neighborhood</remote-name>
+            <remote-type>129</remote-type>
+            <local-name>[Neighborhood]</local-name>
+            <parent-name>[HomePrices.csv]</parent-name>
+            <remote-alias>Neighborhood</remote-alias>
+            <ordinal>12</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <scale>1</scale>
+            <width>1073741823</width>
+            <contains-null>true</contains-null>
+            <collation flag='0' name='LEN_RUS' />
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Condition1</remote-name>
+            <remote-type>129</remote-type>
+            <local-name>[Condition1]</local-name>
+            <parent-name>[HomePrices.csv]</parent-name>
+            <remote-alias>Condition1</remote-alias>
+            <ordinal>13</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <scale>1</scale>
+            <width>1073741823</width>
+            <contains-null>true</contains-null>
+            <collation flag='0' name='LEN_RUS' />
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Condition2</remote-name>
+            <remote-type>129</remote-type>
+            <local-name>[Condition2]</local-name>
+            <parent-name>[HomePrices.csv]</parent-name>
+            <remote-alias>Condition2</remote-alias>
+            <ordinal>14</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <scale>1</scale>
+            <width>1073741823</width>
+            <contains-null>true</contains-null>
+            <collation flag='0' name='LEN_RUS' />
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>BldgType</remote-name>
+            <remote-type>129</remote-type>
+            <local-name>[BldgType]</local-name>
+            <parent-name>[HomePrices.csv]</parent-name>
+            <remote-alias>BldgType</remote-alias>
+            <ordinal>15</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <scale>1</scale>
+            <width>1073741823</width>
+            <contains-null>true</contains-null>
+            <collation flag='0' name='LEN_RUS' />
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>HouseStyle</remote-name>
+            <remote-type>129</remote-type>
+            <local-name>[HouseStyle]</local-name>
+            <parent-name>[HomePrices.csv]</parent-name>
+            <remote-alias>HouseStyle</remote-alias>
+            <ordinal>16</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <scale>1</scale>
+            <width>1073741823</width>
+            <contains-null>true</contains-null>
+            <collation flag='0' name='LEN_RUS' />
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>OverallQual</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[OverallQual]</local-name>
+            <parent-name>[HomePrices.csv]</parent-name>
+            <remote-alias>OverallQual</remote-alias>
+            <ordinal>17</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>OverallCond</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[OverallCond]</local-name>
+            <parent-name>[HomePrices.csv]</parent-name>
+            <remote-alias>OverallCond</remote-alias>
+            <ordinal>18</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>YearBuilt</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[YearBuilt]</local-name>
+            <parent-name>[HomePrices.csv]</parent-name>
+            <remote-alias>YearBuilt</remote-alias>
+            <ordinal>19</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>YearRemodAdd</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[YearRemodAdd]</local-name>
+            <parent-name>[HomePrices.csv]</parent-name>
+            <remote-alias>YearRemodAdd</remote-alias>
+            <ordinal>20</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>RoofStyle</remote-name>
+            <remote-type>129</remote-type>
+            <local-name>[RoofStyle]</local-name>
+            <parent-name>[HomePrices.csv]</parent-name>
+            <remote-alias>RoofStyle</remote-alias>
+            <ordinal>21</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <scale>1</scale>
+            <width>1073741823</width>
+            <contains-null>true</contains-null>
+            <collation flag='0' name='LEN_RUS' />
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>RoofMatl</remote-name>
+            <remote-type>129</remote-type>
+            <local-name>[RoofMatl]</local-name>
+            <parent-name>[HomePrices.csv]</parent-name>
+            <remote-alias>RoofMatl</remote-alias>
+            <ordinal>22</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <scale>1</scale>
+            <width>1073741823</width>
+            <contains-null>true</contains-null>
+            <collation flag='0' name='LEN_RUS' />
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Exterior1st</remote-name>
+            <remote-type>129</remote-type>
+            <local-name>[Exterior1st]</local-name>
+            <parent-name>[HomePrices.csv]</parent-name>
+            <remote-alias>Exterior1st</remote-alias>
+            <ordinal>23</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <scale>1</scale>
+            <width>1073741823</width>
+            <contains-null>true</contains-null>
+            <collation flag='0' name='LEN_RUS' />
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Exterior2nd</remote-name>
+            <remote-type>129</remote-type>
+            <local-name>[Exterior2nd]</local-name>
+            <parent-name>[HomePrices.csv]</parent-name>
+            <remote-alias>Exterior2nd</remote-alias>
+            <ordinal>24</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <scale>1</scale>
+            <width>1073741823</width>
+            <contains-null>true</contains-null>
+            <collation flag='0' name='LEN_RUS' />
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>MasVnrType</remote-name>
+            <remote-type>129</remote-type>
+            <local-name>[MasVnrType]</local-name>
+            <parent-name>[HomePrices.csv]</parent-name>
+            <remote-alias>MasVnrType</remote-alias>
+            <ordinal>25</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <scale>1</scale>
+            <width>1073741823</width>
+            <contains-null>true</contains-null>
+            <collation flag='0' name='LEN_RUS' />
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>MasVnrArea</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[MasVnrArea]</local-name>
+            <parent-name>[HomePrices.csv]</parent-name>
+            <remote-alias>MasVnrArea</remote-alias>
+            <ordinal>26</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>ExterQual</remote-name>
+            <remote-type>129</remote-type>
+            <local-name>[ExterQual]</local-name>
+            <parent-name>[HomePrices.csv]</parent-name>
+            <remote-alias>ExterQual</remote-alias>
+            <ordinal>27</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <scale>1</scale>
+            <width>1073741823</width>
+            <contains-null>true</contains-null>
+            <collation flag='0' name='LEN_RUS' />
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>ExterCond</remote-name>
+            <remote-type>129</remote-type>
+            <local-name>[ExterCond]</local-name>
+            <parent-name>[HomePrices.csv]</parent-name>
+            <remote-alias>ExterCond</remote-alias>
+            <ordinal>28</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <scale>1</scale>
+            <width>1073741823</width>
+            <contains-null>true</contains-null>
+            <collation flag='0' name='LEN_RUS' />
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Foundation</remote-name>
+            <remote-type>129</remote-type>
+            <local-name>[Foundation]</local-name>
+            <parent-name>[HomePrices.csv]</parent-name>
+            <remote-alias>Foundation</remote-alias>
+            <ordinal>29</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <scale>1</scale>
+            <width>1073741823</width>
+            <contains-null>true</contains-null>
+            <collation flag='0' name='LEN_RUS' />
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>BsmtQual</remote-name>
+            <remote-type>129</remote-type>
+            <local-name>[BsmtQual]</local-name>
+            <parent-name>[HomePrices.csv]</parent-name>
+            <remote-alias>BsmtQual</remote-alias>
+            <ordinal>30</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <scale>1</scale>
+            <width>1073741823</width>
+            <contains-null>true</contains-null>
+            <collation flag='0' name='LEN_RUS' />
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>BsmtCond</remote-name>
+            <remote-type>129</remote-type>
+            <local-name>[BsmtCond]</local-name>
+            <parent-name>[HomePrices.csv]</parent-name>
+            <remote-alias>BsmtCond</remote-alias>
+            <ordinal>31</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <scale>1</scale>
+            <width>1073741823</width>
+            <contains-null>true</contains-null>
+            <collation flag='0' name='LEN_RUS' />
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>BsmtExposure</remote-name>
+            <remote-type>129</remote-type>
+            <local-name>[BsmtExposure]</local-name>
+            <parent-name>[HomePrices.csv]</parent-name>
+            <remote-alias>BsmtExposure</remote-alias>
+            <ordinal>32</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <scale>1</scale>
+            <width>1073741823</width>
+            <contains-null>true</contains-null>
+            <collation flag='0' name='LEN_RUS' />
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>BsmtFinType1</remote-name>
+            <remote-type>129</remote-type>
+            <local-name>[BsmtFinType1]</local-name>
+            <parent-name>[HomePrices.csv]</parent-name>
+            <remote-alias>BsmtFinType1</remote-alias>
+            <ordinal>33</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <scale>1</scale>
+            <width>1073741823</width>
+            <contains-null>true</contains-null>
+            <collation flag='0' name='LEN_RUS' />
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>BsmtFinSF1</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[BsmtFinSF1]</local-name>
+            <parent-name>[HomePrices.csv]</parent-name>
+            <remote-alias>BsmtFinSF1</remote-alias>
+            <ordinal>34</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>BsmtFinType2</remote-name>
+            <remote-type>129</remote-type>
+            <local-name>[BsmtFinType2]</local-name>
+            <parent-name>[HomePrices.csv]</parent-name>
+            <remote-alias>BsmtFinType2</remote-alias>
+            <ordinal>35</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <scale>1</scale>
+            <width>1073741823</width>
+            <contains-null>true</contains-null>
+            <collation flag='0' name='LEN_RUS' />
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>BsmtFinSF2</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[BsmtFinSF2]</local-name>
+            <parent-name>[HomePrices.csv]</parent-name>
+            <remote-alias>BsmtFinSF2</remote-alias>
+            <ordinal>36</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>BsmtUnfSF</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[BsmtUnfSF]</local-name>
+            <parent-name>[HomePrices.csv]</parent-name>
+            <remote-alias>BsmtUnfSF</remote-alias>
+            <ordinal>37</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>TotalBsmtSF</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[TotalBsmtSF]</local-name>
+            <parent-name>[HomePrices.csv]</parent-name>
+            <remote-alias>TotalBsmtSF</remote-alias>
+            <ordinal>38</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Heating</remote-name>
+            <remote-type>129</remote-type>
+            <local-name>[Heating]</local-name>
+            <parent-name>[HomePrices.csv]</parent-name>
+            <remote-alias>Heating</remote-alias>
+            <ordinal>39</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <scale>1</scale>
+            <width>1073741823</width>
+            <contains-null>true</contains-null>
+            <collation flag='0' name='LEN_RUS' />
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>HeatingQC</remote-name>
+            <remote-type>129</remote-type>
+            <local-name>[HeatingQC]</local-name>
+            <parent-name>[HomePrices.csv]</parent-name>
+            <remote-alias>HeatingQC</remote-alias>
+            <ordinal>40</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <scale>1</scale>
+            <width>1073741823</width>
+            <contains-null>true</contains-null>
+            <collation flag='0' name='LEN_RUS' />
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>CentralAir</remote-name>
+            <remote-type>129</remote-type>
+            <local-name>[CentralAir]</local-name>
+            <parent-name>[HomePrices.csv]</parent-name>
+            <remote-alias>CentralAir</remote-alias>
+            <ordinal>41</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <scale>1</scale>
+            <width>1073741823</width>
+            <contains-null>true</contains-null>
+            <collation flag='0' name='LEN_RUS' />
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Electrical</remote-name>
+            <remote-type>129</remote-type>
+            <local-name>[Electrical]</local-name>
+            <parent-name>[HomePrices.csv]</parent-name>
+            <remote-alias>Electrical</remote-alias>
+            <ordinal>42</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <scale>1</scale>
+            <width>1073741823</width>
+            <contains-null>true</contains-null>
+            <collation flag='0' name='LEN_RUS' />
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>1stFlrSF</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[1stFlrSF]</local-name>
+            <parent-name>[HomePrices.csv]</parent-name>
+            <remote-alias>1stFlrSF</remote-alias>
+            <ordinal>43</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>2ndFlrSF</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[2ndFlrSF]</local-name>
+            <parent-name>[HomePrices.csv]</parent-name>
+            <remote-alias>2ndFlrSF</remote-alias>
+            <ordinal>44</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>LowQualFinSF</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[LowQualFinSF]</local-name>
+            <parent-name>[HomePrices.csv]</parent-name>
+            <remote-alias>LowQualFinSF</remote-alias>
+            <ordinal>45</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>GrLivArea</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[GrLivArea]</local-name>
+            <parent-name>[HomePrices.csv]</parent-name>
+            <remote-alias>GrLivArea</remote-alias>
+            <ordinal>46</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>BsmtFullBath</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[BsmtFullBath]</local-name>
+            <parent-name>[HomePrices.csv]</parent-name>
+            <remote-alias>BsmtFullBath</remote-alias>
+            <ordinal>47</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>BsmtHalfBath</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[BsmtHalfBath]</local-name>
+            <parent-name>[HomePrices.csv]</parent-name>
+            <remote-alias>BsmtHalfBath</remote-alias>
+            <ordinal>48</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>FullBath</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[FullBath]</local-name>
+            <parent-name>[HomePrices.csv]</parent-name>
+            <remote-alias>FullBath</remote-alias>
+            <ordinal>49</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>HalfBath</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[HalfBath]</local-name>
+            <parent-name>[HomePrices.csv]</parent-name>
+            <remote-alias>HalfBath</remote-alias>
+            <ordinal>50</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>BedroomAbvGr</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[BedroomAbvGr]</local-name>
+            <parent-name>[HomePrices.csv]</parent-name>
+            <remote-alias>BedroomAbvGr</remote-alias>
+            <ordinal>51</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>KitchenAbvGr</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[KitchenAbvGr]</local-name>
+            <parent-name>[HomePrices.csv]</parent-name>
+            <remote-alias>KitchenAbvGr</remote-alias>
+            <ordinal>52</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>KitchenQual</remote-name>
+            <remote-type>129</remote-type>
+            <local-name>[KitchenQual]</local-name>
+            <parent-name>[HomePrices.csv]</parent-name>
+            <remote-alias>KitchenQual</remote-alias>
+            <ordinal>53</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <scale>1</scale>
+            <width>1073741823</width>
+            <contains-null>true</contains-null>
+            <collation flag='0' name='LEN_RUS' />
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>TotRmsAbvGrd</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[TotRmsAbvGrd]</local-name>
+            <parent-name>[HomePrices.csv]</parent-name>
+            <remote-alias>TotRmsAbvGrd</remote-alias>
+            <ordinal>54</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Functional</remote-name>
+            <remote-type>129</remote-type>
+            <local-name>[Functional]</local-name>
+            <parent-name>[HomePrices.csv]</parent-name>
+            <remote-alias>Functional</remote-alias>
+            <ordinal>55</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <scale>1</scale>
+            <width>1073741823</width>
+            <contains-null>true</contains-null>
+            <collation flag='0' name='LEN_RUS' />
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Fireplaces</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[Fireplaces]</local-name>
+            <parent-name>[HomePrices.csv]</parent-name>
+            <remote-alias>Fireplaces</remote-alias>
+            <ordinal>56</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>FireplaceQu</remote-name>
+            <remote-type>129</remote-type>
+            <local-name>[FireplaceQu]</local-name>
+            <parent-name>[HomePrices.csv]</parent-name>
+            <remote-alias>FireplaceQu</remote-alias>
+            <ordinal>57</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <scale>1</scale>
+            <width>1073741823</width>
+            <contains-null>true</contains-null>
+            <collation flag='0' name='LEN_RUS' />
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>GarageType</remote-name>
+            <remote-type>129</remote-type>
+            <local-name>[GarageType]</local-name>
+            <parent-name>[HomePrices.csv]</parent-name>
+            <remote-alias>GarageType</remote-alias>
+            <ordinal>58</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <scale>1</scale>
+            <width>1073741823</width>
+            <contains-null>true</contains-null>
+            <collation flag='0' name='LEN_RUS' />
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>GarageYrBlt</remote-name>
+            <remote-type>129</remote-type>
+            <local-name>[GarageYrBlt]</local-name>
+            <parent-name>[HomePrices.csv]</parent-name>
+            <remote-alias>GarageYrBlt</remote-alias>
+            <ordinal>59</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <scale>1</scale>
+            <width>1073741823</width>
+            <contains-null>true</contains-null>
+            <collation flag='0' name='LEN_RUS' />
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>GarageFinish</remote-name>
+            <remote-type>129</remote-type>
+            <local-name>[GarageFinish]</local-name>
+            <parent-name>[HomePrices.csv]</parent-name>
+            <remote-alias>GarageFinish</remote-alias>
+            <ordinal>60</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <scale>1</scale>
+            <width>1073741823</width>
+            <contains-null>true</contains-null>
+            <collation flag='0' name='LEN_RUS' />
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>GarageCars</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[GarageCars]</local-name>
+            <parent-name>[HomePrices.csv]</parent-name>
+            <remote-alias>GarageCars</remote-alias>
+            <ordinal>61</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>GarageArea</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[GarageArea]</local-name>
+            <parent-name>[HomePrices.csv]</parent-name>
+            <remote-alias>GarageArea</remote-alias>
+            <ordinal>62</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>GarageQual</remote-name>
+            <remote-type>129</remote-type>
+            <local-name>[GarageQual]</local-name>
+            <parent-name>[HomePrices.csv]</parent-name>
+            <remote-alias>GarageQual</remote-alias>
+            <ordinal>63</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <scale>1</scale>
+            <width>1073741823</width>
+            <contains-null>true</contains-null>
+            <collation flag='0' name='LEN_RUS' />
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>GarageCond</remote-name>
+            <remote-type>129</remote-type>
+            <local-name>[GarageCond]</local-name>
+            <parent-name>[HomePrices.csv]</parent-name>
+            <remote-alias>GarageCond</remote-alias>
+            <ordinal>64</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <scale>1</scale>
+            <width>1073741823</width>
+            <contains-null>true</contains-null>
+            <collation flag='0' name='LEN_RUS' />
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>PavedDrive</remote-name>
+            <remote-type>129</remote-type>
+            <local-name>[PavedDrive]</local-name>
+            <parent-name>[HomePrices.csv]</parent-name>
+            <remote-alias>PavedDrive</remote-alias>
+            <ordinal>65</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <scale>1</scale>
+            <width>1073741823</width>
+            <contains-null>true</contains-null>
+            <collation flag='0' name='LEN_RUS' />
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>WoodDeckSF</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[WoodDeckSF]</local-name>
+            <parent-name>[HomePrices.csv]</parent-name>
+            <remote-alias>WoodDeckSF</remote-alias>
+            <ordinal>66</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>OpenPorchSF</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[OpenPorchSF]</local-name>
+            <parent-name>[HomePrices.csv]</parent-name>
+            <remote-alias>OpenPorchSF</remote-alias>
+            <ordinal>67</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>EnclosedPorch</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[EnclosedPorch]</local-name>
+            <parent-name>[HomePrices.csv]</parent-name>
+            <remote-alias>EnclosedPorch</remote-alias>
+            <ordinal>68</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>3SsnPorch</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[3SsnPorch]</local-name>
+            <parent-name>[HomePrices.csv]</parent-name>
+            <remote-alias>3SsnPorch</remote-alias>
+            <ordinal>69</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>ScreenPorch</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[ScreenPorch]</local-name>
+            <parent-name>[HomePrices.csv]</parent-name>
+            <remote-alias>ScreenPorch</remote-alias>
+            <ordinal>70</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>PoolArea</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[PoolArea]</local-name>
+            <parent-name>[HomePrices.csv]</parent-name>
+            <remote-alias>PoolArea</remote-alias>
+            <ordinal>71</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>PoolQC</remote-name>
+            <remote-type>129</remote-type>
+            <local-name>[PoolQC]</local-name>
+            <parent-name>[HomePrices.csv]</parent-name>
+            <remote-alias>PoolQC</remote-alias>
+            <ordinal>72</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <scale>1</scale>
+            <width>1073741823</width>
+            <contains-null>true</contains-null>
+            <collation flag='0' name='LEN_RUS' />
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Fence</remote-name>
+            <remote-type>129</remote-type>
+            <local-name>[Fence]</local-name>
+            <parent-name>[HomePrices.csv]</parent-name>
+            <remote-alias>Fence</remote-alias>
+            <ordinal>73</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <scale>1</scale>
+            <width>1073741823</width>
+            <contains-null>true</contains-null>
+            <collation flag='0' name='LEN_RUS' />
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>MiscFeature</remote-name>
+            <remote-type>129</remote-type>
+            <local-name>[MiscFeature]</local-name>
+            <parent-name>[HomePrices.csv]</parent-name>
+            <remote-alias>MiscFeature</remote-alias>
+            <ordinal>74</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <scale>1</scale>
+            <width>1073741823</width>
+            <contains-null>true</contains-null>
+            <collation flag='0' name='LEN_RUS' />
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>MiscVal</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[MiscVal]</local-name>
+            <parent-name>[HomePrices.csv]</parent-name>
+            <remote-alias>MiscVal</remote-alias>
+            <ordinal>75</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>MoSold</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[MoSold]</local-name>
+            <parent-name>[HomePrices.csv]</parent-name>
+            <remote-alias>MoSold</remote-alias>
+            <ordinal>76</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>YrSold</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[YrSold]</local-name>
+            <parent-name>[HomePrices.csv]</parent-name>
+            <remote-alias>YrSold</remote-alias>
+            <ordinal>77</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>SaleType</remote-name>
+            <remote-type>129</remote-type>
+            <local-name>[SaleType]</local-name>
+            <parent-name>[HomePrices.csv]</parent-name>
+            <remote-alias>SaleType</remote-alias>
+            <ordinal>78</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <scale>1</scale>
+            <width>1073741823</width>
+            <contains-null>true</contains-null>
+            <collation flag='0' name='LEN_RUS' />
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>SaleCondition</remote-name>
+            <remote-type>129</remote-type>
+            <local-name>[SaleCondition]</local-name>
+            <parent-name>[HomePrices.csv]</parent-name>
+            <remote-alias>SaleCondition</remote-alias>
+            <ordinal>79</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <scale>1</scale>
+            <width>1073741823</width>
+            <contains-null>true</contains-null>
+            <collation flag='0' name='LEN_RUS' />
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>SalePrice</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[SalePrice]</local-name>
+            <parent-name>[HomePrices.csv]</parent-name>
+            <remote-alias>SalePrice</remote-alias>
+            <ordinal>80</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+          </metadata-record>
+        </metadata-records>
+      </connection>
+      <aliases enabled='yes' />
+      <column caption='Bedroom Abv Gr' datatype='integer' name='[BedroomAbvGr]' role='measure' type='quantitative' />
+      <column caption='Bldg Type' datatype='string' name='[BldgType]' role='dimension' type='nominal'>
+        <aliases>
+          <alias key='&quot;1Fam&quot;' value='Single-Family Detached' />
+          <alias key='&quot;2fmCon&quot;' value='Two-Family Conversion; originally built as one-family dwelling' />
+          <alias key='&quot;Twnhs&quot;' value='Townhouse Inside Unit' />
+          <alias key='&quot;TwnhsE&quot;' value='Townhouse End Unit' />
+        </aliases>
+      </column>
+      <column caption='Bsmt Cond' datatype='string' name='[BsmtCond]' role='dimension' type='nominal' />
+      <column caption='Bsmt Exposure' datatype='string' name='[BsmtExposure]' role='dimension' type='nominal' />
+      <column caption='Bsmt Full Bath' datatype='integer' name='[BsmtFullBath]' role='measure' type='quantitative' />
+      <column caption='Bsmt Half Bath' datatype='integer' name='[BsmtHalfBath]' role='measure' type='quantitative' />
+      <column caption='Bsmt Qual' datatype='string' name='[BsmtQual]' role='dimension' type='nominal' />
+      <column caption='Bsmt Unf SF' datatype='integer' name='[BsmtUnfSF]' role='measure' type='quantitative' />
+      <column caption='Central Air' datatype='string' name='[CentralAir]' role='dimension' type='nominal' />
+      <column datatype='string' name='[Condition1]' role='dimension' type='nominal'>
+        <aliases>
+          <alias key='&quot;Artery&quot;' value='Adjacent to arterial street' />
+          <alias key='&quot;Feedr&quot;' value='Adjacent to feeder street' />
+          <alias key='&quot;Norm&quot;' value='Normal&#9;' />
+          <alias key='&quot;PosA&quot;' value='Adjacent to postive off-site feature' />
+          <alias key='&quot;PosN&quot;' value='Near positive off-site feature--park, greenbelt, etc.' />
+          <alias key='&quot;RRAe&quot;' value='Adjacent to East-West Railroad' />
+          <alias key='&quot;RRAn&quot;' value='Adjacent to North-South Railroad' />
+          <alias key='&quot;RRNe&quot;' value='Within 200&apos; of East-West Railroad' />
+          <alias key='&quot;RRNn&quot;' value='Within 200&apos; of North-South Railroad' />
+        </aliases>
+      </column>
+      <column caption='Enclosed Porch' datatype='integer' name='[EnclosedPorch]' role='measure' type='quantitative' />
+      <column caption='Exter Cond' datatype='string' name='[ExterCond]' role='dimension' type='nominal' />
+      <column caption='Exter Qual' datatype='string' name='[ExterQual]' role='dimension' type='nominal' />
+      <column caption='Fireplace Qu' datatype='string' name='[FireplaceQu]' role='dimension' type='nominal' />
+      <column caption='Full Bath' datatype='integer' name='[FullBath]' role='measure' type='quantitative' />
+      <column caption='Garage Area' datatype='integer' name='[GarageArea]' role='measure' type='quantitative' />
+      <column caption='Garage Cars' datatype='integer' name='[GarageCars]' role='measure' type='quantitative' />
+      <column caption='Garage Cond' datatype='string' name='[GarageCond]' role='dimension' type='nominal' />
+      <column caption='Garage Finish' datatype='string' name='[GarageFinish]' role='dimension' type='nominal' />
+      <column caption='Garage Qual' datatype='string' name='[GarageQual]' role='dimension' type='nominal' />
+      <column caption='Garage Type' datatype='string' name='[GarageType]' role='dimension' type='nominal' />
+      <column caption='Garage Yr Blt' datatype='string' name='[GarageYrBlt]' role='dimension' type='nominal' />
+      <column caption='Gr Liv Area' datatype='integer' name='[GrLivArea]' role='measure' type='quantitative' />
+      <column caption='Half Bath' datatype='integer' name='[HalfBath]' role='measure' type='quantitative' />
+      <column caption='Heating QC' datatype='string' name='[HeatingQC]' role='dimension' type='nominal' />
+      <column caption='House Style' datatype='string' name='[HouseStyle]' role='dimension' type='nominal' />
+      <column datatype='string' name='[Id]' role='dimension' type='nominal' />
+      <column caption='Kitchen Abv Gr' datatype='integer' name='[KitchenAbvGr]' role='measure' type='quantitative' />
+      <column caption='Kitchen Qual' datatype='string' name='[KitchenQual]' role='dimension' type='nominal' />
+      <column caption='Land Contour' datatype='string' name='[LandContour]' role='dimension' type='nominal' />
+      <column caption='Land Slope' datatype='string' name='[LandSlope]' role='dimension' type='nominal' />
+      <column caption='Lot Area' datatype='integer' name='[LotArea]' role='measure' type='quantitative' />
+      <column caption='Lot Config' datatype='string' name='[LotConfig]' role='dimension' type='nominal' />
+      <column caption='Lot Frontage' datatype='string' name='[LotFrontage]' role='dimension' type='nominal' />
+      <column caption='Lot Shape' datatype='string' name='[LotShape]' role='dimension' type='nominal' />
+      <column caption='Low Qual Fin SF' datatype='integer' name='[LowQualFinSF]' role='measure' type='quantitative' />
+      <column caption='MS Sub Class' datatype='integer' name='[MSSubClass]' role='measure' type='quantitative' />
+      <column caption='MS Zoning' datatype='string' name='[MSZoning]' role='dimension' type='nominal' />
+      <column caption='Mas Vnr Area' datatype='integer' name='[MasVnrArea]' role='measure' type='quantitative' />
+      <column caption='Mas Vnr Type' datatype='string' name='[MasVnrType]' role='dimension' type='nominal' />
+      <column caption='Misc Feature' datatype='string' name='[MiscFeature]' role='dimension' type='nominal' />
+      <column caption='Misc Val' datatype='integer' name='[MiscVal]' role='measure' type='quantitative' />
+      <column caption='Mo Sold' datatype='integer' name='[MoSold]' role='measure' type='quantitative' />
+      <column caption='Open Porch SF' datatype='integer' name='[OpenPorchSF]' role='measure' type='quantitative' />
+      <column caption='Overall Cond' datatype='integer' name='[OverallCond]' role='measure' type='quantitative' />
+      <column caption='Overall Qual' datatype='integer' name='[OverallQual]' role='measure' type='quantitative' />
+      <column caption='Paved Drive' datatype='string' name='[PavedDrive]' role='dimension' type='nominal' />
+      <column caption='Pool Area' datatype='integer' name='[PoolArea]' role='measure' type='quantitative' />
+      <column caption='Pool QC' datatype='string' name='[PoolQC]' role='dimension' type='nominal' />
+      <column caption='Roof Matl' datatype='string' name='[RoofMatl]' role='dimension' type='nominal' />
+      <column caption='Roof Style' datatype='string' name='[RoofStyle]' role='dimension' type='nominal' />
+      <column aggregation='None' datatype='integer' name='[Sale Price (bin)]' role='dimension' type='quantitative'>
+        <calculation class='bin' decimals='4' formula='[SalePrice]' peg='0' size='15000' />
+      </column>
+      <column caption='Sale Condition' datatype='string' name='[SaleCondition]' role='dimension' type='nominal' />
+      <column caption='Sale Price' datatype='integer' name='[SalePrice]' role='measure' type='quantitative' />
+      <column caption='Sale Type' datatype='string' name='[SaleType]' role='dimension' type='nominal' />
+      <column caption='Screen Porch' datatype='integer' name='[ScreenPorch]' role='measure' type='quantitative' />
+      <column caption='Tot Rms Abv Grd' datatype='integer' name='[TotRmsAbvGrd]' role='measure' type='quantitative' />
+      <column caption='Total Bsmt SF' datatype='integer' name='[TotalBsmtSF]' role='measure' type='quantitative' />
+      <column caption='Wood Deck SF' datatype='integer' name='[WoodDeckSF]' role='measure' type='quantitative' />
+      <column caption='Year Built' datatype='integer' name='[YearBuilt]' role='dimension' type='quantitative' />
+      <column caption='Year Remod Add' datatype='integer' name='[YearRemodAdd]' role='dimension' type='quantitative' />
+      <column caption='Yr Sold' datatype='integer' name='[YrSold]' role='dimension' type='quantitative' />
+      <_.fcp.ObjectModelTableType.true...column caption='HomePrices.csv' datatype='table' name='[__tableau_internal_object_id__].[HomePrices.csv_0D2F31F651294AE39DC82F10ED6F370D]' role='measure' type='quantitative' />
+      <column-instance column='[BldgType]' derivation='None' name='[none:BldgType:nk]' pivot='key' type='nominal' />
+      <layout _.fcp.SchemaViewerObjectModel.false...dim-percentage='0.5' _.fcp.SchemaViewerObjectModel.false...measure-percentage='0.4' dim-ordering='alphabetic' measure-ordering='alphabetic' show-aliased-fields='true' show-structure='true' />
+      <style>
+        <style-rule element='mark'>
+          <encoding attr='color' field='[none:BldgType:nk]' type='palette'>
+            <map to='#4e79a7'>
+              <bucket>&quot;Duplex&quot;</bucket>
+            </map>
+            <map to='#59a14f'>
+              <bucket>&quot;2fmCon&quot;</bucket>
+            </map>
+            <map to='#76b7b2'>
+              <bucket>&quot;Twnhs&quot;</bucket>
+            </map>
+            <map to='#e15759'>
+              <bucket>&quot;TwnhsE&quot;</bucket>
+            </map>
+            <map to='#f28e2b'>
+              <bucket>&quot;1Fam&quot;</bucket>
+            </map>
+          </encoding>
+        </style-rule>
+      </style>
+      <semantic-values>
+        <semantic-value key='[Country].[Name]' value='&quot;United States&quot;' />
+      </semantic-values>
+      <field-sort-info field-sort-order-type='custom-order'>
+        <field-sort-custom-order field='Id' />
+        <field-sort-custom-order field='MSSubClass' />
+        <field-sort-custom-order field='MSZoning' />
+        <field-sort-custom-order field='LotFrontage' />
+        <field-sort-custom-order field='LotArea' />
+        <field-sort-custom-order field='Street' />
+        <field-sort-custom-order field='Alley' />
+        <field-sort-custom-order field='LotShape' />
+        <field-sort-custom-order field='LandContour' />
+        <field-sort-custom-order field='Utilities' />
+        <field-sort-custom-order field='LotConfig' />
+        <field-sort-custom-order field='LandSlope' />
+        <field-sort-custom-order field='Neighborhood' />
+        <field-sort-custom-order field='Condition1' />
+        <field-sort-custom-order field='Condition2' />
+        <field-sort-custom-order field='BldgType' />
+        <field-sort-custom-order field='HouseStyle' />
+        <field-sort-custom-order field='OverallQual' />
+        <field-sort-custom-order field='OverallCond' />
+        <field-sort-custom-order field='YearBuilt' />
+        <field-sort-custom-order field='YearRemodAdd' />
+        <field-sort-custom-order field='RoofStyle' />
+        <field-sort-custom-order field='RoofMatl' />
+        <field-sort-custom-order field='Exterior1st' />
+        <field-sort-custom-order field='Exterior2nd' />
+        <field-sort-custom-order field='MasVnrType' />
+        <field-sort-custom-order field='MasVnrArea' />
+        <field-sort-custom-order field='ExterQual' />
+        <field-sort-custom-order field='ExterCond' />
+        <field-sort-custom-order field='Foundation' />
+        <field-sort-custom-order field='BsmtQual' />
+        <field-sort-custom-order field='BsmtCond' />
+        <field-sort-custom-order field='BsmtExposure' />
+        <field-sort-custom-order field='BsmtFinType1' />
+        <field-sort-custom-order field='BsmtFinSF1' />
+        <field-sort-custom-order field='BsmtFinType2' />
+        <field-sort-custom-order field='BsmtFinSF2' />
+        <field-sort-custom-order field='BsmtUnfSF' />
+        <field-sort-custom-order field='TotalBsmtSF' />
+        <field-sort-custom-order field='Heating' />
+        <field-sort-custom-order field='HeatingQC' />
+        <field-sort-custom-order field='CentralAir' />
+        <field-sort-custom-order field='Electrical' />
+        <field-sort-custom-order field='1stFlrSF' />
+        <field-sort-custom-order field='2ndFlrSF' />
+        <field-sort-custom-order field='LowQualFinSF' />
+        <field-sort-custom-order field='GrLivArea' />
+        <field-sort-custom-order field='BsmtFullBath' />
+        <field-sort-custom-order field='BsmtHalfBath' />
+        <field-sort-custom-order field='FullBath' />
+        <field-sort-custom-order field='HalfBath' />
+        <field-sort-custom-order field='BedroomAbvGr' />
+        <field-sort-custom-order field='KitchenAbvGr' />
+        <field-sort-custom-order field='KitchenQual' />
+        <field-sort-custom-order field='TotRmsAbvGrd' />
+        <field-sort-custom-order field='Calculation_1590615151042420736' />
+        <field-sort-custom-order field='Functional' />
+        <field-sort-custom-order field='Fireplaces' />
+        <field-sort-custom-order field='FireplaceQu' />
+        <field-sort-custom-order field='GarageType' />
+        <field-sort-custom-order field='GarageYrBlt' />
+        <field-sort-custom-order field='GarageFinish' />
+        <field-sort-custom-order field='GarageCars' />
+        <field-sort-custom-order field='GarageArea' />
+        <field-sort-custom-order field='GarageQual' />
+        <field-sort-custom-order field='GarageCond' />
+        <field-sort-custom-order field='PavedDrive' />
+        <field-sort-custom-order field='WoodDeckSF' />
+        <field-sort-custom-order field='OpenPorchSF' />
+        <field-sort-custom-order field='EnclosedPorch' />
+        <field-sort-custom-order field='3SsnPorch' />
+        <field-sort-custom-order field='ScreenPorch' />
+        <field-sort-custom-order field='PoolArea' />
+        <field-sort-custom-order field='PoolQC' />
+        <field-sort-custom-order field='Fence' />
+        <field-sort-custom-order field='MiscFeature' />
+        <field-sort-custom-order field='MiscVal' />
+        <field-sort-custom-order field='MoSold' />
+        <field-sort-custom-order field='YrSold' />
+        <field-sort-custom-order field='SaleType' />
+        <field-sort-custom-order field='SaleCondition' />
+        <field-sort-custom-order field='SalePrice' />
+        <field-sort-custom-order field='Geometry (generated)' />
+        <field-sort-custom-order field='Latitude (generated)' />
+        <field-sort-custom-order field='Longitude (generated)' />
+        <field-sort-custom-order field=':Measure Names' />
+        <field-sort-custom-order field='Multiple Values' />
+      </field-sort-info>
+      <_.fcp.ObjectModelEncapsulateLegacy.true...object-graph>
+        <objects>
+          <object caption='HomePrices.csv' id='HomePrices.csv_0D2F31F651294AE39DC82F10ED6F370D'>
+            <properties context=''>
+              <relation connection='textscan.176jek20qy0ds81ap5n4q067i4s3' name='HomePrices.csv' table='[HomePrices#csv]' type='table'>
+                <columns character-set='UTF-8' header='yes' locale='en_US' separator=','>
+                  <column datatype='string' name='Id' ordinal='0' />
+                  <column datatype='integer' name='MSSubClass' ordinal='1' />
+                  <column datatype='string' name='MSZoning' ordinal='2' />
+                  <column datatype='string' name='LotFrontage' ordinal='3' />
+                  <column datatype='integer' name='LotArea' ordinal='4' />
+                  <column datatype='string' name='Street' ordinal='5' />
+                  <column datatype='string' name='Alley' ordinal='6' />
+                  <column datatype='string' name='LotShape' ordinal='7' />
+                  <column datatype='string' name='LandContour' ordinal='8' />
+                  <column datatype='string' name='Utilities' ordinal='9' />
+                  <column datatype='string' name='LotConfig' ordinal='10' />
+                  <column datatype='string' name='LandSlope' ordinal='11' />
+                  <column datatype='string' name='Neighborhood' ordinal='12' />
+                  <column datatype='string' name='Condition1' ordinal='13' />
+                  <column datatype='string' name='Condition2' ordinal='14' />
+                  <column datatype='string' name='BldgType' ordinal='15' />
+                  <column datatype='string' name='HouseStyle' ordinal='16' />
+                  <column datatype='integer' name='OverallQual' ordinal='17' />
+                  <column datatype='integer' name='OverallCond' ordinal='18' />
+                  <column datatype='integer' name='YearBuilt' ordinal='19' />
+                  <column datatype='integer' name='YearRemodAdd' ordinal='20' />
+                  <column datatype='string' name='RoofStyle' ordinal='21' />
+                  <column datatype='string' name='RoofMatl' ordinal='22' />
+                  <column datatype='string' name='Exterior1st' ordinal='23' />
+                  <column datatype='string' name='Exterior2nd' ordinal='24' />
+                  <column datatype='string' name='MasVnrType' ordinal='25' />
+                  <column datatype='integer' name='MasVnrArea' ordinal='26' />
+                  <column datatype='string' name='ExterQual' ordinal='27' />
+                  <column datatype='string' name='ExterCond' ordinal='28' />
+                  <column datatype='string' name='Foundation' ordinal='29' />
+                  <column datatype='string' name='BsmtQual' ordinal='30' />
+                  <column datatype='string' name='BsmtCond' ordinal='31' />
+                  <column datatype='string' name='BsmtExposure' ordinal='32' />
+                  <column datatype='string' name='BsmtFinType1' ordinal='33' />
+                  <column datatype='integer' name='BsmtFinSF1' ordinal='34' />
+                  <column datatype='string' name='BsmtFinType2' ordinal='35' />
+                  <column datatype='integer' name='BsmtFinSF2' ordinal='36' />
+                  <column datatype='integer' name='BsmtUnfSF' ordinal='37' />
+                  <column datatype='integer' name='TotalBsmtSF' ordinal='38' />
+                  <column datatype='string' name='Heating' ordinal='39' />
+                  <column datatype='string' name='HeatingQC' ordinal='40' />
+                  <column datatype='string' name='CentralAir' ordinal='41' />
+                  <column datatype='string' name='Electrical' ordinal='42' />
+                  <column datatype='integer' name='1stFlrSF' ordinal='43' />
+                  <column datatype='integer' name='2ndFlrSF' ordinal='44' />
+                  <column datatype='integer' name='LowQualFinSF' ordinal='45' />
+                  <column datatype='integer' name='GrLivArea' ordinal='46' />
+                  <column datatype='integer' name='BsmtFullBath' ordinal='47' />
+                  <column datatype='integer' name='BsmtHalfBath' ordinal='48' />
+                  <column datatype='integer' name='FullBath' ordinal='49' />
+                  <column datatype='integer' name='HalfBath' ordinal='50' />
+                  <column datatype='integer' name='BedroomAbvGr' ordinal='51' />
+                  <column datatype='integer' name='KitchenAbvGr' ordinal='52' />
+                  <column datatype='string' name='KitchenQual' ordinal='53' />
+                  <column datatype='integer' name='TotRmsAbvGrd' ordinal='54' />
+                  <column datatype='string' name='Functional' ordinal='55' />
+                  <column datatype='integer' name='Fireplaces' ordinal='56' />
+                  <column datatype='string' name='FireplaceQu' ordinal='57' />
+                  <column datatype='string' name='GarageType' ordinal='58' />
+                  <column datatype='string' name='GarageYrBlt' ordinal='59' />
+                  <column datatype='string' name='GarageFinish' ordinal='60' />
+                  <column datatype='integer' name='GarageCars' ordinal='61' />
+                  <column datatype='integer' name='GarageArea' ordinal='62' />
+                  <column datatype='string' name='GarageQual' ordinal='63' />
+                  <column datatype='string' name='GarageCond' ordinal='64' />
+                  <column datatype='string' name='PavedDrive' ordinal='65' />
+                  <column datatype='integer' name='WoodDeckSF' ordinal='66' />
+                  <column datatype='integer' name='OpenPorchSF' ordinal='67' />
+                  <column datatype='integer' name='EnclosedPorch' ordinal='68' />
+                  <column datatype='integer' name='3SsnPorch' ordinal='69' />
+                  <column datatype='integer' name='ScreenPorch' ordinal='70' />
+                  <column datatype='integer' name='PoolArea' ordinal='71' />
+                  <column datatype='string' name='PoolQC' ordinal='72' />
+                  <column datatype='string' name='Fence' ordinal='73' />
+                  <column datatype='string' name='MiscFeature' ordinal='74' />
+                  <column datatype='integer' name='MiscVal' ordinal='75' />
+                  <column datatype='integer' name='MoSold' ordinal='76' />
+                  <column datatype='integer' name='YrSold' ordinal='77' />
+                  <column datatype='string' name='SaleType' ordinal='78' />
+                  <column datatype='string' name='SaleCondition' ordinal='79' />
+                  <column datatype='integer' name='SalePrice' ordinal='80' />
+                </columns>
+              </relation>
+            </properties>
+          </object>
+        </objects>
+      </_.fcp.ObjectModelEncapsulateLegacy.true...object-graph>
+    </datasource>
+  </datasources>
+  <worksheets>
+    <worksheet name='Distribution of Building Type'>
+      <layout-options>
+        <title>
+          <formatted-text>
+            <run bold='true'>Building Type Distribution</run>
+          </formatted-text>
+        </title>
+        <caption>
+          <formatted-text>
+            <run>Count of Bldg Type for each Bldg Type.  Color shows details about Bldg Type.  The marks are labeled by count of Bldg Type.
+
+There is an overwhelming number of single-family detached building types than the other building types. Also, the average price of the building has a strong relationship with the number of units per building type. the Single-Family Detached has the highest average price with $185,764 and the two-family conversion has the lowest with $128,432.</run>
+          </formatted-text>
+        </caption>
+      </layout-options>
+      <table>
+        <view>
+          <datasources>
+            <datasource caption='HomePrices' name='federated.1dux3641s8y23n1fwqcx40pii7l6' />
+          </datasources>
+          <datasource-dependencies datasource='federated.1dux3641s8y23n1fwqcx40pii7l6'>
+            <column caption='Bldg Type' datatype='string' name='[BldgType]' role='dimension' type='nominal'>
+              <aliases>
+                <alias key='&quot;1Fam&quot;' value='Single-Family Detached' />
+                <alias key='&quot;2fmCon&quot;' value='Two-Family Conversion; originally built as one-family dwelling' />
+                <alias key='&quot;Twnhs&quot;' value='Townhouse Inside Unit' />
+                <alias key='&quot;TwnhsE&quot;' value='Townhouse End Unit' />
+              </aliases>
+            </column>
+            <column caption='Sale Price' datatype='integer' name='[SalePrice]' role='measure' type='quantitative' />
+            <column-instance column='[SalePrice]' derivation='Avg' name='[avg:SalePrice:qk]' pivot='key' type='quantitative' />
+            <column-instance column='[BldgType]' derivation='Count' name='[cnt:BldgType:qk]' pivot='key' type='quantitative' />
+            <column-instance column='[BldgType]' derivation='None' name='[none:BldgType:nk]' pivot='key' type='nominal' />
+            <column-instance column='[BldgType]' derivation='Count' name='[pcto:cnt:BldgType:qk]' pivot='key' type='quantitative'>
+              <table-calc ordering-type='Rows' type='PctTotal' />
+            </column-instance>
+          </datasource-dependencies>
+          <shelf-sorts>
+            <shelf-sort-v2 dimension-to-sort='[federated.1dux3641s8y23n1fwqcx40pii7l6].[none:BldgType:nk]' direction='DESC' is-on-innermost-dimension='true' measure-to-sort-by='[federated.1dux3641s8y23n1fwqcx40pii7l6].[cnt:BldgType:qk]' shelf='columns' />
+          </shelf-sorts>
+          <aggregation value='true' />
+        </view>
+        <style>
+          <style-rule element='axis'>
+            <format attr='title' class='0' field='[federated.1dux3641s8y23n1fwqcx40pii7l6].[cnt:BldgType:qk]' scope='rows' value='Total Units of Building Type' />
+          </style-rule>
+          <style-rule element='worksheet'>
+            <format attr='display-field-labels' scope='cols' value='false' />
+          </style-rule>
+          <style-rule element='caption'>
+            <format attr='background-color' value='#00000000' />
+          </style-rule>
+          <style-rule element='refline'>
+            <format attr='text-format' id='refline0' value='C1033%' />
+          </style-rule>
+          <style-rule element='refband'>
+            <format attr='reverse-palette' id='refline0' value='false' />
+          </style-rule>
+          <style-rule element='title'>
+            <format attr='background-color' value='#f5f0ef' />
+            <format attr='border-style' value='solid' />
+            <format attr='border-width' value='2' />
+          </style-rule>
+        </style>
+        <panes>
+          <pane selection-relaxation-option='selection-relaxation-allow'>
+            <view>
+              <breakdown value='auto' />
+            </view>
+            <mark class='Automatic' />
+            <encodings>
+              <color column='[federated.1dux3641s8y23n1fwqcx40pii7l6].[none:BldgType:nk]' />
+              <text column='[federated.1dux3641s8y23n1fwqcx40pii7l6].[cnt:BldgType:qk]' />
+              <tooltip column='[federated.1dux3641s8y23n1fwqcx40pii7l6].[avg:SalePrice:qk]' />
+              <tooltip column='[federated.1dux3641s8y23n1fwqcx40pii7l6].[pcto:cnt:BldgType:qk]' />
+            </encodings>
+            <reference-line axis-column='[federated.1dux3641s8y23n1fwqcx40pii7l6].[cnt:BldgType:qk]' enable-instant-analytics='true' fill-above='false' fill-below='false' formula='average' id='refline0' label-type='automatic' percentage-bands='true' probability='95' scope='per-pane' symmetric='false' value-column='[federated.1dux3641s8y23n1fwqcx40pii7l6].[cnt:BldgType:qk]' z-order='1'>
+              <reference-line-value percentage='60' />
+              <reference-line-value percentage='80' />
+            </reference-line>
+            <customized-tooltip>
+              <formatted-text>
+                <run fontcolor='#787878'>Bldg Type:&#9;</run>
+                <run bold='true'><![CDATA[<[federated.1dux3641s8y23n1fwqcx40pii7l6].[cnt:BldgType:qk]>]]></run>
+                <run>Æ&#10;</run>
+                <run fontcolor='#787878'>Count of Bldg Type:&#9;</run>
+                <run bold='true'><![CDATA[<[federated.1dux3641s8y23n1fwqcx40pii7l6].[cnt:BldgType:qk]>]]></run>
+                <run>Æ&#10;</run>
+                <run fontcolor='#787878'>Avg. Sale Price:&#9;$</run>
+                <run bold='true'><![CDATA[<[federated.1dux3641s8y23n1fwqcx40pii7l6].[avg:SalePrice:qk]>]]></run>
+                <run>Æ&#10;</run>
+                <run fontcolor='#787878'>% of Total Count of Bldg Type along Table (Across):	</run>
+                <run bold='true'><![CDATA[<[federated.1dux3641s8y23n1fwqcx40pii7l6].[pcto:cnt:BldgType:qk]>]]></run>
+              </formatted-text>
+            </customized-tooltip>
+            <style>
+              <style-rule element='mark'>
+                <format attr='mark-labels-cull' value='true' />
+                <format attr='mark-labels-show' value='true' />
+              </style-rule>
+            </style>
+          </pane>
+        </panes>
+        <rows>[federated.1dux3641s8y23n1fwqcx40pii7l6].[cnt:BldgType:qk]</rows>
+        <cols>[federated.1dux3641s8y23n1fwqcx40pii7l6].[none:BldgType:nk]</cols>
+      </table>
+      <simple-id uuid='{008FEC4F-29C2-4DC4-851F-0C6C9DC6120C}' />
+    </worksheet>
+    <worksheet name='Sale Price Frequency Distribution'>
+      <layout-options>
+        <title>
+          <formatted-text>
+            <run bold='true'>Home &lt;Sheet Name&gt;</run>
+            <run>Æ&#10;</run>
+            <run bold='true' fontsize='11' italic='true'>*Filtered to a maximum of $450,000 Sales Price</run>
+          </formatted-text>
+        </title>
+        <caption>
+          <formatted-text>
+            <run>The plot of count of Sale Price for Sale Price (bin). The data is filtered on Sale Price, which ranges from 34900 to 450000.
+
+This Home Sale Price Distribution is skewed right.The mean will have the higher value since there are few outliers above the center of distribution. Thus, the median will be a better measure for the center of distribution.</run>
+          </formatted-text>
+        </caption>
+      </layout-options>
+      <table>
+        <view>
+          <datasources>
+            <datasource caption='HomePrices' name='federated.1dux3641s8y23n1fwqcx40pii7l6' />
+          </datasources>
+          <datasource-dependencies datasource='federated.1dux3641s8y23n1fwqcx40pii7l6'>
+            <column aggregation='None' datatype='integer' name='[Sale Price (bin)]' role='dimension' type='quantitative'>
+              <calculation class='bin' decimals='4' formula='[SalePrice]' peg='0' size='15000' />
+            </column>
+            <column caption='Sale Price' datatype='integer' name='[SalePrice]' role='measure' type='quantitative' />
+            <column-instance column='[SalePrice]' derivation='Count' name='[cnt:SalePrice:qk]' pivot='key' type='quantitative' />
+            <column-instance column='[Sale Price (bin)]' derivation='None' name='[none:Sale Price (bin):qk]' pivot='key' type='quantitative' />
+            <column-instance column='[SalePrice]' derivation='None' name='[none:SalePrice:qk]' pivot='key' type='quantitative' />
+          </datasource-dependencies>
+          <filter class='quantitative' column='[federated.1dux3641s8y23n1fwqcx40pii7l6].[none:SalePrice:qk]' included-values='in-range'>
+            <min>34900</min>
+            <max>450000</max>
+          </filter>
+          <slices>
+            <column>[federated.1dux3641s8y23n1fwqcx40pii7l6].[none:SalePrice:qk]</column>
+          </slices>
+          <aggregation value='true' />
+        </view>
+        <style>
+          <style-rule element='axis'>
+            <format attr='title' class='0' field='[federated.1dux3641s8y23n1fwqcx40pii7l6].[cnt:SalePrice:qk]' scope='rows' value='Frequency of Sales Price' />
+            <format attr='title' class='0' field='[federated.1dux3641s8y23n1fwqcx40pii7l6].[none:Sale Price (bin):qk]' scope='cols' value='Sale Price Bins' />
+          </style-rule>
+          <style-rule element='cell'>
+            <format attr='text-format' field='[federated.1dux3641s8y23n1fwqcx40pii7l6].[none:Sale Price (bin):qk]' value='C1033%' />
+          </style-rule>
+          <style-rule element='label'>
+            <format attr='text-format' field='[federated.1dux3641s8y23n1fwqcx40pii7l6].[none:Sale Price (bin):qk]' value='c&quot;$&quot;#,##0,K;(&quot;$&quot;#,##0,K)' />
+          </style-rule>
+          <style-rule element='title'>
+            <format attr='background-color' value='#8eb6d9' />
+          </style-rule>
+          <style-rule element='quick-filter'>
+            <format attr='title' field='[federated.1dux3641s8y23n1fwqcx40pii7l6].[none:SalePrice:qk]' value='Sale Price ($)' />
+          </style-rule>
+        </style>
+        <panes>
+          <pane selection-relaxation-option='selection-relaxation-allow'>
+            <view>
+              <breakdown value='auto' />
+            </view>
+            <mark class='Bar' />
+            <mark-sizing custom-mark-size-in-axis-units='1.0' mark-alignment='mark-alignment-left' mark-sizing-setting='marks-scaling-on' use-custom-mark-size='false' />
+            <customized-tooltip>
+              <formatted-text>
+                <run fontcolor='#787878'>Sale Price (bin):&#9;</run>
+                <run bold='true'><![CDATA[<[federated.1dux3641s8y23n1fwqcx40pii7l6].[none:Sale Price (bin):qk]>]]></run>
+                <run>Æ&#10;</run>
+                <run fontcolor='#787878'># of Homes with Sale Price:&#9;</run>
+                <run bold='true'><![CDATA[<[federated.1dux3641s8y23n1fwqcx40pii7l6].[cnt:SalePrice:qk]>]]></run>
+              </formatted-text>
+            </customized-tooltip>
+            <style>
+              <style-rule element='mark'>
+                <format attr='mark-color' value='#76b7b2' />
+              </style-rule>
+            </style>
+          </pane>
+        </panes>
+        <rows>[federated.1dux3641s8y23n1fwqcx40pii7l6].[cnt:SalePrice:qk]</rows>
+        <cols>[federated.1dux3641s8y23n1fwqcx40pii7l6].[none:Sale Price (bin):qk]</cols>
+        <show-full-range>
+          <column>[federated.1dux3641s8y23n1fwqcx40pii7l6].[Sale Price (bin)]</column>
+        </show-full-range>
+      </table>
+      <simple-id uuid='{363A3A77-B875-4C0C-A245-2A73B79ABF2C}' />
+    </worksheet>
+    <worksheet name='Sale Price per Home ID'>
+      <layout-options>
+        <title>
+          <formatted-text>
+            <run bold='true'>Box Plot: &lt;Sheet Name&gt;</run>
+          </formatted-text>
+        </title>
+        <caption>
+          <formatted-text>
+            <run>Sale Price.  Details are shown for Id. The data is filtered on Sale Price, which ranges from 34900 to 650000.
+
+There are outliers above the center of distribution. House ID 692 has the highest Sale Price of $755,000</run>
+          </formatted-text>
+        </caption>
+      </layout-options>
+      <table>
+        <view>
+          <datasources>
+            <datasource caption='HomePrices' name='federated.1dux3641s8y23n1fwqcx40pii7l6' />
+          </datasources>
+          <datasource-dependencies datasource='federated.1dux3641s8y23n1fwqcx40pii7l6'>
+            <column datatype='string' name='[Id]' role='dimension' type='nominal' />
+            <column caption='Sale Price' datatype='integer' name='[SalePrice]' role='measure' type='quantitative' />
+            <column-instance column='[Id]' derivation='None' name='[none:Id:ok]' pivot='key' type='nominal' />
+            <column-instance column='[SalePrice]' derivation='None' name='[none:SalePrice:qk]' pivot='key' type='quantitative' />
+            <column-instance column='[SalePrice]' derivation='Sum' name='[sum:SalePrice:qk]' pivot='key' type='quantitative' />
+          </datasource-dependencies>
+          <filter class='quantitative' column='[federated.1dux3641s8y23n1fwqcx40pii7l6].[none:SalePrice:qk]' included-values='in-range'>
+            <min>34900</min>
+            <max>755000</max>
+          </filter>
+          <slices>
+            <column>[federated.1dux3641s8y23n1fwqcx40pii7l6].[none:SalePrice:qk]</column>
+          </slices>
+          <aggregation value='false' />
+        </view>
+        <style>
+          <style-rule element='axis'>
+            <encoding attr='space' class='0' field='[federated.1dux3641s8y23n1fwqcx40pii7l6].[sum:SalePrice:qk]' field-type='quantitative' major-origin='0' major-spacing='50000' scope='cols' type='space' />
+            <format attr='title' class='0' field='[federated.1dux3641s8y23n1fwqcx40pii7l6].[sum:SalePrice:qk]' scope='cols' value='Sale Price(in Thousands $)' />
+          </style-rule>
+          <style-rule element='cell'>
+            <format attr='text-format' field='[federated.1dux3641s8y23n1fwqcx40pii7l6].[sum:SalePrice:qk]' value='c&quot;$&quot;#,##0,K;(&quot;$&quot;#,##0,K)' />
+          </style-rule>
+          <style-rule element='title'>
+            <format attr='background-color' value='#9bc6ee' />
+          </style-rule>
+        </style>
+        <panes>
+          <pane selection-relaxation-option='selection-relaxation-allow'>
+            <view>
+              <breakdown value='auto' />
+            </view>
+            <mark class='Shape' />
+            <mark-sizing mark-sizing-setting='marks-scaling-off' />
+            <encodings>
+              <lod column='[federated.1dux3641s8y23n1fwqcx40pii7l6].[none:Id:ok]' />
+            </encodings>
+            <reference-line axis-column='[federated.1dux3641s8y23n1fwqcx40pii7l6].[sum:SalePrice:qk]' boxplot-mark-exclusion='false' boxplot-whisker-type='standard' enable-instant-analytics='true' formula='average' id='refline0' label-type='automatic' probability='95' scope='per-cell' symmetric='false' value-column='[federated.1dux3641s8y23n1fwqcx40pii7l6].[sum:SalePrice:qk]' z-order='1' />
+            <customized-tooltip>
+              <formatted-text>
+                <run fontcolor='#787878'>Home Id:&#9;</run>
+                <run bold='true'><![CDATA[<[federated.1dux3641s8y23n1fwqcx40pii7l6].[none:Id:ok]>]]></run>
+                <run>Æ&#10;</run>
+                <run fontcolor='#787878'>Home Sale Price:&#9;</run>
+                <run bold='true'><![CDATA[<[federated.1dux3641s8y23n1fwqcx40pii7l6].[sum:SalePrice:qk]>]]></run>
+              </formatted-text>
+            </customized-tooltip>
+            <style>
+              <style-rule element='mark'>
+                <format attr='size' value='1.5932043790817261' />
+              </style-rule>
+            </style>
+          </pane>
+        </panes>
+        <rows />
+        <cols>[federated.1dux3641s8y23n1fwqcx40pii7l6].[sum:SalePrice:qk]</cols>
+      </table>
+      <simple-id uuid='{554AA198-0300-4F68-AE37-328ABD0D15F5}' />
+    </worksheet>
+    <worksheet name='Sale Price per Home ID by Building Type'>
+      <layout-options>
+        <title>
+          <formatted-text>
+            <run bold='true'>Box Plot: &lt;Sheet Name&gt;</run>
+          </formatted-text>
+        </title>
+        <caption>
+          <formatted-text>
+            <run>Sale Price.  Details are shown for Id. The data is filtered on Sale Price, which ranges from 34900 to 650000.
+
+The Two-Family Conversion building type has the lowest median sale price with $127,500.
+The townhouse inside unit does not have any outliers. The single-family detached has the largest spread with a range of 319,100 homes within the building type. The bulding type with the samllest spread is Duplex with just 97,000 homes.
+
+A building type category with the smallest spread like Duplex indicates a more concentrated pricing structure. As a real estate that understands the ranges, in can help tailor advice to clients.
+
+1. Neighborhood Impact:How does the distribution of Sale Prices for each building type vary across different neighborhoods?
+
+2. Property Features Influences: Is there a coorelation between the building type and other property features?
+
+3. Time trends: How has the distribution of Sale Prices for different building types evolved over time?
+
+</run>
+          </formatted-text>
+        </caption>
+      </layout-options>
+      <table>
+        <view>
+          <datasources>
+            <datasource caption='HomePrices' name='federated.1dux3641s8y23n1fwqcx40pii7l6' />
+          </datasources>
+          <datasource-dependencies datasource='federated.1dux3641s8y23n1fwqcx40pii7l6'>
+            <column caption='Bldg Type' datatype='string' name='[BldgType]' role='dimension' type='nominal'>
+              <aliases>
+                <alias key='&quot;1Fam&quot;' value='Single-Family Detached' />
+                <alias key='&quot;2fmCon&quot;' value='Two-Family Conversion; originally built as one-family dwelling' />
+                <alias key='&quot;Twnhs&quot;' value='Townhouse Inside Unit' />
+                <alias key='&quot;TwnhsE&quot;' value='Townhouse End Unit' />
+              </aliases>
+            </column>
+            <column datatype='string' name='[Id]' role='dimension' type='nominal' />
+            <column caption='Sale Price' datatype='integer' name='[SalePrice]' role='measure' type='quantitative' />
+            <column-instance column='[BldgType]' derivation='None' name='[none:BldgType:nk]' pivot='key' type='nominal' />
+            <column-instance column='[Id]' derivation='None' name='[none:Id:ok]' pivot='key' type='nominal' />
+            <column-instance column='[SalePrice]' derivation='None' name='[none:SalePrice:qk]' pivot='key' type='quantitative' />
+            <column-instance column='[SalePrice]' derivation='Sum' name='[sum:SalePrice:qk]' pivot='key' type='quantitative' />
+          </datasource-dependencies>
+          <filter class='quantitative' column='[federated.1dux3641s8y23n1fwqcx40pii7l6].[none:SalePrice:qk]' included-values='in-range'>
+            <min>34900</min>
+            <max>755000</max>
+          </filter>
+          <shelf-sorts>
+            <shelf-sort-v2 dimension-to-sort='[federated.1dux3641s8y23n1fwqcx40pii7l6].[none:BldgType:nk]' direction='DESC' is-on-innermost-dimension='true' measure-to-sort-by='[federated.1dux3641s8y23n1fwqcx40pii7l6].[sum:SalePrice:qk]' shelf='rows' />
+          </shelf-sorts>
+          <slices>
+            <column>[federated.1dux3641s8y23n1fwqcx40pii7l6].[none:SalePrice:qk]</column>
+          </slices>
+          <aggregation value='false' />
+        </view>
+        <style>
+          <style-rule element='axis'>
+            <encoding attr='space' class='0' field='[federated.1dux3641s8y23n1fwqcx40pii7l6].[sum:SalePrice:qk]' field-type='quantitative' major-origin='0' major-spacing='50000' scope='cols' type='space' />
+            <format attr='title' class='0' field='[federated.1dux3641s8y23n1fwqcx40pii7l6].[sum:SalePrice:qk]' scope='cols' value='Sale Price(in Thousands $)' />
+          </style-rule>
+          <style-rule element='cell'>
+            <format attr='text-format' field='[federated.1dux3641s8y23n1fwqcx40pii7l6].[sum:SalePrice:qk]' value='c&quot;$&quot;#,##0,K;(&quot;$&quot;#,##0,K)' />
+          </style-rule>
+          <style-rule element='title'>
+            <format attr='background-color' value='#9bc6ee' />
+          </style-rule>
+        </style>
+        <panes>
+          <pane selection-relaxation-option='selection-relaxation-allow'>
+            <view>
+              <breakdown value='auto' />
+            </view>
+            <mark class='Shape' />
+            <mark-sizing mark-sizing-setting='marks-scaling-off' />
+            <encodings>
+              <color column='[federated.1dux3641s8y23n1fwqcx40pii7l6].[none:BldgType:nk]' />
+              <lod column='[federated.1dux3641s8y23n1fwqcx40pii7l6].[none:Id:ok]' />
+            </encodings>
+            <reference-line axis-column='[federated.1dux3641s8y23n1fwqcx40pii7l6].[sum:SalePrice:qk]' boxplot-mark-exclusion='false' boxplot-whisker-type='standard' enable-instant-analytics='true' formula='average' id='refline0' label-type='automatic' probability='95' scope='per-cell' symmetric='false' value-column='[federated.1dux3641s8y23n1fwqcx40pii7l6].[sum:SalePrice:qk]' z-order='1' />
+            <customized-tooltip>
+              <formatted-text>
+                <run fontcolor='#787878'>Home Id:&#9;</run>
+                <run bold='true'><![CDATA[<[federated.1dux3641s8y23n1fwqcx40pii7l6].[none:Id:ok]>]]></run>
+                <run>Æ&#10;</run>
+                <run fontcolor='#787878'>Home Sale Price:&#9;</run>
+                <run bold='true'><![CDATA[<[federated.1dux3641s8y23n1fwqcx40pii7l6].[sum:SalePrice:qk]>]]></run>
+              </formatted-text>
+            </customized-tooltip>
+            <style>
+              <style-rule element='mark'>
+                <format attr='size' value='1.5932043790817261' />
+              </style-rule>
+            </style>
+          </pane>
+        </panes>
+        <rows>[federated.1dux3641s8y23n1fwqcx40pii7l6].[none:BldgType:nk]</rows>
+        <cols>[federated.1dux3641s8y23n1fwqcx40pii7l6].[sum:SalePrice:qk]</cols>
+      </table>
+      <simple-id uuid='{34146431-DC29-4ED5-9D89-50FE8CF22B17}' />
+    </worksheet>
+    <worksheet name='Sale Price per Home ID by Building Type and Neighborhood'>
+      <layout-options>
+        <title>
+          <formatted-text>
+            <run bold='true'>Box Plot: &lt;Sheet Name&gt;</run>
+          </formatted-text>
+        </title>
+        <caption>
+          <formatted-text>
+            <run>Sale Price.  Details are shown for Id. The data is filtered on Sale Price, which ranges from 34900 to 650000.
+
+The Two-Family Conversion building type has the lowest median sale price with $127,500.
+The townhouse inside unit does not have any outliers. The single-family detached has the largest spread with a range of 319,100 homes within the building type. The bulding type with the samllest spread is Duplex with just 97,000 homes.
+
+A building type category with the smallest spread like Duplex indicates a more concentrated pricing structure. As a real estate that understands the ranges, in can help tailor advice to clients.
+
+1. Neighborhood Impact:How does the distribution of Sale Prices for each building type vary across different neighborhoods?
+
+- I wanted to what condition(s) in which neighborhoods has an effect on the sale price of the home. I have also included the year built filter to see if that provides any suggestive correlations. I have set the minimum year built to 1990 and the majority of the houses are in proximity to normal conditions. However, for the single-family detached type, there are numerous that suggests an influence of the sale price below the center of distribution. For further analysis I would try to apply more conditions or other dimensions as to see why the average of home prices are below the center of distribution for the townhouse end unit building type.
+
+2. Property Features Influences: Is there a coorelation between the building type and other property features?
+
+3. Time trends: How has the distribution of Sale Prices for different building types evolved over time?
+
+</run>
+          </formatted-text>
+        </caption>
+      </layout-options>
+      <table>
+        <view>
+          <datasources>
+            <datasource caption='HomePrices' name='federated.1dux3641s8y23n1fwqcx40pii7l6' />
+          </datasources>
+          <datasource-dependencies datasource='federated.1dux3641s8y23n1fwqcx40pii7l6'>
+            <column caption='Bldg Type' datatype='string' name='[BldgType]' role='dimension' type='nominal'>
+              <aliases>
+                <alias key='&quot;1Fam&quot;' value='Single-Family Detached' />
+                <alias key='&quot;2fmCon&quot;' value='Two-Family Conversion; originally built as one-family dwelling' />
+                <alias key='&quot;Twnhs&quot;' value='Townhouse Inside Unit' />
+                <alias key='&quot;TwnhsE&quot;' value='Townhouse End Unit' />
+              </aliases>
+            </column>
+            <column datatype='string' name='[Condition1]' role='dimension' type='nominal'>
+              <aliases>
+                <alias key='&quot;Artery&quot;' value='Adjacent to arterial street' />
+                <alias key='&quot;Feedr&quot;' value='Adjacent to feeder street' />
+                <alias key='&quot;Norm&quot;' value='Normal&#9;' />
+                <alias key='&quot;PosA&quot;' value='Adjacent to postive off-site feature' />
+                <alias key='&quot;PosN&quot;' value='Near positive off-site feature--park, greenbelt, etc.' />
+                <alias key='&quot;RRAe&quot;' value='Adjacent to East-West Railroad' />
+                <alias key='&quot;RRAn&quot;' value='Adjacent to North-South Railroad' />
+                <alias key='&quot;RRNe&quot;' value='Within 200&apos; of East-West Railroad' />
+                <alias key='&quot;RRNn&quot;' value='Within 200&apos; of North-South Railroad' />
+              </aliases>
+            </column>
+            <column datatype='string' name='[Id]' role='dimension' type='nominal' />
+            <column datatype='string' name='[Neighborhood]' role='dimension' type='nominal' />
+            <column caption='Sale Price' datatype='integer' name='[SalePrice]' role='measure' type='quantitative' />
+            <column caption='Year Built' datatype='integer' name='[YearBuilt]' role='dimension' type='quantitative' />
+            <column-instance column='[Neighborhood]' derivation='Attribute' name='[attr:Neighborhood:nk]' pivot='key' type='nominal' />
+            <column-instance column='[YearBuilt]' derivation='Attribute' name='[attr:YearBuilt:qk]' pivot='key' type='quantitative' />
+            <column-instance column='[BldgType]' derivation='None' name='[none:BldgType:nk]' pivot='key' type='nominal' />
+            <column-instance column='[Condition1]' derivation='None' name='[none:Condition1:nk]' pivot='key' type='nominal' />
+            <column-instance column='[Id]' derivation='None' name='[none:Id:ok]' pivot='key' type='nominal' />
+            <column-instance column='[YearBuilt]' derivation='None' name='[none:YearBuilt:qk]' pivot='key' type='quantitative' />
+            <column-instance column='[SalePrice]' derivation='Sum' name='[sum:SalePrice:qk]' pivot='key' type='quantitative' />
+          </datasource-dependencies>
+          <manual-sort column='[federated.1dux3641s8y23n1fwqcx40pii7l6].[none:BldgType:nk]' direction='ASC'>
+            <dictionary>
+              <bucket>&quot;1Fam&quot;</bucket>
+              <bucket>&quot;TwnhsE&quot;</bucket>
+              <bucket>&quot;Twnhs&quot;</bucket>
+              <bucket>&quot;Duplex&quot;</bucket>
+              <bucket>%all%</bucket>
+            </dictionary>
+          </manual-sort>
+          <filter class='quantitative' column='[federated.1dux3641s8y23n1fwqcx40pii7l6].[none:YearBuilt:qk]' included-values='in-range'>
+            <min>1990</min>
+            <max>2010</max>
+          </filter>
+          <slices>
+            <column>[federated.1dux3641s8y23n1fwqcx40pii7l6].[none:YearBuilt:qk]</column>
+          </slices>
+          <aggregation value='false' />
+        </view>
+        <style>
+          <style-rule element='axis'>
+            <encoding attr='space' class='0' field='[federated.1dux3641s8y23n1fwqcx40pii7l6].[sum:SalePrice:qk]' field-type='quantitative' major-origin='0' major-spacing='50000' scope='cols' type='space' />
+            <format attr='title' class='0' field='[federated.1dux3641s8y23n1fwqcx40pii7l6].[sum:SalePrice:qk]' scope='cols' value='Sale Price(in Thousands $)' />
+          </style-rule>
+          <style-rule element='cell'>
+            <format attr='text-format' field='[federated.1dux3641s8y23n1fwqcx40pii7l6].[sum:SalePrice:qk]' value='c&quot;$&quot;#,##0,K;(&quot;$&quot;#,##0,K)' />
+            <format attr='text-format' field='[federated.1dux3641s8y23n1fwqcx40pii7l6].[attr:YearBuilt:qk]' value='n0;-0' />
+          </style-rule>
+          <style-rule element='title'>
+            <format attr='background-color' value='#9bc6ee' />
+          </style-rule>
+        </style>
+        <panes>
+          <pane selection-relaxation-option='selection-relaxation-allow'>
+            <view>
+              <breakdown value='auto' />
+            </view>
+            <mark class='Shape' />
+            <mark-sizing mark-sizing-setting='marks-scaling-off' />
+            <encodings>
+              <color column='[federated.1dux3641s8y23n1fwqcx40pii7l6].[none:Condition1:nk]' />
+              <tooltip column='[federated.1dux3641s8y23n1fwqcx40pii7l6].[attr:Neighborhood:nk]' />
+              <tooltip column='[federated.1dux3641s8y23n1fwqcx40pii7l6].[attr:YearBuilt:qk]' />
+              <lod column='[federated.1dux3641s8y23n1fwqcx40pii7l6].[none:Id:ok]' />
+            </encodings>
+            <reference-line axis-column='[federated.1dux3641s8y23n1fwqcx40pii7l6].[sum:SalePrice:qk]' boxplot-mark-exclusion='false' boxplot-whisker-type='standard' enable-instant-analytics='true' formula='average' id='refline0' label-type='automatic' probability='95' scope='per-cell' symmetric='false' value-column='[federated.1dux3641s8y23n1fwqcx40pii7l6].[sum:SalePrice:qk]' z-order='1' />
+            <customized-tooltip>
+              <formatted-text>
+                <run fontcolor='#b4b4b4'>Home Id:&#9;</run>
+                <run bold='true'><![CDATA[<[federated.1dux3641s8y23n1fwqcx40pii7l6].[none:Id:ok]>]]></run>
+                <run>Æ&#10;</run>
+                <run fontcolor='#898989'>Year Built</run>
+                <run>:</run>
+                <run bold='true'><![CDATA[ <[federated.1dux3641s8y23n1fwqcx40pii7l6].[attr:YearBuilt:qk]>]]></run>
+                <run>Æ&#10;</run>
+                <run fontcolor='#898989'>Home Sale Price</run>
+                <run fontcolor='#787878'>:&#9;</run>
+                <run bold='true'><![CDATA[<[federated.1dux3641s8y23n1fwqcx40pii7l6].[sum:SalePrice:qk]>]]></run>
+                <run>Æ&#10;</run>
+                <run fontcolor='#898989'>Neighborhood:</run>
+                <run>Æ </run>
+                <run fontcolor='#1b1b1b'><![CDATA[<[federated.1dux3641s8y23n1fwqcx40pii7l6].[attr:Neighborhood:nk]>]]></run>
+              </formatted-text>
+            </customized-tooltip>
+            <style>
+              <style-rule element='mark'>
+                <format attr='size' value='1.7911050319671631' />
+                <format attr='mark-labels-cull' value='true' />
+                <format attr='mark-labels-show' value='false' />
+              </style-rule>
+            </style>
+          </pane>
+        </panes>
+        <rows>[federated.1dux3641s8y23n1fwqcx40pii7l6].[none:BldgType:nk]</rows>
+        <cols>[federated.1dux3641s8y23n1fwqcx40pii7l6].[sum:SalePrice:qk]</cols>
+      </table>
+      <simple-id uuid='{C1E1D51E-DC4F-478D-B420-23C212254362}' />
+    </worksheet>
+  </worksheets>
+  <windows source-height='30'>
+    <window class='worksheet' name='Distribution of Building Type'>
+      <cards>
+        <edge name='left'>
+          <strip size='160'>
+            <card type='pages' />
+            <card type='filters' />
+            <card type='marks' />
+          </strip>
+        </edge>
+        <edge name='top'>
+          <strip size='2147483647'>
+            <card type='columns' />
+          </strip>
+          <strip size='2147483647'>
+            <card type='rows' />
+          </strip>
+          <strip size='31'>
+            <card type='title' />
+          </strip>
+        </edge>
+        <edge name='right'>
+          <strip size='160'>
+            <card pane-specification-id='0' param='[federated.1dux3641s8y23n1fwqcx40pii7l6].[none:BldgType:nk]' type='color' />
+          </strip>
+        </edge>
+        <edge name='bottom'>
+          <strip size='96'>
+            <card type='caption' />
+          </strip>
+        </edge>
+      </cards>
+      <viewpoint>
+        <zoom type='entire-view' />
+        <selection-collection>
+          <node-selection select-tuples='false'>
+            <oriented-node-reference orientation='vertical'>
+              <node-reference>
+                <axis>[federated.1dux3641s8y23n1fwqcx40pii7l6].[cnt:BldgType:qk]</axis>
+              </node-reference>
+              <page-reference />
+            </oriented-node-reference>
+          </node-selection>
+        </selection-collection>
+        <highlight>
+          <color-one-way>
+            <field>[federated.1dux3641s8y23n1fwqcx40pii7l6].[none:BldgType:nk]</field>
+            <field>[federated.1dux3641s8y23n1fwqcx40pii7l6].[none:Id:ok]</field>
+          </color-one-way>
+        </highlight>
+      </viewpoint>
+      <simple-id uuid='{77321971-E35B-4F49-9DB7-417D4DD7F421}' />
+    </window>
+    <window class='worksheet' name='Sale Price Frequency Distribution'>
+      <cards>
+        <edge name='left'>
+          <strip size='160'>
+            <card type='pages' />
+            <card type='filters' />
+            <card type='marks' />
+          </strip>
+        </edge>
+        <edge name='top'>
+          <strip size='2147483647'>
+            <card type='columns' />
+          </strip>
+          <strip size='2147483647'>
+            <card type='rows' />
+          </strip>
+          <strip size='31'>
+            <card type='title' />
+          </strip>
+        </edge>
+        <edge name='right'>
+          <strip size='160'>
+            <card param='[federated.1dux3641s8y23n1fwqcx40pii7l6].[none:SalePrice:qk]' show-domain='false' show-null-ctrls='false' type='filter' />
+          </strip>
+        </edge>
+        <edge name='bottom'>
+          <strip size='96'>
+            <card type='caption' />
+          </strip>
+        </edge>
+      </cards>
+      <viewpoint>
+        <highlight>
+          <color-one-way>
+            <field>[federated.1dux3641s8y23n1fwqcx40pii7l6].[none:Sale Price (bin):qk]</field>
+            <field>[federated.1dux3641s8y23n1fwqcx40pii7l6].[none:SalePrice:qk]</field>
+          </color-one-way>
+        </highlight>
+      </viewpoint>
+      <simple-id uuid='{10127243-B931-4C8C-B3FA-241031D8B25E}' />
+    </window>
+    <window class='worksheet' name='Sale Price per Home ID'>
+      <cards>
+        <edge name='left'>
+          <strip size='160'>
+            <card type='pages' />
+            <card type='filters' />
+            <card type='marks' />
+          </strip>
+        </edge>
+        <edge name='top'>
+          <strip size='2147483647'>
+            <card type='columns' />
+          </strip>
+          <strip size='2147483647'>
+            <card type='rows' />
+          </strip>
+          <strip size='31'>
+            <card type='title' />
+          </strip>
+        </edge>
+        <edge name='right'>
+          <strip size='160'>
+            <card param='[federated.1dux3641s8y23n1fwqcx40pii7l6].[none:SalePrice:qk]' show-domain='false' show-null-ctrls='false' type='filter' />
+          </strip>
+        </edge>
+        <edge name='bottom'>
+          <strip size='96'>
+            <card type='caption' />
+          </strip>
+        </edge>
+      </cards>
+      <viewpoint>
+        <zoom type='entire-view' />
+        <highlight>
+          <color-one-way>
+            <field>[federated.1dux3641s8y23n1fwqcx40pii7l6].[none:BldgType:nk]</field>
+            <field>[federated.1dux3641s8y23n1fwqcx40pii7l6].[none:HouseStyle:nk]</field>
+            <field>[federated.1dux3641s8y23n1fwqcx40pii7l6].[none:Id:ok]</field>
+            <field>[federated.1dux3641s8y23n1fwqcx40pii7l6].[none:SalePrice:qk]</field>
+          </color-one-way>
+        </highlight>
+      </viewpoint>
+      <simple-id uuid='{1A232F0A-8707-490B-887F-3BBE9B89981D}' />
+    </window>
+    <window class='worksheet' name='Sale Price per Home ID by Building Type'>
+      <cards>
+        <edge name='left'>
+          <strip size='160'>
+            <card type='pages' />
+            <card type='filters' />
+            <card type='marks' />
+          </strip>
+        </edge>
+        <edge name='top'>
+          <strip size='2147483647'>
+            <card type='columns' />
+          </strip>
+          <strip size='2147483647'>
+            <card type='rows' />
+          </strip>
+          <strip size='31'>
+            <card type='title' />
+          </strip>
+        </edge>
+        <edge name='right'>
+          <strip size='160'>
+            <card param='[federated.1dux3641s8y23n1fwqcx40pii7l6].[none:SalePrice:qk]' show-domain='false' show-null-ctrls='false' type='filter' />
+            <card pane-specification-id='0' param='[federated.1dux3641s8y23n1fwqcx40pii7l6].[none:BldgType:nk]' type='color' />
+          </strip>
+        </edge>
+        <edge name='bottom'>
+          <strip size='2147483647'>
+            <card type='caption' />
+          </strip>
+        </edge>
+      </cards>
+      <viewpoint>
+        <zoom type='entire-view' />
+        <highlight>
+          <color-one-way>
+            <field>[federated.1dux3641s8y23n1fwqcx40pii7l6].[none:BldgType:nk]</field>
+            <field>[federated.1dux3641s8y23n1fwqcx40pii7l6].[none:HouseStyle:nk]</field>
+            <field>[federated.1dux3641s8y23n1fwqcx40pii7l6].[none:Id:ok]</field>
+            <field>[federated.1dux3641s8y23n1fwqcx40pii7l6].[none:SalePrice:qk]</field>
+            <field>[federated.1dux3641s8y23n1fwqcx40pii7l6].[none:YearBuilt:qk]</field>
+            <field>[federated.1dux3641s8y23n1fwqcx40pii7l6].[none:YrSold:qk]</field>
+          </color-one-way>
+        </highlight>
+      </viewpoint>
+      <simple-id uuid='{46100E20-79C4-427A-88F8-4C9B918F040D}' />
+    </window>
+    <window class='worksheet' maximized='true' name='Sale Price per Home ID by Building Type and Neighborhood'>
+      <cards>
+        <edge name='left'>
+          <strip size='160'>
+            <card type='pages' />
+            <card type='filters' />
+            <card type='marks' />
+          </strip>
+        </edge>
+        <edge name='top'>
+          <strip size='2147483647'>
+            <card type='columns' />
+          </strip>
+          <strip size='2147483647'>
+            <card type='rows' />
+          </strip>
+          <strip size='31'>
+            <card type='title' />
+          </strip>
+        </edge>
+        <edge name='right'>
+          <strip size='300'>
+            <card param='[federated.1dux3641s8y23n1fwqcx40pii7l6].[none:YearBuilt:qk]' show-domain='false' show-null-ctrls='false' type='filter' />
+            <card pane-specification-id='0' param='[federated.1dux3641s8y23n1fwqcx40pii7l6].[none:Condition1:nk]' type='color' />
+          </strip>
+        </edge>
+        <edge name='bottom'>
+          <strip size='2147483647'>
+            <card type='caption' />
+          </strip>
+        </edge>
+      </cards>
+      <viewpoint>
+        <zoom type='entire-view' />
+        <highlight>
+          <color-one-way>
+            <field>[federated.1dux3641s8y23n1fwqcx40pii7l6].[none:HouseStyle:nk]</field>
+            <field>[federated.1dux3641s8y23n1fwqcx40pii7l6].[none:Id:ok]</field>
+            <field>[federated.1dux3641s8y23n1fwqcx40pii7l6].[none:Neighborhood:nk]</field>
+            <field>[federated.1dux3641s8y23n1fwqcx40pii7l6].[none:SalePrice:qk]</field>
+            <field>[federated.1dux3641s8y23n1fwqcx40pii7l6].[none:YearBuilt:qk]</field>
+            <field>[federated.1dux3641s8y23n1fwqcx40pii7l6].[none:YrSold:qk]</field>
+          </color-one-way>
+        </highlight>
+      </viewpoint>
+      <simple-id uuid='{E9E24886-5328-49D1-9A52-B569B24195F9}' />
+    </window>
+  </windows>
+  <thumbnails>
+    <thumbnail height='192' name='Distribution of Building Type' width='192'>
+      iVBORw0KGgoAAAANSUhEUgAAAMAAAADACAYAAABS3GwHAAAACXBIWXMAAA7DAAAOwwHHb6hk
+      AAAUXklEQVR4nO3dWW8jaXbm8X+sDO6LKFL7llttma62u9o2ptGDtgcDw4YNGMZg7g3YH8cX
+      vp35AL4ZYIC5G8zYBtxeqtvd5a41KzOVpV0iKe5rMDZfqBYXklJKKZKSGOcHFFiUmMHDIB+9
+      sZx4qQRBECBESKk3XYAQN0n/5n/+//YRld7g2gtcjFv8562lay9HiGn4NgCV7oDDdu/cBwaB
+      T6t8QjI/T/Wr5yQWNxlUD4nmV+ifHmDlV4jGLAxlKnULMRb66x/ytSDAGfQJAhXd1GkfbaMl
+      i7T3PoHUBp3yEX1NJdWK4761NsGShRifywcA8IYD7G4bVbfwOl38bhNNi+B2m+iGTm51g1w6
+      hq5fabFC3JgrfFIDoskMoKDqBvkHj3G7TYzEJk6ngZHITKxIISbl0gFQVJ3UwvLX99IAGJm5
+      s4V8fSvEXSOHQUWoSQBEqEkARKjN3OGaWumAZwdVfue3foPTo6/4+c8/Yeu9t9n57GMW7r3N
+      zvMX/PSP/pi0KScsxAyOALniCsnYWa7TuQILa6usLC5QXNlkaDv815+8zcHJ+Sf8RLjM3AhQ
+      2n3Ov330awIMhq0yR9UOTq9DqdXh0eY6/+9nz/jpH96/6TLFLaF80w36Nx+/vLAV4rI20jH+
+      7L2tay/nujqdDvF4AkW2dMQFbmQECIY97J/91USfQwfsiT7DaOaP/hI1UbiBZxZv4mYC4Nk4
+      v/6bm3jqiTOe/HeQANwZlw5A4LkcPv2UxQdvc/rVlyhmFLvVJJrJ0a9Xic4tk1+VNmhxt1y+
+      FULTSc7lUTSdSCKNYWiYmQW80ufEV98j6Jap7e9cqhs0cL1rF35beZ5H4Lo3XYa4pEsHwHdt
+      2ieHuEOHXqNGanEV++QlVuE+/fJzooUN0nOZS3WD+rp27cJvK03T0KQb9s649Dul6hFW3v9t
+      AObWNgFIz59t66bnpBlO3E0zdyJMiKuQAIhQkwCIUJMAiFCTAIhQkwCIUJMAiFCTAIhQkwCI
+      ULt0AALfo7a/g++5VPd3IfCpbj+l2+5QffkF3XZ3knUKMRGXb1pRFFAAFAgC/F4dJVWgf/g5
+      ZB/Sr5awG5ebGlGa4cRtcfkA+B7d0xK6laBbLWFGdPqndUwrwaCyRySZIb+6Js1w0gx3p1z+
+      nVI1ig/eRdENrIfvohgm0cwcqmHhOwNUIzLBMoWYjMtfD6ComPHE2Z3I9z/saiQ61qKEmBY5
+      CiRCTQIgQk0CIEJNAiBCTQIgQk0CIEJNAiBCTQIgQk0CIELtSlMjnrz4kuLmPU6ef0Fsfol+
+      5QhrbpHB6RHW/BrZYn6StQoxdleaGjGWTjPsdUgt36N/9Jzo0kO80udEFh/jd0vU9jvSDSrd
+      oHfKlaZGbBzskFxYp1/fJTZXpHvwnGhuif7hF1j5FXJLRekGlW7QO+VKUyOu//DHZ3dWVgHI
+      Lq2c3V9eHXthQkyD7ASLUJMAiFCTAIhQkwCIUJMAiFCTAIhQkwCIUJMAiFCTAIhQkwCIULty
+      04rTrXHy/CXRbJZevYaVStNvNInOLVJYX5lEjUJMzJUDoEfimDGLXuWE5NZ7+OWnJNbeBfmi
+      bEC6Qe+aq7ctKioEPvm3fkDncJvowlv0Sy+JFjZIZlPSDSrdoHfKld8pRTMoPnoCQOzRYwCS
+      mSfjrUqIKZGdYBFqEgARahIAEWqvBCBjmeRa5ZuoRYipeyUACVPn+ON/ZcmT7/wSs2/kJlBE
+      1zj6xc9Y7paJzPAhSyFeOQzaGbosv//Bdz8IgmnWI8RUvRKAxmBIw8p99wPPn2Y9QkzVOUeB
+      PJ7+n//N/rOnyMdfzLJzzgSrpJbmGDrB2VcD/weBN6T84ktihRUGlUOswiqD8h5WYYNkJjnx
+      goUYp3MC4DH0VIJuCz8I0JTvYuAPbYYDG6V8gJFfwz55ijr3DsNmhVq7Ks1w0gx3p5wTAIVo
+      Io49dOg12iSzqW9/E/gOvufjBTDYf4aVytDff0p0boHC6qo0w0kz3J1ybgAUNWA4GKKb5vf/
+      QTzH+m/+aAqlCTF5I3eCh/0eqBGW3n0P37anXZMQUzMyAIe/+hBnaNM6qRDLpaddkxBTM3IT
+      aO7+uyTnC/DKMSAhZsvIESBVLNLY36b04imO7Uy7JiGm5twTYe3TBnbjhMrO4XQrEmKKzgmA
+      hqb0sN0o85vL061IiCk6dwRwXZPivS0M05huRUJM0cgA9Ot1fLdH+eVXSC+omGUjjwINWjUU
+      M4ZlJeQ4kJhpI0eA7Pp9lMDH6XZkBBAzbeQI0Nh7iRaxMMzkKyOAN+xRefEcjAjeoEc0V6Bf
+      LRGdXyG3WJxCyUKMz8gAGFacwKvi2DYB3z8dppkxkrks6CaOtoxX+pzo8mOCbkmmRkS6Qe+a
+      kQGIFxYYtJv0B/6IfYAATzFIZnOcfPEZVn6N/vFTovNrZIt56QaVbtA75cJ3atjrvTICgEKq
+      uAjA4ns/ACC7sDiZ6oSYsJEBqG5/Qbfdw4zH5SiQmGkjA9A5PaXb6mJaA7zzHiTEDBj52V56
+      8kM810NRdWZ3a12Ic84DNPafsfvLX1A7Opp2PUJM1cgA5O8/JplL8uqcEELMlpEBUFQY9h3s
+      WlnOBIuZds7+rc7K+z/A8xSZP13MtHM+3w6ljz/k+b/8UmaGEzPt3Jnh1FiehaLM9CZm28gR
+      oFc54HRvl3679+pucBDQPHhJr92lsb/NoG9/eyvEXTNyBFD0GPn1ZXxFfaUVwu3VaVTqzEej
+      eEaS9u4nkFzHOTlkGIvSsuN43vqFTxp4s9sM53sezPDrmzUjAxDN5qjubKPFX70gRlFUjFiM
+      xvEhWiyHqhq4/Ta6rhLNZIml46jqxbvOwWt+f5epqvra1y9uj3O7HHzXHXkWWIulycwP0eP3
+      cbsNzNQ6w1YNM5lDNzT0SARFufj8QfCa399pivLa1y9uj5EBqL18SqCZOMNR2/UKsVwBADMy
+      f7aQ3PzEChRiki4YqwOcXl9OhImZNnIEyG29S27UL4SYMedsAn1Gu9FBj6ZZfPstORssZtbI
+      z3Zu6y28Zh3bHky7HiGm6pw/7grJwjyBJ3sAYraN3ARy+i2GQYR4XC6HEbNt5AgQeD526xTF
+      kmuCxWwbGQAzkUKPxBhUS3IYVMy0kZtAzeMSqeIcLpYcARIz7dwzwUYqixbxX2mGC7w+e//2
+      Cbn1dZqHB1jZHP1alWh+ifzK0nSqFmJMRgZg9YMfo5uR0f/CB90yGdROSaw9xCt9TnxVpkb8
+      hkyNeLeMDMC5H34gQEHXNIxMnsHJS6Lz9+iXnhEtrJPOZ2VqRJka8U658julGhbFtx6f3Smc
+      zQadzufHWpQQ0yL7uCLUJAAi1CQAItQkACLUJAAi1CQAItQkACLUJAAi1CQAItTeKAD+cIDj
+      eAxadVz3u1sh7port0IEQUB171MCP4enuOgc4PgRjEiLudVlfM8jCF5zFcFMX2QQvP71i1vj
+      ygFw2mXatTaK75Pa3MSv72CkF8Fu0Sod0xrE8bzNC5cR+LM7WvieP9Nzn86aKwfATBXZ/CCL
+      3fXoVw+IrT1mUNnHKqwSjVlkLtMNqs1uN6gq3aB3yhu9U4piYiXASjwAILr+YKxFCTEtchRI
+      hJoEQISaBECEmgRAhJoEQISaBECEmgRAhJoEQISaBECE2pUDEHgO5eef0W11qH31Jb1O79tb
+      Ie6aq7dCKBqaptAr7aKlF+gefIqSuU/v9IRBXZWpEWVqxDvl6u3Qno1qRLEHTZxaCUOPY9dO
+      MOMJcqtrMjWiNMPdKVd+pxTNxEpnSS2u4dk9NCuOZ3fRIvFJ1CfERF09AKpGNJUBQNOTZ7ex
+      5HirEmJKbmSsVhQNNf/o2ssJ+jWCbmUMFYmwmkgAAt/lq692WVnf4ORgj4XFBSr1Drl0gmg0
+      CpqBfv/3cYYO9YFPIWVS7zhkE+aVnsc7+ghPAiCuYSIBaFSO6fZ6fPzRRxQXi3z44UdEEjF6
+      nQTrG5vYzRrbRy36rS6ZQpZkd8AXxz2erCTRNYXuwKPadZhP6HSHPu3ekLVCkt2TFsW5OJXG
+      gHuLKTmJIa5tQiNAgKZpOI6DpmksrK6B06fdarCzd4jbLhMNfLRMgtWcxe7eKU7fptKxqLZs
+      8Bx8RWXoGiynTXZbPeo9j418lE9fnqKZJgXHIz2J4kWoTCQA2cIileY2P/jgA453d9jYuocz
+      GNBvxzFT85jzMV7uGKxlImjAUjHDvVWN/tAjHdWJGwq7NZvlXBRLg+JcknxU528/K/Gf3lui
+      3hoQN2b3UKqYnvEHIIBOb8DS8jLOoE++WGTQ7QBgxpLgDhgOh6x1fg4d8AET8L6+/WYvYAvg
+      8GwGlQ2AHvzJAnC6wxzALvjd6tjLv65etwuR9k2XIS5p7AEICDg8PLzwMeqwxWL5i3E/9a1Q
+      Kpdx+9ZNlyEuSfYjRahNZB/gda0QahBBSS5e+3mCYQds2dwQb+7KAfDdIZXtLzFTc9j1MlZ+
+      iX7lkOj8GpnCHKCQyaTotFpEYgkGvS6xeIz+wMGKGOi6juJFMd79UzzPY+BCPKIyGPpY5tV2
+      bL2jj/D2/vmqL0GIb71BL5BBIjeHaw+wFu/hlT4nsvAYr1uitt8mlY4ziC9xUuuT6/eodbq0
+      tnuYUYt8Nsvy0gLOwGa73KVda6GlkzzK6Pxiv8MP19Pouoo9cCl3XRbTJs2uQ6M35N5iip3j
+      FovzcU5qfTYXbmf7hWmaaJHzv2dZ3C5XHwEGLco7u+TW1unsPyOaW6R38DnR/Aq55QWyqRi9
+      foPGaYWqH/Dw4RaqFsHudTk52qFnuwTdChnHIZpJsFWMs39Qxe4OKLUtmh0Hx3HwAoV2z2Y1
+      Z9Fo9/hl12Mtb/GrZxU0QyebiZGZxBq5puFwiGvbN12GuKQrB0CLptn84HcBSBeXzn648v3+
+      /2x+iVx7QH5hmfLRESubW7h2n367jpHMYCZVamWV1bSFpijM5VJsLGfp2D4RVSVhWhw0hyxl
+      Y8R0yCRjZCyNv//shN99Z4F2b0jckP13cX2TOROsqGxs3Qcgcf8eAGYsRiwWA0BxYjwMnkPt
+      7Dh/AggaEOfsP/rwEKB+trwHCmDDf7sH2A3QgBL4reNJlH8tEdkEulPGHgBFgUKhcOFj/H6d
+      7v6H437qW2FpeRktf/H08OL2kO0IEWoSABFqEoCQ8j2Hvf2Ds9uDs9aVg709Zne6gtEkACE1
+      6LQ5qdYYdNucVKoMew3+7v/+A2E7gCsBCCkrkcbAw4gmMRSfLz/9hEazylGpcdOlTZXM3xFS
+      nVqJRr3Bzt4ujXqdd97/EX/+1m9gpVI3XdpUSQBuKX8wmOgEW/Foip988AEAW8UFzs7IqNDp
+      THQ/QDEM1Ft0nuTqAQgCes0GsUyWTvmISKaA3SwTSRcwTMnTuNT+x/+k94//dNNljF38937K
+      3F/+xU2X8a2rzwznuzTLJSxLodd36dc/wTfn6Hf3Sc3PY+s+vu+/Zhmz+0XSQfD613/JBV1/
+      GbfUWNbPmLxRN2g0kYAgQDVMgr6PakTA6eLaA1xbe+03pQcz/FXxQcBYvil+VtdQEARjWT/j
+      8gbXA9jY7RotzcII+libTxicHmItrRKJGMTTMbTXfBG2r87uwSdVVV/7+i9DUZQxVHP7KIoy
+      lvUzLlcOgKpHKD568vW9PACR5Y0xliTE9Mzun2IhLkECIEJNAiBCTQ7cizup2Rnwr18eXXs5
+      EgBxJ53UOvz1//r5tZcjm0Ai1MYSgMD3b9XJDSEu6/oBcLvs//pXVPYOxlCOENN17QAETpf4
+      ykM0nHHUI8RUXTsASjSP39gjkrl4JgghbqNvjwJtZBOkrat9R9e35n8MwNOnT+n1TLy31y98
+      eICG+uiP3uy5bjlfj4F3cUd9EASv7fXRHzxgFidZ1+/dwxvD+olbBj95snrtepRgzHuvnufd
+      qman20jW0cWmuX7GfhhUHVOnp++51OsNRl064LrO935uD3pUaw3O6zJ3nO/2T3x3SLVWx7vg
+      moTA9/G87y8tCLxXfvamxrWOzgS0m3Wq1RreeS8pCHBf81f3G912k3qz9b2fua5LEPg4jos7
+      wavUvjHe9XOxCcwMN5423uOdF3SVCENnSCRiUT2tsrJUYGf/hIQZEM8XqdfbbKwsUTk6Qktk
+      qJUOGSpRdLdDbxgQiSfRAodWs8nS6jpK4BO0KlQGKvVmh5jmYhg6zw7qPFrPM8Qipg5pDxxq
+      lRpbjx5xenzI8toq288/JT33iKVi/Nqvbdytzn6vxssqPMCl52lkkzFs2yZimjSqZTQrzvHR
+      ISsb97GbFRK5Apqug+dQOj5mcWWFo6Mym5trHB8dkc4vUCsf0fMMkqbP8/0yv/nkPgf7NQwz
+      IBE1afZ9oqbC3stttt55n1wqNrbXM81W8LFvAo3L0O7z8umnuJE0umaSjRlUWi0Sukmg+VRq
+      DVRVZy6bZtjv45txTL/LwWmX9aV5fM9HN0xcx8YHVN9Fi2aZNx16ySLl7S84rdZZWixipgu4
+      zRMOKk2K8/OsLOaot13qR89oDg0SlsXS5gL+MMHCGAIwdv0qL+oKXquCQoBuQr3WJz2XRVFA
+      DxxcLYYyaOBH0riNI7TcGm6rwmDoge8w9FUevfOYoxefYKYLaP4QTdcY2h5GRGdtZYHtlyeo
+      qgcKqJqO67hETJ2VldU7e/3CrW2FcOw+WBnWlgr46ER1Fcdu8o8fPeUP/suPyWZzlKot1tY3
+      sPs9rHicyuEua7Ec89nvZjY42+EK2H2xzYOtR2h2i+Ovttm6/4iotUNyboFmrUo8nmA1miWh
+      uzR7HnO5DOn4OxwdlygsLFAql1ldzd3cCrmIEaeQUXC0Ph1XJxNRyBcieL6BqQG+C5pB4Keo
+      lk/Irr9Fo3JMbn6BVqNOoVjg6LhMNKKRyWTo+lAoLgDQaZzSD0xQTCzdQY3lSMfPLmr3PA+n
+      36be7o91BJimWzsCCDEN0gskQk0CIEJNAiBCTQIgQu3fAd9bwobW5d2kAAAAAElFTkSuQmCC
+    </thumbnail>
+    <thumbnail height='192' name='Sale Price Frequency Distribution' width='192'>
+      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
+      /w97ulm/B7bOFAAAAABJRU5ErkJggg==
+    </thumbnail>
+    <thumbnail height='192' name='Sale Price per Home ID' width='192'>
+      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
+      BAoJQLjt/wAG3eM/643SaQAAAABJRU5ErkJggg==
+    </thumbnail>
+    <thumbnail height='192' name='Sale Price per Home ID by Building Type' width='192'>
+      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
+      jhHFAAAAAElFTkSuQmCC
+    </thumbnail>
+    <thumbnail height='192' name='Sale Price per Home ID by Building Type and Neighborhood' width='192'>
+      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
+      6UiGf/XcVxg5fg6r3+DZrR/n6tJl/ulT/5InNz3LYnWetyff4rd/7qvYbosfXv0+v7j/V1gu
+      LeMXJHsHD7DSKBAxozzWsx9TN1muLeP67enRSChKb66XvtQmrk2MUo2Vsb0WTbeJlJLh3Fb+
+      ZuQv6Ur08MsHvsz2zp3s6z3A5uww/+NH/426XWdbbge/9fx/pjRb4ZmdzzHnTXNh4Tx7ew+s
+      lVWtNMv8v2N/yL957t9zcOAptnft4pmh5zg/N0K+nmcwu5nbVaa+22d22z1DNyxqi1N4oSjS
+      96hWq7ieh+v62K12uXrX9Wg26tQaTeoLk8wWazRtF8+1qdbq+L6P67p4roPneVSrFRzPp9Ws
+      02jaSMAuzLNQs2k1G6uv8ahVK9iuw+zsPL7nUl1ZYHy+gNNqUms0kUApP8dSoU59cZFCs0mz
+      UWtvR3GepVKRixdGsZ17qWb8aKvbdU7NnOALe35x7dux7tT47O4v0p8a4PLiRYQQTK5MIKVP
+      pVnmyPgbpMJpPrvzCzwz9HFS4Qw+Pr70ablNGk6ddCSD57voWvvIGjWjpCNZehK9RM0outCJ
+      mFF0TefM7EnqrRqXFy/ws1tfWOvSCCHoTvQSNWN4vstndn1+bRszkSwH+g/SFe/m2MSRtfdz
+      ceE8j/XsIxPN3LQejRd3vMTJ6bfZSGfmtn2DUDRBRyZNJNfBxMWTrLQkRjiCKUxaS+OkN+/E
+      8TSWZq4gRJjh3iTj164ypwtiXgMPiZnsQxMOSVHBFSHeGhnn488e4sTrP6AqknzpS1/EBHBr
+      HDtzCV+HHQM5Xj92mY+/8EmWF/I0VuYo1RuI1CZe/e43WazrvPSLv3pLau1KieOjVxCE2Nwb
+      pqTnmJyYINffR2cquu4P5FFir1ZPNPR3/plrYy1+/KMfUxgv8eb0EQpdJaYuz+BJyas/epWx
+      iXF8V+P1n7zB+NwEmqbjeg66aH+DOp6zuvOJtZ6BL30sw2rX/sLCm2yXPl3Ql2mFXV5tvcrK
+      WIXXtNdu2T5feixfXkHTNM7KEa6Hxrl+/TpDQ0NkIlkWKvOUmsW15UvNIplI5j3vM2SE8PzV
+      yvPr7IW8b+fY8yWZbJpSzUfWFkhs3cnExVEOHHySUGgnIbuGL2HXvr2Upy5QK9pk0hFKrk+j
+      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
+      AElFTkSuQmCC
+    </thumbnail>
+  </thumbnails>
+</workbook>

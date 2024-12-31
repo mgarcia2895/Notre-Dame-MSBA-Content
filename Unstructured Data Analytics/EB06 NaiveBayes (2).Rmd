@@ -1,0 +1,188 @@
+---
+title: "Document Classification with Naïve Bayes"
+subtitle: "Unstructured Data Analytics"
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+    theme: lumen
+    highlight: zenburn
+    df_print: paged
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+```
+
+In this exercise, we train a **Naïve Bayes** model to properly classify documents (email messages) based on the unique words used within the document. The dataset consists of over sixteen hundred email messages which were previously labeled as either "*ham*" (legitimate messages) or "*spam*" (unsolicited commercial email). The emails in this dataset come from the Enron Corporation and were initially released by the Federal Energy Regulatory Commission as part of their investigation into the collapse of the firm.
+
+We will use the `tidyverse`, `tidytext`, `SnowballC`, and `caret` packages.
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+library(tidyverse)
+library(tidytext)
+library(SnowballC)
+library(caret)
+```
+
+## 1. Collect the Data
+Let's begin by importing and previewing the email dataset.
+
+```{r}
+email <- read_csv("https://s3.amazonaws.com/notredame.analytics.data/email.csv")
+head(email)
+```
+
+Our dataset is structured as a DTM. It includes a unique identifier for each email (`message_index`), a class label for each email (`message_label`), and a column for each of the unique words used in the emails with a binary indicator for whether a word was used (`1`) in a particular email or not (`0`). The dataset has `r nrow(email)` rows and `r ncol(email)` columns.
+
+
+## 2. Explore the Data
+To get a very high-level representation of the words used in the corpus, let's list the top 5 words by count.
+
+```{r}
+email %>%
+  pivot_longer(!c("message_index", "message_label"),
+               names_to = "word",
+               values_to = "count") %>%
+  group_by(word) %>%
+  summarize(n = sum(count)) %>%
+  top_n(5, n) %>%
+  ungroup() %>%
+  ggplot(mapping = aes(x = reorder(word, -n), y = n)) +
+  geom_col(fill = 'skyblue') +
+  labs(x = "word", y = "count") +
+  theme_minimal()
+```
+
+Not surprisingly, we see the words "enron", "time", "information", "http", and "message" feature prominently in the list.
+
+Let's see what words feature prominently among the "ham" messages and among the "spam" messages. This time, we'll take a look at the top 5 words in each category by tf-idf.
+
+```{r fig.height=8}
+email %>%
+  pivot_longer(!c("message_index", "message_label"),
+               names_to = "word",
+               values_to = "count") %>%
+  group_by(message_label, word) %>%
+  summarise(n = sum(count)) %>%
+  top_n(1000, n) %>%
+  bind_tf_idf(word, message_label, n) %>%
+  top_n(5, tf_idf) %>%
+  ungroup() %>%
+  ggplot(mapping = aes(
+    x = reorder_within(word, -tf_idf, message_label),
+    y = tf_idf,
+    fill = message_label
+  )) +
+  geom_col() +
+  labs(x = "word", y = "tf-idf") +
+  facet_wrap( ~ message_label, nrow = 2, scales = "free") +
+  scale_x_reordered() +
+  scale_y_continuous(expand = c(0, 0)) +
+  theme_minimal() + 
+  theme(legend.position = "none")
+```
+
+These high-level visualizations provide some insight on "important words", but not much more than that. We need a model that assigns a label to each email.
+
+## 3. Prepare the Data
+Let's start by splitting our data into training and test sets. Before we do, let's reduce the dimensionality of the dataset by stemming the words. We use the `wordStem()` function from the `SnowballC` package for this.
+
+```{r}
+email <- email %>%
+  pivot_longer(!c("message_index", "message_label"),
+               names_to = "word",
+               values_to = "count") %>%
+  mutate(word = wordStem(word)) %>%
+  group_by(message_index, message_label, word) %>%
+  summarize(count = sum(count)) %>%
+  ungroup() %>%
+  mutate(count = ifelse(count > 0, 1, 0)) %>%
+  pivot_wider(names_from = word,
+              values_from = count,
+              values_fill = 0) 
+```
+
+After stemming, the dataset now has `r nrow(email)` rows and `r ncol(email)` columns. Next, we convert the dependent variable (`message_label`) to a factor...
+
+```{r}
+email <- email %>% mutate(message_label = as.factor(message_label))
+```
+
+... and split the data into training and test sets.
+
+```{r}
+RNGkind(sample.kind = "Rounding")
+set.seed(1234)
+sample_set <-
+  createDataPartition(y = email$message_label,
+                      p = .75,
+                      list = FALSE)
+email_train <- email[sample_set,]
+email_test <- email[-sample_set,]
+```
+
+Let's check the class distribution for the training data to see if it suffers from class imbalance.
+
+```{r}
+email_train %>% 
+  count(message_label) %>% 
+  mutate(prop = round(n / sum(n), 2))
+```
+
+**Question:** Our data does not suffer from class imbalance. If it did, what should we do about it?
+
+## 4. Train the Model
+To train a Naïve Bayes model, we set the method of the caret `train()` function to `"naive_bayes"`. Note that we also had to load the `naivebayes` package which is required for the method. 
+
+```{r}
+library(naivebayes)
+set.seed(1234)
+bayes_mod <- train(
+  message_label ~ . - message_index,
+  data = email_train,
+  method = "naive_bayes"
+)
+```
+
+## 5. Evaluate the Model
+Using the model that we trained, we assign labels to the messages in the `email_test` dataset. 
+
+```{r}
+bayes_pred <- predict(bayes_mod, email_test)
+head(bayes_pred)
+```
+
+Then we generate a confusion matrix based on the model's performance ...
+
+```{r}
+bayes_matrix <- confusionMatrix(
+  bayes_pred, 
+  email_test$message_label, 
+  positive = "spam")
+bayes_matrix$table
+```
+
+... as well as other numeric performance metrics of the model against the test data.
+
+```{r}
+library(broom)
+tidy(bayes_matrix) %>%
+  filter(
+    term %in% c(
+      'accuracy',
+      'kappa',
+      'sensitivity',
+      'specificity',
+      'precision',
+      'recall',
+      'f1'
+    )
+  ) %>%
+  select(term, estimate) %>%
+  pivot_wider(names_from = term, values_from = estimate)
+```
+
+Our model performs remarkably well considering the little effort that we put into building it.
+
+**Question:** What else can we do to improve the performance of our model?
+

@@ -1,0 +1,259 @@
+---
+title: "Assignment 2"
+author: "Miguel Garcia"
+date: "2024-10-10"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Libraries
+```{r}
+
+library(tidyverse)   
+library(stringr)      
+library(SnowballC)    
+library(caret)    
+library(tm)        
+library(nnet)        
+library(dplyr)
+library(tidyr)
+library(tidytext)
+    
+```
+
+### PART 1
+## Import and Prepare the SMS Data
+```{r}
+sms <- read.csv("C:/Users/miguel.garcia/Downloads/sms.csv", stringsAsFactors = FALSE)
+
+glimpse(sms)
+
+sms <- sms %>%
+  rename(message_label = type) %>%
+  mutate(message_label = as.factor(message_label), message_id = row_number())
+```
+### PART 2
+## Explore and Prepare the Text Message Data
+
+Removing numbers and special characters
+```{r}
+sms$text <- str_replace_all(sms$text, "[^[:alnum:]' ]", "")
+glimpse(sms)
+```
+
+Splitting dataset into training and test sets
+```{r}
+RNGkind(sample.kind = "Rounding")
+set.seed(1234)
+sample_set <- createDataPartition(y = sms$message_label, p = 0.75, list = FALSE)
+sms_train <- sms[sample_set, ]
+sms_test <- sms[-sample_set, ]
+```
+Tokenizing and removing stop words: stemming both datasets
+```{r}
+sms_train_tokens <- sms_train %>%
+  unnest_tokens(word, text) %>%
+  anti_join(stop_words) %>%
+  mutate(word = wordStem(word))
+
+sms_test_tokens <- sms_test %>%
+  unnest_tokens(word, text) %>%
+  anti_join(stop_words) %>%
+  mutate(word = wordStem(word))
+```
+Creating four new datasets
+
+Top 200 frequent words for train and test datasets, split by ham and spam
+```{r}
+
+sms_train_tokens <- sms_train %>%
+  unnest_tokens(word, text) %>%
+  filter(word != "")  # Remove any empty words
+
+sms_test_tokens <- sms_test %>%
+  unnest_tokens(word, text) %>%
+  filter(word != "")  # Remove any empty words
+
+
+sms_train_tokens <- sms_train_tokens %>% anti_join(stop_words)
+sms_test_tokens <- sms_test_tokens %>% anti_join(stop_words)
+
+get_top_words <- function(data, label, n = 200) {
+  data %>%
+    filter(message_label == label) %>%  # Filter by the label (ham or spam)
+    count(word, sort = TRUE) %>%  # Count word frequencies
+    slice_head(n = n)  # Select top n words
+}
+
+train_ham_words <- get_top_words(sms_train_tokens, "ham", n = 200)
+train_spam_words <- get_top_words(sms_train_tokens, "spam", n = 200)
+test_ham_words <- get_top_words(sms_test_tokens, "ham", n = 200)
+test_spam_words <- get_top_words(sms_test_tokens, "spam", n = 200)
+
+print("Top 200 Ham Words in Train Dataset:")
+print(head(train_ham_words, 10))
+
+print("Top 200 Spam Words in Train Dataset:")
+print(head(train_spam_words, 10))
+
+print("Top 200 Ham Words in Test Dataset:")
+print(head(test_ham_words, 10))
+
+print("Top 200 Spam Words in Test Dataset:")
+print(head(test_spam_words, 10))
+
+
+```
+Creating new dataset called top_words that holds words that exist in all four created datasets
+```{r}
+train_ham_words_list <- train_ham_words$word
+train_spam_words_list <- train_spam_words$word
+test_ham_words_list <- test_ham_words$word
+test_spam_words_list <- test_spam_words$word
+
+common_words <- Reduce(intersect, list(train_ham_words_list, train_spam_words_list, test_ham_words_list, test_spam_words_list))
+
+top_words <- data.frame(word = common_words)
+
+print("Dimensions of the `top_words` dataset:")
+dim(top_words)
+
+
+```
+
+
+Limiting both sms_train and sms_test datasets to just the words that exist in top_words
+```{r}
+sms_train_filtered <- sms_train_tokens %>%
+  filter(word %in% top_words$word)
+
+sms_test_filtered <- sms_test_tokens %>%
+  filter(word %in% top_words$word)
+
+sms_train_filtered_agg <- sms_train_filtered %>%
+  group_by(message_id) %>%
+  summarize(text = paste(word, collapse = " ")) %>%
+  ungroup()
+
+sms_test_filtered_agg <- sms_test_filtered %>%
+  group_by(message_id) %>%
+  summarize(text = paste(word, collapse = " ")) %>%
+  ungroup()
+
+sms_train <- sms_train %>%
+  select(message_id, message_label) %>%
+  left_join(sms_train_filtered_agg, by = "message_id")
+
+sms_test <- sms_test %>%
+  select(message_id, message_label) %>%
+  left_join(sms_test_filtered_agg, by = "message_id")
+
+create_binary_dtm <- function(data, dictionary) {
+  dtm <- DocumentTermMatrix(Corpus(VectorSource(data$text)), control = list(dictionary = dictionary))
+  
+  dtm_binary <- as.matrix(dtm)
+  dtm_binary[dtm_binary > 0] <- 1  # Set all non-zero entries to 1 for binary representation
+  return(dtm_binary)
+}
+
+sms_train_matrix <- create_binary_dtm(sms_train, top_words$word)
+sms_test_matrix <- create_binary_dtm(sms_test, top_words$word)
+
+
+sms_train_df <- data.frame(sms_train_matrix)
+sms_test_df <- data.frame(sms_test_matrix)
+
+sms_train_df$message_label <- sms_train$message_label
+sms_test_df$message_label <- sms_test$message_label
+
+train_dummy <- dummyVars(" ~ .", data = sms_train_df, fullRank = TRUE)
+test_dummy <- dummyVars(" ~ .", data = sms_test_df, fullRank = TRUE)
+
+train_sparse_matrix <- predict(train_dummy, newdata = sms_train_df)
+test_sparse_matrix <- predict(test_dummy, newdata = sms_test_df)
+
+cat("Dimensions of Sparse Matrix for Training Data: ", dim(train_sparse_matrix), "\n")
+cat("Dimensions of Sparse Matrix for Testing Data: ", dim(test_sparse_matrix), "\n")
+
+head(train_sparse_matrix)
+head(test_sparse_matrix)
+```
+### PART 3
+## Train and Evaluate the Spam Filter Model
+
+Using train function to train a neural network model based on the training data.
+```{r}
+
+sms_train_df$message_label <- as.factor(sms_train_df$message_label)
+
+
+train_control <- trainControl(
+  method = "cv",   
+  number = 5,    
+  classProbs = TRUE,
+  summaryFunction = twoClassSummary
+)
+
+
+set.seed(123)  
+nnet_model <- train(
+  message_label ~ .,          
+  data = sms_train_df,      
+  method = "nnet",             
+  trControl = train_control,   
+  linout = FALSE,             
+  trace = FALSE,             
+  tuneLength = 5,               
+  metric = "ROC"              
+)
+
+print(nnet_model)  
+
+plot(nnet_model)
+
+cat("Best Hyperparameters:\n")
+print(nnet_model$bestTune)
+
+
+```
+Evaluate the Performance
+
+```{r}
+
+test_predictions <- predict(nnet_model, newdata = sms_test_df)
+
+
+test_predictions <- factor(test_predictions, levels = levels(sms_test_df$message_label))
+
+
+conf_matrix <- confusionMatrix(test_predictions, sms_test_df$message_label, positive = "spam")
+
+
+print("Confusion Matrix:")
+print(conf_matrix$table) 
+
+print("Overall Performance Metrics:")
+print(conf_matrix$overall)  
+
+print("Class-wise Performance Metrics:")
+print(conf_matrix$byClass)  
+
+accuracy <- conf_matrix$overall['Accuracy']
+sensitivity <- conf_matrix$byClass['Sensitivity']
+specificity <- conf_matrix$byClass['Specificity']
+precision <- conf_matrix$byClass['Pos Pred Value']
+f1_score <- conf_matrix$byClass['F1']
+
+cat("\nModel Performance Metrics:\n")
+cat("Accuracy:", round(accuracy, 4), "\n")
+cat("Sensitivity (Recall):", round(sensitivity, 4), "\n")
+cat("Specificity:", round(specificity, 4), "\n")
+cat("Precision:", round(precision, 4), "\n")
+cat("F1-Score:", round(f1_score, 4), "\n")
+
+
+```
+The neural network model performed reasonably well in classifying the SMS messages as either "ham" or "spam." With an overall accuracy of 90.86%, the model correctly identified a high proportion of the messages. The sensitivity (recall) for the spam class is 63.98%, meaning that approximately 64% of actual spam messages were correctly classified as spam. The specificity, which measures how well the model identified non-spam (ham) messages, is 95.01%, indicating that the model is highly accurate at identifying legitimate messages. The precision for the spam class is 66.48%, which means that when the model predicted a message as spam, about 66% of the time it was correct. The F1-score, a harmonic mean of precision and recall, is 65.21%, indicating a balanced trade-off between the two metrics. This suggests that while the model performs well overall, there is room for improvement in reducing false positives and false negatives, particularly for detecting spam more accurately.

@@ -1,0 +1,198 @@
+---
+title: "Assignment 1"
+subtitle: "Unstructured Data Analytics"
+author: "Miguel Garcia"
+output:
+html_document:
+toc: true
+toc_float: true
+theme: lumen
+highlight: zenburn
+df_print: paged
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Libraries
+```{r}
+library(stringr)
+library(tidytext)
+library(dplyr)
+library(ggplot2)
+```
+
+# PART 1
+
+```{r}
+data("words", package = "stringr")
+```
+
+## 1.a 
+Start with the letter “w”. For example, “who”.
+
+```{r}
+words_with_w <- str_subset(words, "^w")
+print(words_with_w)
+```
+
+## 1.b 
+End with the letter “t”. For example, “commit”
+
+```{r}
+words_with_t <- str_subset(words, "t$")
+print(words_with_t)
+
+```
+
+## 1.c 
+Have a capital letter. For example, “Christ”.
+
+```{r}
+words_with_capital <- str_subset(words, "[A-Z]")
+print(words_with_capital)
+
+
+```
+
+## 1.d 
+Start with the letter “w” and end with the letter “t”. For example, “want”.
+
+```{r}
+words_with_w_t <- str_subset(words, "^w.*t$")
+print(words_with_w_t)
+
+```
+
+## 1.e 
+Are exactly three letters long. For example, “kid”.
+
+```{r}
+three_letter_words <- str_subset(words, "^.{3}$")
+print(three_letter_words)
+
+```
+
+## 1.f 
+Start and end with the same letter. For example, “dead”.
+
+```{r}
+same_start_end <- str_subset(words, "^(.).*\\1$")
+print(same_start_end)
+
+```
+```{r}
+data("fruit", package = "stringr")
+```
+
+## 2.a 
+Have exactly two occurrences of the letter “p” next to each other. 
+
+```{r}
+fruits_with_pp <- str_subset(fruit, "pp")
+print(fruits_with_pp)
+```
+
+## 2.b 
+Have only two occurrences of the letter “p” anywhere in the name.
+
+```{r}
+fruits_with_two_p <- str_subset(fruit, "^[^p]*p[^p]*p[^p]*$")
+print(fruits_with_two_p)
+
+```
+
+## 2.c 
+Start with three consonants
+
+```{r}
+fruits_with_three_consonants <- str_subset(fruit, "^[^aeiou]{3}")
+print(fruits_with_three_consonants)
+
+```
+
+# Part 2
+
+## Problem 1
+Importing and glimpsing the data
+
+```{r}
+ecReviews <- read.csv("https://s3.amazonaws.com/notredame.analytics.data/evilczechreviews.csv")
+glimpse(ecReviews)
+
+```
+
+## Problem 2
+Creating a Custom Stop Word Dictionary
+
+```{r}
+data("stop_words")
+
+custom_stop_words <- bind_rows(
+  stop_words,
+  tibble(word = c("apos", "amp", "gt", "br", "39", "34", "ve", "4.00", "3rd", "19"))
+)
+
+head(custom_stop_words, 20)
+
+
+```
+
+## Problem 3
+Tokenizing the Reviews and Remove Stop Words
+
+```{r}
+ecReviews_clean <- ecReviews %>%
+  unnest_tokens(word, review) %>% # Use "review" as the column name for text data
+  anti_join(custom_stop_words, by = "word")
+
+head(ecReviews_clean)
+
+```
+
+## Problem 4 
+Visualization of the 5 Most Frequently Occurring Words for Each Rating
+
+```{r}
+# frequency count of words by rating
+word_counts <- ecReviews_clean %>%
+  count(rating, word, sort = TRUE) %>%
+  group_by(rating) %>%
+  top_n(5, n) %>% # Select the top 5 words per rating
+  ungroup()
+
+# Plotting the top 5 words for each rating
+ggplot(word_counts, aes(x = reorder_within(word, n, rating), y = n, fill = rating)) +
+  geom_col(show.legend = FALSE) +
+  facet_wrap(~rating, scales = "free_y") +
+  scale_x_reordered() +
+  labs(title = "Top 5 Words by Rating", x = "Words", y = "Frequency") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+
+```
+## Problem 5
+
+Visualize the Top 5 Words Based on TF-IDF for Each Rating
+```{r}
+# Calculating tf-idf
+tf_idf <- ecReviews_clean %>%
+  count(rating, word, sort = TRUE) %>%
+  bind_tf_idf(word, rating, n) %>%
+  group_by(rating) %>%
+  top_n(5, tf_idf) %>%
+  ungroup()
+
+# Plotting the top 5 words by TF-IDF for each rating
+ggplot(tf_idf, aes(x = reorder_within(word, tf_idf, rating), y = tf_idf, fill = rating)) +
+  geom_col(show.legend = FALSE) +
+  facet_wrap(~rating, scales = "free_y") +
+  scale_x_reordered() +
+  labs(title = "Top 5 Words by TF-IDF for Each Rating", x = "Words", y = "TF-IDF") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+## Problem 6
+The frequency-based visualization highlights the most commonly used words across different ratings, which often include generic terms that may not provide deep insights. In contrast, the TF-IDF-based visualization emphasizes words that are unique to specific ratings, offering a more nuanced understanding of what drives each sentiment. While the frequency approach shows overall popular terms, TF-IDF reveals words that are more meaningful and distinctive to each rating, helping to better identify key factors influencing customer feedback.

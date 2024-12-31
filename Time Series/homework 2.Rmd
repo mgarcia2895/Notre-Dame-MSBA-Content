@@ -1,0 +1,186 @@
+---
+title: "Time Series Homework Units 3 & 4"
+author: "Miguel Garcia"
+date: "2024-06-19"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Problem 1
+```{r}
+time_series <- c(10, 14, 20, 18, 22)
+
+moving_average_week6 <- mean(time_series[3:5])
+
+print(round(moving_average_week6, 2))
+
+```
+
+## Problem 3
+
+```{r}
+actual_value <- 50
+current_forecast <- 55
+alpha <- 0.2
+
+next_forecast <- alpha * actual_value + (1 - alpha) * current_forecast
+
+print(next_forecast)
+
+```
+## Problem 6
+```{r}
+library(forecast)
+library(readxl)
+
+walmart <- read_excel("C:/Users/miguel.garcia/OneDrive - Wesley International/Documents/ND/Time Series Analysis/PTSF-Datasets-20240524T164257Z-001/PTSF-Datasets/WalMartStock.xls")
+
+fit <- Arima(walmart$Close, order=c(1,0,0))
+summary(fit)
+
+```
+``` {r}
+fit2 <- Arima(diff(walmart$Close, 1), order=c(1,0,0))
+summary(fit2)
+```
+```{r}
+Acf(walmart$Close, lag.max = 12, main = "")
+
+Acf(diff(walmart$Close), lag.max = 12, main = "")
+
+```
+# Conclusion
+Based on the AR(1) model results and the ACF interpretation:
+
+The AR(1) coefficient (ar1) for the differenced series (fit2) is close to zero and not significantly different from zero. This suggests that the differenced series (increments) is consistent with white noise, characteristic of a random walk process.
+
+Therefore, at the significance level of 0.01, the analysis indicates that the Wal-Mart closing price series is a random walk.
+
+The Close price series is a random walk
+
+This conclusion is based on the fact that the AR(1) model for the differenced series shows an AR(1) coefficient close to zero and not significantly different from zero, along with the expected characteristics in ACF plots for a random walk process.
+
+## Problem 8
+```{r}
+library(forecast)
+
+sales.df <- read_excel("C:/Users/miguel.garcia/OneDrive - Wesley International/Documents/ND/Time Series Analysis/PTSF-Datasets-20240524T164257Z-001/PTSF-Datasets/SouvenirSales.xls")
+sales.ts <- ts(sales.df$Sales, start = c(1995, 1), end = c(2001, 12), freq = 12)
+
+train.lm <- tslm(log(sales.ts) ~ trend + season)
+
+forecasted_values <- forecast(train.lm, h = 1)
+
+forecasted_value_jan_2001 <- exp(forecasted_values$mean[length(forecasted_values$mean)])
+
+forecasted_value_jan_2001
+
+
+
+
+
+```
+## Problem 9
+```{r}
+library(forecast)
+
+train.arima <- auto.arima(train.ts)
+
+forecasted_values <- forecast(train.arima, h = 1)
+
+forecasted_value_jan_2001 <- forecasted_values$mean[length(forecasted_values$mean)]
+forecasted_value_jan_2001
+
+```
+## Problem 10
+```{r}
+library(forecast)
+
+train.arima.log <- auto.arima(log(train.ts), lambda = 0)
+
+forecasted_values <- forecast(train.arima.log, h = 1)
+
+forecasted_value_jan_2001 <- exp(forecasted_values$mean[length(forecasted_values$mean)])
+
+forecasted_value_jan_2001
+
+```
+## Problem 11
+```{r}
+
+actual_values_train_lm <- window(sales.ts, start = c(2000, 1), end = c(2000, 12))
+
+
+forecasted_values_lm <- forecast(train.lm.B, h = 12)
+forecasted_values_train_lm <- exp(forecasted_values_lm$mean)
+
+
+forecasted_values_train_lm <- head(forecasted_values_train_lm, length(actual_values_train_lm))
+
+mape_train_lm <- mean(abs((forecasted_values_train_lm - actual_values_train_lm) / actual_values_train_lm)) * 100
+mape_train_lm
+```
+
+# I could not figure this error
+
+```{r}
+
+
+forecasted_values_train_arima <- forecast(train.arima, h = 12)$mean
+
+actual_values_train_arima <- window(sales.ts, start = c(2000, 1), end = c(2000, 12))
+
+forecasted_values_train_arima <- head(forecasted_values_train_arima, length(actual_values_train_arima))
+
+mape_train_arima <- mean(abs((forecasted_values_train_arima - actual_values_train_arima) / actual_values_train_arima)) * 100
+mape_train_arima
+
+```
+# I could not figure this error
+
+
+```{r}
+
+
+forecasted_values_train_arima_log <- forecast(train.arima.log, h = 12)$mean
+
+actual_values_train_arima_log <- window(sales.ts, start = c(2000, 1), end = c(2000, 12))
+
+forecasted_values_train_arima_log <- exp(forecasted_values_train_arima_log)
+forecasted_values_train_arima_log <- head(forecasted_values_train_arima_log, length(actual_values_train_arima_log))
+
+mape_train_arima_log <- mean(abs((forecasted_values_train_arima_log - actual_values_train_arima_log) / actual_values_train_arima_log)) * 100
+mape_train_arima_log
+```
+## Problem 12
+```{r}
+lm.B <- tslm(sales.ts ~ trend + season, lambda = 0)
+
+forecast_result <- forecast(lm.B, h = 1)
+
+forecasted_sales_feb_2002 <- forecast_result$mean["2002-02"]
+forecasted_sales_feb_2002
+
+```
+
+
+
+## Problem 13
+```{r}
+library(forecast)
+
+
+log_sales.ts <- log(sales.ts)
+
+arima.log <- auto.arima(log_sales.ts, lambda = 0)
+
+forecast_result <- forecast(arima.log, h = 1)
+
+forecasted_sales_feb_2002 <- exp(forecast_result$mean)["2002-02"]
+forecasted_sales_feb_2002
+
+
+```

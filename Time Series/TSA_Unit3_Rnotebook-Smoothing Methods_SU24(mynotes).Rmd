@@ -1,0 +1,138 @@
+---
+title: "R Notebook : TSF-Week 3: Smoothing Methods and ets()"
+output: html_notebook
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Cmd+Shift+Enter*. 
+
+```{r}
+plot(cars)
+```
+
+Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Cmd+Option+I*.
+
+When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Cmd+Shift+K* to preview the HTML file). 
+
+The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.
+Figure 5-3: Trailing moving average forecaster with w =12 applied to Amtrak ridership series
+```{r}
+library(forecast)
+library(zoo)
+
+library(readxl)
+#Amtrak.data <- read.csv("Amtrak data.csv")
+Amtrak.df <-read_excel("Amtrak data.xls")
+head(Amtrak.df)
+```
+```{r}
+ridership.ts <- ts(Amtrak.data$Ridership, start = c(1991, 1), end = c(2004, 3), freq = 12) #convert the data frame to a time series object
+head(ridership.ts)
+```
+Now we'll do partition. The last 36 months will be in validation set. Everything before that is in training set.
+```{r}
+nValid <- 36
+nTrain <- length(ridership.ts) - nValid
+train.ts <- window(ridership.ts, start = c(1991, 1), end = c(1991, nTrain))
+valid.ts <- window(ridership.ts, start = c(1991, nTrain + 1), end = c(1991, nTrain + nValid))
+
+tail(train.ts)
+tail(valid.ts)
+```
+The first model we consider is the polynomial trend and seasonal regression-based model.
+```{r}
+poly_season_mod <- tslm(train.ts ~ trend + I(trend^2) + season)
+options(scipen = 999) # to put everything into decimal places
+summary(poly_season_mod)
+poly_season_mod_pred <- forecast(poly_season_mod, h=nValid, level = 0)
+head(poly_season_mod_pred$mean)
+```
+Now, lets compute the forecast using the simple exponential smoothing using ses() function.
+```{r}
+ses_pred <- ses(train.ts, h = nValid)
+head(ses_pred$mean)
+```
+Nest, we also consider a Holt-Winter method
+```{r}
+hw_pred <- hw(train.ts, h=nValid)
+head(hw_pred$mean)
+```
+we can capture all of the smoothing methods using ets() function. 
+ets() function describe ETS model.
+Here, 'E' stands for error, 'T' stands for Trend, and 'S' stands for seasonality. 
+E can take on value of A (Additive Error) or M (Multiplicative Error)
+T can take on value of A (Additive or linear Trend), 'A, damped= TRUE' (for damped trend),or 'N' (for no trend)
+S can take on value of A (Additive Seasonality), M (Multiplicative seasonality, or N (for no seasonality)
+
+For example, a simple exponential smoothing method can be described either by ses() or ETS(A, N, N) model
+```{r}
+ets_ann <- ets(train.ts, model = 'ANN')
+ets_ann_pred <- forecast(ets_ann, h=nValid, level = 0)
+head(ets_ann_pred$mean)
+head(ses_pred$mean)
+```
+Similarly, a Holt-Winter can be expressed by either hw() method or ETS (A, A, A)
+
+```{r}
+ets_aaa <- ets(train.ts, model = 'AAA')
+ets_aaa_pred <- forecast(ets_aaa, h=nValid, level = 0)
+head(ets_aaa_pred$mean)
+head(hw_pred$mean)
+```
+We can also let R propose an ETS model for us.
+```{r}
+ets_r <- ets(train.ts)
+summary(ets_r)
+ets_r_pred <- forecast(ets_r, n = nvalid, level = 0)
+head(ets_r_pred$mean)
+```
+Lets plot the train.ts again
+```{r}
+plot(train.ts)
+```
+based on what r proposes, wed also want to try consider ets(MAA)
+
+```{r}
+ets_maa <- ets(train.ts, model = 'MAA')
+ets_maa_pred <- forecast(ets_maa, h=nValid, level = 0)
+head(ets_maa_pred$mean)
+```
+ Don't forget a bench mark method seasonal naive. 
+```{r}
+snaive_pred <- snaive(train.ts, h= nValid)
+head(snaive_pred$mean)
+```
+we can now plot all forecasts in one graph
+
+```{r}
+plot (poly_season_mod_pred, include = 24)
+lines(ets_ann_pred$mean, col= 'red', lwd = 2)
+lines(ets_aaa_pred$mean, col = 'orange', lwd = 2)
+lines(ets_r_pred$mean, col = 'pink', lwd = 2)
+lines(ets_maa_pred$mean, col = 'purple', lwd = 2)
+lines(snaive_pred$mean, col = 'green', lwd = 2)
+lines(valid.ts, lwd = 2)
+```
+Its not clear to see which approach is best, so we 'll compute the forecast accuracy
+
+
+```{r}
+accuracy(poly_season_mod_pred$mean, valid.ts)
+accuracy(ets_ann_pred$mean, valid.ts)
+accuracy(ets_aaa_pred$mean, valid.ts)
+accuracy(ets_r_pred$mean, valid.ts)
+accuracy(ets_maa_pred$mean, valid.ts)
+accuracy(snaive_pred$mean, valid.ts)
+
+```
+Now that we select ETS(MAA) as our model, we'll apply this to the entire data set ridership.ts to compute the 'future' forecast (which are values after April 2004 in this case)
+```{r}
+ets_maa_all <- ets(ridership.ts, model = 'MAA')
+nfuture <- 12
+ets_maa_all_pred <- forecast(ets_maa_all, h=nfuture, level = 90)
+ets_maa_all_pred
+plot(ets_maa_all_pred, include = 24)
+axis(1, at = c(2001, 2006))
+```
+

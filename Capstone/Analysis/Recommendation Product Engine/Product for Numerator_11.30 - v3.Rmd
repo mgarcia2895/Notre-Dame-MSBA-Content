@@ -1,0 +1,1242 @@
+---
+title: "ND MSBA Team 1 - Private Label Product for Numerator"
+subtitle: "Patrick Grodach"
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+    theme: lumen
+    highlight: zenburn
+    df_print: paged
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+```
+
+Load Relevant packages for use throughout file
+
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+library(tidyverse)
+library(ggplot2)
+library(data.table)
+```
+
+### Read In Numerator Data for Kroger, Giant Eagle, Publix, Costco, and Meijer. Calculate Benchmark Statistics
+
+```{r}
+# Load only necessary columns
+#columns <- c("ITEM_ID", "BANNER_ID", "USER_ID", "ITEM_QUANTITY", "ORDER_METHOD_TYPE","BASKET_ID")
+#facts_table <- fread("facts_table.csv", select = columns)
+
+# Define the filter for BANNER_ID
+banners_of_interest <- c("kroger", "giant_eagle", "publix", "costco", "meijer","amazoncom","whole_foods")
+
+# # Apply the filter condition
+#facts_table_filtered <- facts_table[BANNER_ID %in% banners_of_interest]
+
+# # Save filtered data if needed
+#fwrite(facts_table_filtered, "filtered_facts_table.csv")
+
+```
+
+### Read in Item Table and Join with Facts Table
+
+
+```{r}
+
+# Read in the CSV file as facts_table_filtered
+facts_table_filtered <- fread("filtered_facts_table.csv")
+
+# Load dbo_item (assuming facts_table_filtered is already in memory from previous steps)
+columns_to_select <- c("ITEM_ID", "PARENTBRAND_ID", "CATEGORY_DESCRIPTION")
+dbo_item <- fread("dbo.item.csv", select = columns_to_select)
+
+# Set keys for efficient joining
+setkey(facts_table_filtered, ITEM_ID)
+setkey(dbo_item, ITEM_ID)
+
+# Perform the left join with facts_table_filtered
+facts_table_joined <- facts_table_filtered[dbo_item, on = "ITEM_ID", nomatch = 0]
+
+# Count unmatched ITEM_IDs in facts_table_filtered
+unmatched_count <- nrow(facts_table_filtered[!dbo_item, on = "ITEM_ID"])
+
+# Print the result
+message(sprintf("Number of ITEM_IDs from facts_table_filtered that were not matched: %d", unmatched_count))
+
+
+```
+
+```{r}
+# Load the dplyr package
+library(dplyr)
+
+# Filter the dataframe
+df_kroger <- facts_table_filtered %>%
+  filter(BANNER_ID == "kroger")
+
+# View the resulting dataframe
+print(df_kroger)
+```
+
+
+```{r}
+# Add a new column to facts_table_joined
+facts_table_joined[, Private_Label_Flag := ifelse(PARENTBRAND_ID == "private_label", 1, 0)]
+
+```
+
+
+```{r}
+# Add the Private_Label_Flag and Private_Label_Quantity columns using dplyr
+facts_table_joined <- facts_table_joined %>%
+  mutate(
+    Private_Label_Flag = if_else(PARENTBRAND_ID == "private_label", 1, 0),
+    Private_Label_Quantity = ITEM_QUANTITY * Private_Label_Flag
+  )
+
+# Print the first few rows to confirm
+head(facts_table_joined)
+```
+
+Calculate Store Level benchmark data for private label purchases
+
+```{r}
+# Calculate private label purchase percentage for each record
+facts_table_joined <- facts_table_joined %>%
+  mutate(Private_Label_Purchase_Percentage = Private_Label_Quantity / ITEM_QUANTITY)
+```
+
+
+
+
+```{r}
+# Calculate mean private label percentages by BANNER_ID with separate columns for IN_STORE and ONLINE, replacing NA with 0
+retailer_private_label_percentage <- facts_table_joined %>%
+  group_by(BANNER_ID) %>%
+  summarize(
+    Mean_Private_Label_Percentage = coalesce(mean(Private_Label_Purchase_Percentage, na.rm = TRUE), 0),
+    Private_Label_Percentage_IN_STORE = coalesce(mean(Private_Label_Purchase_Percentage[ORDER_METHOD_TYPE == "IN_STORE"], na.rm = TRUE), 0),
+    Private_Label_Percentage_ONLINE = coalesce(mean(Private_Label_Purchase_Percentage[ORDER_METHOD_TYPE == "ONLINE"], na.rm = TRUE), 0)
+  )
+
+# Print the result
+print(retailer_private_label_percentage)
+
+
+```
+
+Calculate private label purchase percentage by user
+
+```{r}
+
+# Calculate private label purchase percentage for each record
+facts_table_joined <- facts_table_joined %>%
+  mutate(Private_Label_Purchase_Percentage = Private_Label_Quantity / ITEM_QUANTITY)
+
+# Calculate the mean private label purchase percentage for each USER_ID
+user_private_label_percentage <- facts_table_joined %>%
+  group_by(USER_ID) %>%
+  summarize(Mean_Private_Label_Percentage = mean(Private_Label_Purchase_Percentage, na.rm = TRUE))
+
+# Print results
+print(user_private_label_percentage)
+
+```
+
+Read in people table 
+
+```{r}
+# Load the People table
+people_table <- fread("People.csv")
+
+# Perform an inner join to retain only users with a match in user_private_label_percentage
+people_matched <- people_table %>%
+  inner_join(user_private_label_percentage, by = "USER_ID")
+
+# Print the first few rows to confirm the join
+head(people_matched)
+```
+
+```{r}
+# Join facts_table_joined with people_table to bring in AGE_BUCKET, CENSUS_REGION_NAME, ETHNICITY, HAS_CHILDREN, and INCOME_BUCKET_LONG
+# Assuming facts_table_joined has USER_ID and people_table has USER_ID along with the additional columns
+facts_table_extended <- facts_table_joined %>%
+  left_join(select(people_table, USER_ID, AGE_BUCKET, CENSUS_REGION_NAME, ETHNICITY, HAS_CHILDREN, INCOME_BUCKET_LONG), by = "USER_ID")
+
+```
+
+### Show Plots of Benchmarks
+
+```{r}
+
+# Calculate private label purchase percentage by AGE_BUCKET
+age_bucket_data <- facts_table_extended %>%
+  group_by(AGE_BUCKET) %>%
+  summarize(Mean_Private_Label_Percentage = mean(Private_Label_Purchase_Percentage, na.rm = TRUE))
+
+# Plot for AGE_BUCKET
+ggplot(age_bucket_data, aes(x = AGE_BUCKET, y = Mean_Private_Label_Percentage)) +
+  geom_bar(stat = "identity", fill = "skyblue") +
+  labs(title = "Percent of Private Label Purchases by Age Bucket",
+       x = "Age Bucket",
+       y = "Mean Private Label Purchase Percentage") +
+  theme_minimal()
+
+# Calculate private label purchase percentage by CENSUS_REGION_NAME
+census_region_data <- facts_table_extended %>%
+  group_by(CENSUS_REGION_NAME) %>%
+  summarize(Mean_Private_Label_Percentage = mean(Private_Label_Purchase_Percentage, na.rm = TRUE))
+
+# Plot for CENSUS_REGION_NAME
+ggplot(census_region_data, aes(x = CENSUS_REGION_NAME, y = Mean_Private_Label_Percentage)) +
+  geom_bar(stat = "identity", fill = "salmon") +
+  labs(title = "Percent of Private Label Purchases by Census Region",
+       x = "Census Region",
+       y = "Mean Private Label Purchase Percentage") +
+  theme_minimal()
+
+# Calculate private label purchase percentage by ETHNICITY
+ethnicity_data <- facts_table_extended %>%
+  group_by(ETHNICITY) %>%
+  summarize(Mean_Private_Label_Percentage = mean(Private_Label_Purchase_Percentage, na.rm = TRUE))
+
+# Plot for ETHNICITY
+ggplot(ethnicity_data, aes(x = ETHNICITY, y = Mean_Private_Label_Percentage)) +
+  geom_bar(stat = "identity", fill = "lightgreen") +
+  labs(title = "Percent of Private Label Purchases by Ethnicity",
+       x = "Ethnicity",
+       y = "Mean Private Label Purchase Percentage") +
+  theme_minimal()
+
+# Calculate private label purchase percentage by HAS_CHILDREN
+children_data <- facts_table_extended %>%
+  group_by(HAS_CHILDREN) %>%
+  summarize(Mean_Private_Label_Percentage = mean(Private_Label_Purchase_Percentage, na.rm = TRUE))
+
+# Plot for HAS_CHILDREN
+ggplot(children_data, aes(x = HAS_CHILDREN, y = Mean_Private_Label_Percentage)) +
+  geom_bar(stat = "identity", fill = "orange") +
+  labs(title = "Percent of Private Label Purchases by Has Children",
+       x = "Has Children",
+       y = "Mean Private Label Purchase Percentage") +
+  theme_minimal()
+
+# Calculate private label purchase percentage by INCOME_BUCKET_LONG
+income_data <- facts_table_extended %>%
+  group_by(INCOME_BUCKET_LONG) %>%
+  summarize(Mean_Private_Label_Percentage = mean(Private_Label_Purchase_Percentage, na.rm = TRUE))
+
+# Define the preferred order of INCOME_BUCKET_LONG categories based on your list
+income_order <- c("Less than $20,000", "$20,000-$29,999", "$30,000-$39,999", "$40,000-$49,999", 
+                  "$50,000-$59,999", "$60,000-$69,999", "$70,000-$79,999", "$80,000-$89,999",
+                  "$90,000-$99,999", "$100,000-$124,999", "$125,000-$149,999", "$150,000-$174,999",
+                  "$175,000-$199,999", "$200,000-$224,999", "$225,000-$249,999", "$250,000 +")
+
+# Convert INCOME_BUCKET_LONG to an ordered factor with the specified levels
+facts_table_extended$INCOME_BUCKET_LONG <- factor(facts_table_extended$INCOME_BUCKET_LONG, levels = income_order)
+
+# Calculate private label purchase percentage by INCOME_BUCKET_LONG
+income_data <- facts_table_extended %>%
+  group_by(INCOME_BUCKET_LONG) %>%
+  summarize(Mean_Private_Label_Percentage = mean(Private_Label_Purchase_Percentage, na.rm = TRUE))
+
+# Plot for INCOME_BUCKET_LONG with reordered categories
+ggplot(income_data, aes(x = INCOME_BUCKET_LONG, y = Mean_Private_Label_Percentage)) +
+  geom_bar(stat = "identity", fill = "purple") +
+  labs(title = "Percent of Private Label Purchases by Income Bucket",
+       x = "Income Bucket",
+       y = "Mean Private Label Purchase Percentage") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) # Rotate labels for readability
+
+
+
+```
+
+
+
+```{r}
+# Prompt user to select a store
+#store <- readline(prompt = "Select a store from the following options: kroger, giant_eagle, publix, costco, meijer, amazoncom, whole_foods: ")
+
+store <- "kroger"
+
+# Ensure the selected store is valid
+if (!(store %in% c("kroger", "giant_eagle", "publix", "costco", "meijer","amazoncom","whole_foods"))) {
+  stop("Invalid store selection. Please choose a valid store.")
+}
+```
+
+
+```{r}
+# Calculate benchmark data by AGE_BUCKET, CENSUS_REGION_NAME, ETHNICITY, HAS_CHILDREN, and INCOME_BUCKET_LONG
+
+# Calculate overall benchmark (all stores combined except the selected store) for AGE_BUCKET
+benchmark_data_age <- facts_table_extended %>%
+  filter(BANNER_ID != store) %>%
+  group_by(AGE_BUCKET) %>%
+  summarize(Mean_Private_Label_Percentage = mean(Private_Label_Purchase_Percentage, na.rm = TRUE)) %>%
+  mutate(Group = "Benchmark")
+
+# Calculate selected store data by AGE_BUCKET
+store_data_age <- facts_table_extended %>%
+  filter(BANNER_ID == store) %>%
+  group_by(AGE_BUCKET) %>%
+  summarize(Mean_Private_Label_Percentage = mean(Private_Label_Purchase_Percentage, na.rm = TRUE)) %>%
+  mutate(Group = store)
+
+# Combine data for AGE_BUCKET plot
+combined_data_age <- bind_rows(benchmark_data_age, store_data_age)
+
+# Plot for AGE_BUCKET
+ggplot(combined_data_age, aes(x = AGE_BUCKET, y = Mean_Private_Label_Percentage, fill = Group)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  labs(title = paste("Percent of Private Label Purchases by Age Bucket -", store),
+       x = "Age Bucket",
+       y = "Mean Private Label Purchase Percentage") +
+  theme_minimal()
+
+# Repeat similar steps for CENSUS_REGION_NAME, ETHNICITY, HAS_CHILDREN, and INCOME_BUCKET_LONG
+
+# Calculate overall benchmark for CENSUS_REGION_NAME
+benchmark_data_region <- facts_table_extended %>%
+  filter(BANNER_ID != store) %>%
+  group_by(CENSUS_REGION_NAME) %>%
+  summarize(Mean_Private_Label_Percentage = mean(Private_Label_Purchase_Percentage, na.rm = TRUE)) %>%
+  mutate(Group = "Benchmark")
+
+# Calculate selected store data by CENSUS_REGION_NAME
+store_data_region <- facts_table_extended %>%
+  filter(BANNER_ID == store) %>%
+  group_by(CENSUS_REGION_NAME) %>%
+  summarize(Mean_Private_Label_Percentage = mean(Private_Label_Purchase_Percentage, na.rm = TRUE)) %>%
+  mutate(Group = store)
+
+# Combine data for CENSUS_REGION_NAME plot
+combined_data_region <- bind_rows(benchmark_data_region, store_data_region)
+
+# Plot for CENSUS_REGION_NAME
+ggplot(combined_data_region, aes(x = CENSUS_REGION_NAME, y = Mean_Private_Label_Percentage, fill = Group)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  labs(title = paste("Percent of Private Label Purchases by Census Region -", store),
+       x = "Census Region",
+       y = "Mean Private Label Purchase Percentage") +
+  theme_minimal()
+
+# Calculate overall benchmark for ETHNICITY
+benchmark_data_ethnicity <- facts_table_extended %>%
+  filter(BANNER_ID != store) %>%
+  group_by(ETHNICITY) %>%
+  summarize(Mean_Private_Label_Percentage = mean(Private_Label_Purchase_Percentage, na.rm = TRUE)) %>%
+  mutate(Group = "Benchmark")
+
+# Calculate selected store data by ETHNICITY
+store_data_ethnicity <- facts_table_extended %>%
+  filter(BANNER_ID == store) %>%
+  group_by(ETHNICITY) %>%
+  summarize(Mean_Private_Label_Percentage = mean(Private_Label_Purchase_Percentage, na.rm = TRUE)) %>%
+  mutate(Group = store)
+
+# Combine data for ETHNICITY plot
+combined_data_ethnicity <- bind_rows(benchmark_data_ethnicity, store_data_ethnicity)
+
+# Plot for ETHNICITY
+ggplot(combined_data_ethnicity, aes(x = ETHNICITY, y = Mean_Private_Label_Percentage, fill = Group)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  labs(title = paste("Percent of Private Label Purchases by Ethnicity -", store),
+       x = "Ethnicity",
+       y = "Mean Private Label Purchase Percentage") +
+  theme_minimal()
+
+# Calculate overall benchmark for HAS_CHILDREN
+benchmark_data_children <- facts_table_extended %>%
+  filter(BANNER_ID != store) %>%
+  group_by(HAS_CHILDREN) %>%
+  summarize(Mean_Private_Label_Percentage = mean(Private_Label_Purchase_Percentage, na.rm = TRUE)) %>%
+  mutate(Group = "Benchmark")
+
+# Calculate selected store data by HAS_CHILDREN
+store_data_children <- facts_table_extended %>%
+  filter(BANNER_ID == store) %>%
+  group_by(HAS_CHILDREN) %>%
+  summarize(Mean_Private_Label_Percentage = mean(Private_Label_Purchase_Percentage, na.rm = TRUE)) %>%
+  mutate(Group = store)
+
+# Combine data for HAS_CHILDREN plot
+combined_data_children <- bind_rows(benchmark_data_children, store_data_children)
+
+# Plot for HAS_CHILDREN
+ggplot(combined_data_children, aes(x = HAS_CHILDREN, y = Mean_Private_Label_Percentage, fill = Group)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  labs(title = paste("Percent of Private Label Purchases by Has Children -", store),
+       x = "Has Children",
+       y = "Mean Private Label Purchase Percentage") +
+  theme_minimal()
+
+# Calculate overall benchmark for INCOME_BUCKET_LONG
+benchmark_data_income <- facts_table_extended %>%
+  filter(BANNER_ID != store) %>%
+  group_by(INCOME_BUCKET_LONG) %>%
+  summarize(Mean_Private_Label_Percentage = mean(Private_Label_Purchase_Percentage, na.rm = TRUE)) %>%
+  mutate(Group = "Benchmark")
+
+# Calculate selected store data by INCOME_BUCKET_LONG
+store_data_income <- facts_table_extended %>%
+  filter(BANNER_ID == store) %>%
+  group_by(INCOME_BUCKET_LONG) %>%
+  summarize(Mean_Private_Label_Percentage = mean(Private_Label_Purchase_Percentage, na.rm = TRUE)) %>%
+  mutate(Group = store)
+
+# Combine data for INCOME_BUCKET_LONG plot
+combined_data_income <- bind_rows(benchmark_data_income, store_data_income)
+
+# Plot for INCOME_BUCKET_LONG
+ggplot(combined_data_income, aes(x = INCOME_BUCKET_LONG, y = Mean_Private_Label_Percentage, fill = Group)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  labs(title = paste("Percent of Private Label Purchases by Income Bucket -", store),
+       x = "Income Bucket",
+       y = "Mean Private Label Purchase Percentage") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) # Rotate labels for readability
+
+
+```
+
+
+```{r}
+# Calculate differences for each category and identify the biggest opportunity or success
+
+# 1. AGE_BUCKET Opportunity
+age_bucket_opportunity <- combined_data_age %>%
+  filter(Group != "Benchmark") %>%
+  left_join(benchmark_data_age, by = "AGE_BUCKET", suffix = c("_Store", "_Benchmark")) %>%
+  mutate(Difference = Mean_Private_Label_Percentage_Store - Mean_Private_Label_Percentage_Benchmark) %>%
+  arrange(Difference) %>%
+  filter(Difference < 0) %>%
+  slice(1)  # Select the biggest gap (most negative difference)
+
+if (nrow(age_bucket_opportunity) == 0) {
+  message("The retailer is performing well across all age buckets.")
+} else {
+  print(sprintf("Opportunity in AGE_BUCKET: '%s' where the store is behind by %.2f%%.",
+                age_bucket_opportunity$AGE_BUCKET, abs(age_bucket_opportunity$Difference) * 100))
+}
+
+# 2. CENSUS_REGION_NAME Opportunity
+census_region_opportunity <- combined_data_region %>%
+  filter(Group != "Benchmark") %>%
+  left_join(benchmark_data_region, by = "CENSUS_REGION_NAME", suffix = c("_Store", "_Benchmark")) %>%
+  mutate(Difference = Mean_Private_Label_Percentage_Store - Mean_Private_Label_Percentage_Benchmark) %>%
+  arrange(Difference) %>%
+  filter(Difference < 0) %>%
+  slice(1)  # Select the biggest gap (most negative difference)
+
+if (nrow(census_region_opportunity) == 0) {
+  message("The retailer is performing well across all census regions.")
+} else {
+  print(sprintf("Opportunity in CENSUS_REGION_NAME: '%s' where the store is behind by %.2f%%.",
+                census_region_opportunity$CENSUS_REGION_NAME, abs(census_region_opportunity$Difference) * 100))
+}
+
+# 3. ETHNICITY Opportunity
+ethnicity_opportunity <- combined_data_ethnicity %>%
+  filter(Group != "Benchmark") %>%
+  left_join(benchmark_data_ethnicity, by = "ETHNICITY", suffix = c("_Store", "_Benchmark")) %>%
+  mutate(Difference = Mean_Private_Label_Percentage_Store - Mean_Private_Label_Percentage_Benchmark) %>%
+  arrange(Difference) %>%
+  filter(Difference < 0) %>%
+  slice(1)  # Select the biggest gap (most negative difference)
+
+if (nrow(ethnicity_opportunity) == 0) {
+  message("The retailer is performing well across all ethnicities.")
+} else {
+  print(sprintf("Opportunity in ETHNICITY: '%s' where the store is behind by %.2f%%.",
+                ethnicity_opportunity$ETHNICITY, abs(ethnicity_opportunity$Difference) * 100))
+}
+
+# 4. HAS_CHILDREN Opportunity
+children_opportunity <- combined_data_children %>%
+  filter(Group != "Benchmark") %>%
+  left_join(benchmark_data_children, by = "HAS_CHILDREN", suffix = c("_Store", "_Benchmark")) %>%
+  mutate(Difference = Mean_Private_Label_Percentage_Store - Mean_Private_Label_Percentage_Benchmark) %>%
+  arrange(Difference) %>%
+  filter(Difference < 0) %>%
+  slice(1)  # Select the biggest gap (most negative difference)
+
+if (nrow(children_opportunity) == 0) {
+  message("The retailer is performing well across both groups of HAS_CHILDREN.")
+} else {
+  print(sprintf("Opportunity in HAS_CHILDREN: '%s' where the store is behind by %.2f%%.",
+                children_opportunity$HAS_CHILDREN, abs(children_opportunity$Difference) * 100))
+}
+
+# 5. INCOME_BUCKET_LONG Opportunity
+income_opportunity <- combined_data_income %>%
+  filter(Group != "Benchmark") %>%
+  left_join(benchmark_data_income, by = "INCOME_BUCKET_LONG", suffix = c("_Store", "_Benchmark")) %>%
+  mutate(Difference = Mean_Private_Label_Percentage_Store - Mean_Private_Label_Percentage_Benchmark) %>%
+  arrange(Difference) %>%
+  filter(Difference < 0) %>%
+  slice(1)  # Select the biggest gap (most negative difference)
+
+if (nrow(income_opportunity) == 0) {
+  message("The retailer is performing well across all income buckets.")
+} else {
+  print(sprintf("Opportunity in INCOME_BUCKET_LONG: '%s' where the store is behind by %.2f%%.",
+                income_opportunity$INCOME_BUCKET_LONG, abs(income_opportunity$Difference) * 100))
+}
+
+```
+
+### Identify Specific Product Opportunities 
+Limit category to top 50 to ensure enough transactional volume to make recommendation valuable 
+```{r}
+# Step 1: Identify the Top 50 Most Common CATEGORY_DESCRIPTION
+top_50_categories <- facts_table_extended %>%
+  count(CATEGORY_DESCRIPTION, sort = TRUE) %>%
+  top_n(50, wt = n) %>%
+  pull(CATEGORY_DESCRIPTION)
+
+# Step 2: Filter facts_table_extended to include only the Top 50 CATEGORY_DESCRIPTIONs
+top_50_data <- facts_table_extended %>%
+  filter(CATEGORY_DESCRIPTION %in% top_50_categories)
+```
+
+
+```{r}
+# Function to calculate top 3 CATEGORY_DESCRIPTION opportunities for a given category and segment with a minimum transaction threshold, excluding "Unknown" values in all relevant columns
+calculate_top_opportunities <- function(data, category, segment, group_name, min_transactions = 100) {
+  
+  # Filter out "Unknown" and "unknown" values from both the category and CATEGORY_DESCRIPTION columns
+  data <- data %>%
+    filter(get(category) != "Unknown", get(category) != "unknown",
+           CATEGORY_DESCRIPTION != "Unknown", CATEGORY_DESCRIPTION != "unknown")
+  
+  # Calculate benchmark and store-specific private label percentages for each CATEGORY_DESCRIPTION in the segment
+  benchmark_data <- data %>%
+    filter(get(category) == segment) %>%
+    group_by(CATEGORY_DESCRIPTION) %>%
+    summarize(
+      Benchmark_Private_Label_Percentage = mean(Private_Label_Purchase_Percentage, na.rm = TRUE),
+      Benchmark_Transactions = n()
+    )
+
+  store_data <- data %>%
+    filter(get(category) == segment, BANNER_ID == store) %>%
+    group_by(CATEGORY_DESCRIPTION) %>%
+    summarize(
+      Store_Private_Label_Percentage = mean(Private_Label_Purchase_Percentage, na.rm = TRUE),
+      Store_Transactions = n()
+    )
+
+  # Join benchmark and store data, apply transaction threshold, and calculate the difference
+  opportunities <- benchmark_data %>%
+    inner_join(store_data, by = "CATEGORY_DESCRIPTION") %>%
+    filter(Benchmark_Transactions >= min_transactions, Store_Transactions >= min_transactions) %>%
+    mutate(Difference = Store_Private_Label_Percentage - Benchmark_Private_Label_Percentage) %>%
+    arrange(Difference) %>%
+    slice(1:3)  # Top 3 largest negative differences (opportunities)
+
+  # Check if any opportunities meet the threshold; if not, return a message
+  if (nrow(opportunities) == 0) {
+    return(sprintf("No identified opportunities with enough transactional data (%d+ transactions) to formulate a valid opportunity in %s '%s'.", min_transactions, category, segment))
+  }
+
+  # Format the output for each opportunity
+  opportunities %>%
+    mutate(Output = sprintf(
+      "Opportunity in %s '%s': Category '%s' with Store Private Label %%: %.2f%% (%d transactions), Benchmark Private Label %%: %.2f%% (%d transactions).",
+      category, segment, CATEGORY_DESCRIPTION,
+      Store_Private_Label_Percentage * 100, Store_Transactions,
+      Benchmark_Private_Label_Percentage * 100, Benchmark_Transactions
+    )) %>%
+    pull(Output)
+}
+
+# Apply function to each identified opportunity area with a transaction threshold
+# Example: Assuming `age_bucket_opportunity`, `census_region_opportunity`, and `ethnicity_opportunity`
+# were calculated in the previous step
+
+# For AGE_BUCKET opportunity
+if (nrow(age_bucket_opportunity) > 0) {
+  cat("Top 3 Opportunities in AGE_BUCKET:", age_bucket_opportunity$AGE_BUCKET, "\n")
+  print(calculate_top_opportunities(top_50_data, "AGE_BUCKET", age_bucket_opportunity$AGE_BUCKET, "AGE_BUCKET"))
+}
+
+# For CENSUS_REGION_NAME opportunity
+if (nrow(census_region_opportunity) > 0) {
+  cat("\nTop 3 Opportunities in CENSUS_REGION_NAME:", census_region_opportunity$CENSUS_REGION_NAME, "\n")
+  print(calculate_top_opportunities(top_50_data, "CENSUS_REGION_NAME", census_region_opportunity$CENSUS_REGION_NAME, "CENSUS_REGION_NAME"))
+}
+
+# For ETHNICITY opportunity
+if (nrow(ethnicity_opportunity) > 0) {
+  cat("\nTop 3 Opportunities in ETHNICITY:", ethnicity_opportunity$ETHNICITY, "\n")
+  print(calculate_top_opportunities(top_50_data, "ETHNICITY", ethnicity_opportunity$ETHNICITY, "ETHNICITY"))
+}
+
+# For HAS_CHILDREN opportunity
+if (nrow(children_opportunity) > 0) {
+  cat("\nTop 3 Opportunities in HAS_CHILDREN:", children_opportunity$HAS_CHILDREN, "\n")
+  print(calculate_top_opportunities(top_50_data, "HAS_CHILDREN", children_opportunity$HAS_CHILDREN, "HAS_CHILDREN"))
+}
+
+# For INCOME_BUCKET_LONG opportunity
+if (nrow(income_opportunity) > 0) {
+  cat("\nTop 3 Opportunities in INCOME_BUCKET_LONG:", income_opportunity$INCOME_BUCKET_LONG, "\n")
+  print(calculate_top_opportunities(top_50_data, "INCOME_BUCKET_LONG", income_opportunity$INCOME_BUCKET_LONG, "INCOME_BUCKET_LONG"))
+}
+
+```
+
+### Identify Specific Product Opportunities by Sales Channel (In Store vs. Online)
+
+```{r}
+# Function to calculate top 3 CATEGORY_DESCRIPTION opportunities for a given category and segment with a minimum transaction threshold, excluding "Unknown" values in all relevant columns
+calculate_top_opportunities <- function(data, category, segment, group_name, min_transactions = 100) {
+  
+  # Filter out "Unknown" and "unknown" values from both the category and CATEGORY_DESCRIPTION columns
+  data <- data %>%
+    filter(get(category) != "Unknown", get(category) != "unknown",
+           CATEGORY_DESCRIPTION != "Unknown", CATEGORY_DESCRIPTION != "unknown")
+  
+  # Calculate benchmark and store-specific private label percentages for each CATEGORY_DESCRIPTION in the segment
+  benchmark_data <- data %>%
+    filter(get(category) == segment) %>%
+    group_by(CATEGORY_DESCRIPTION) %>%
+    summarize(
+      Benchmark_Private_Label_Percentage = mean(Private_Label_Purchase_Percentage, na.rm = TRUE),
+      Benchmark_Transactions = n()
+    )
+
+  store_data <- data %>%
+    filter(get(category) == segment, BANNER_ID == store, ORDER_METHOD_TYPE == group_name) %>%
+    group_by(CATEGORY_DESCRIPTION) %>%
+    summarize(
+      Store_Private_Label_Percentage = mean(Private_Label_Purchase_Percentage, na.rm = TRUE),
+      Store_Transactions = n()
+    )
+
+  # Join benchmark and store data, apply transaction threshold, and calculate the difference
+  opportunities <- benchmark_data %>%
+    inner_join(store_data, by = "CATEGORY_DESCRIPTION") %>%
+    filter(Benchmark_Transactions >= min_transactions, Store_Transactions >= min_transactions) %>%
+    mutate(Difference = Store_Private_Label_Percentage - Benchmark_Private_Label_Percentage) %>%
+    arrange(Difference) %>%
+    slice(1:3)  # Top 3 largest negative differences (opportunities)
+
+  # Check if any opportunities meet the threshold; if not, return a message
+  if (nrow(opportunities) == 0) {
+    return(sprintf("No identified opportunities with enough transactional data (%d+ transactions) to formulate a valid opportunity in %s '%s' for %s orders.", min_transactions, category, segment, group_name))
+  }
+
+  # Format the output for each opportunity
+  opportunities %>%
+    mutate(Output = sprintf(
+      "Opportunity in %s '%s' for %s orders: Category '%s' with Store Private Label %%: %.2f%% (%d transactions), Benchmark Private Label %%: %.2f%% (%d transactions).",
+      category, segment, group_name, CATEGORY_DESCRIPTION,
+      Store_Private_Label_Percentage * 100, Store_Transactions,
+      Benchmark_Private_Label_Percentage * 100, Benchmark_Transactions
+    )) %>%
+    pull(Output)
+}
+
+# Apply function to each identified opportunity area with a transaction threshold for IN_STORE and ONLINE
+
+# Loop through each ORDER_METHOD_TYPE for each category
+for (method in c("IN_STORE", "ONLINE")) {
+  
+  cat("\n\n---", method, "Opportunities ---\n")
+  
+  # For AGE_BUCKET opportunity
+  if (nrow(age_bucket_opportunity) > 0) {
+    cat("Top 3 Opportunities in AGE_BUCKET:", age_bucket_opportunity$AGE_BUCKET, "\n")
+    print(calculate_top_opportunities(facts_table_extended, "AGE_BUCKET", age_bucket_opportunity$AGE_BUCKET, method))
+  } else {
+    cat("No identified opportunities in AGE_BUCKET for", method, "orders.\n")
+  }
+
+  # For CENSUS_REGION_NAME opportunity
+  if (nrow(census_region_opportunity) > 0) {
+    cat("\nTop 3 Opportunities in CENSUS_REGION_NAME:", census_region_opportunity$CENSUS_REGION_NAME, "\n")
+    print(calculate_top_opportunities(facts_table_extended, "CENSUS_REGION_NAME", census_region_opportunity$CENSUS_REGION_NAME, method))
+  } else {
+    cat("No identified opportunities in CENSUS_REGION_NAME for", method, "orders.\n")
+  }
+
+  # For ETHNICITY opportunity
+  if (nrow(ethnicity_opportunity) > 0) {
+    cat("\nTop 3 Opportunities in ETHNICITY:", ethnicity_opportunity$ETHNICITY, "\n")
+    print(calculate_top_opportunities(facts_table_extended, "ETHNICITY", ethnicity_opportunity$ETHNICITY, method))
+  } else {
+    cat("No identified opportunities in ETHNICITY for", method, "orders.\n")
+  }
+  
+  # For HAS_CHILDREN opportunity
+  if (nrow(children_opportunity) > 0) {
+    cat("\nTop 3 Opportunities in HAS_CHILDREN:", children_opportunity$HAS_CHILDREN, "\n")
+    print(calculate_top_opportunities(facts_table_extended, "HAS_CHILDREN", children_opportunity$HAS_CHILDREN, method))
+  } else {
+    cat("No identified opportunities in HAS_CHILDREN for", method, "orders.\n")
+  }
+
+  # For INCOME_BUCKET_LONG opportunity
+  if (nrow(income_opportunity) > 0) {
+    cat("\nTop 3 Opportunities in INCOME_BUCKET_LONG:", income_opportunity$INCOME_BUCKET_LONG, "\n")
+    print(calculate_top_opportunities(facts_table_extended, "INCOME_BUCKET_LONG", income_opportunity$INCOME_BUCKET_LONG, method))
+  } else {
+    cat("No identified opportunities in INCOME_BUCKET_LONG for", method, "orders.\n")
+  }
+}
+
+```
+
+### Market Basket Analysis
+
+```{r}
+# Modified function to return top CATEGORY_DESCRIPTION opportunities
+calculate_top_opportunities <- function(data, category, segment, group_name, min_transactions = 100) {
+  
+  # Filter out "Unknown" values in both the category and CATEGORY_DESCRIPTION columns
+  data <- data %>%
+    filter(get(category) != "Unknown", get(category) != "unknown",
+           CATEGORY_DESCRIPTION != "Unknown", CATEGORY_DESCRIPTION != "unknown")
+  
+  # Calculate benchmark and store-specific private label percentages for each CATEGORY_DESCRIPTION in the segment
+  benchmark_data <- data %>%
+    filter(get(category) == segment) %>%
+    group_by(CATEGORY_DESCRIPTION) %>%
+    summarize(
+      Benchmark_Private_Label_Percentage = mean(Private_Label_Purchase_Percentage, na.rm = TRUE),
+      Benchmark_Transactions = n()
+    )
+
+  store_data <- data %>%
+    filter(get(category) == segment, BANNER_ID == store) %>%
+    group_by(CATEGORY_DESCRIPTION) %>%
+    summarize(
+      Store_Private_Label_Percentage = mean(Private_Label_Purchase_Percentage, na.rm = TRUE),
+      Store_Transactions = n()
+    )
+
+  # Join benchmark and store data, apply transaction threshold, and calculate the difference
+  opportunities <- benchmark_data %>%
+    inner_join(store_data, by = "CATEGORY_DESCRIPTION") %>%
+    filter(Benchmark_Transactions >= min_transactions, Store_Transactions >= min_transactions) %>%
+    mutate(Difference = Store_Private_Label_Percentage - Benchmark_Private_Label_Percentage) %>%
+    arrange(Difference) %>%
+    slice(1:3)  # Top 3 largest negative differences (opportunities)
+
+  # Return only CATEGORY_DESCRIPTION values if any opportunities exist
+  if (nrow(opportunities) > 0) {
+    return(opportunities$CATEGORY_DESCRIPTION)
+  } else {
+    return(NULL)  # Return NULL if no opportunities meet the threshold
+  }
+}
+
+
+```
+
+```{r}
+# Initialize an empty vector to store opportunity products
+opportunity_products <- c()
+
+# Capture top opportunities from each demographic segment and add to opportunity_products if they exist
+if (nrow(age_bucket_opportunity) > 0) {
+  age_opportunities <- calculate_top_opportunities(top_50_data, "AGE_BUCKET", age_bucket_opportunity$AGE_BUCKET, "AGE_BUCKET")
+  if (!is.null(age_opportunities)) opportunity_products <- c(opportunity_products, age_opportunities)
+}
+
+if (nrow(census_region_opportunity) > 0) {
+  region_opportunities <- calculate_top_opportunities(top_50_data, "CENSUS_REGION_NAME", census_region_opportunity$CENSUS_REGION_NAME, "CENSUS_REGION_NAME")
+  if (!is.null(region_opportunities)) opportunity_products <- c(opportunity_products, region_opportunities)
+}
+
+if (nrow(ethnicity_opportunity) > 0) {
+  ethnicity_opportunities <- calculate_top_opportunities(top_50_data, "ETHNICITY", ethnicity_opportunity$ETHNICITY, "ETHNICITY")
+  if (!is.null(ethnicity_opportunities)) opportunity_products <- c(opportunity_products, ethnicity_opportunities)
+}
+
+if (nrow(children_opportunity) > 0) {
+  children_opportunities <- calculate_top_opportunities(top_50_data, "HAS_CHILDREN", children_opportunity$HAS_CHILDREN, "HAS_CHILDREN")
+  if (!is.null(children_opportunities)) opportunity_products <- c(opportunity_products, children_opportunities)
+}
+
+if (nrow(income_opportunity) > 0) {
+  income_opportunities <- calculate_top_opportunities(top_50_data, "INCOME_BUCKET_LONG", income_opportunity$INCOME_BUCKET_LONG, "INCOME_BUCKET_LONG")
+  if (!is.null(income_opportunities)) opportunity_products <- c(opportunity_products, income_opportunities)
+}
+
+# Remove duplicate opportunity products
+opportunity_products <- unique(opportunity_products)
+
+# Print the final list of opportunity products
+print(opportunity_products)
+
+```
+The market basket analysis will be performed on the previously identified opportunity products from the vector above. 
+
+Market Basket Analysis for Private Label Transactions only 
+
+```{r}
+# #Load necessary libraries
+# library(arules)
+# library(arulesViz)
+# library(dplyr)
+# 
+# # Step 1: Filter transactions to include only private label products and exclude "Unknown" and NA items
+# private_label_opportunity_transactions <- facts_table_extended %>%
+#   filter(Private_Label_Flag == 1, CATEGORY_DESCRIPTION != "Unknown", !is.na(CATEGORY_DESCRIPTION))
+# 
+# # Confirm that no "Unknown" values are present after filtering
+# summary(private_label_opportunity_transactions$CATEGORY_DESCRIPTION == "Unknown")
+# summary(is.na(private_label_opportunity_transactions$CATEGORY_DESCRIPTION))
+# 
+# # Check if there are enough transactions
+# if (nrow(private_label_opportunity_transactions) == 0) {
+#   stop("No transactions found with private label opportunity products.")
+# }
+# 
+# # Step 2: Group items by BASKET_ID to create transactions
+# transaction_list <- split(private_label_opportunity_transactions$CATEGORY_DESCRIPTION, private_label_opportunity_transactions$BASKET_ID)
+# 
+# # Convert the list to "transactions" format
+# transaction_data <- as(transaction_list, "transactions")
+# 
+# # Step 3: Calculate support based on minimum count threshold
+# min_count <- 1000  # Set your minimum count threshold here
+# total_transactions <- length(transaction_data)  # Total number of transactions
+# min_support <- min_count / total_transactions  # Convert count to support
+# 
+# # Step 4: Run the Apriori Algorithm with the calculated minimum support
+# rules <- apriori(transaction_data, parameter = list(supp = min_support, conf = 0.3, minlen = 2))
+# 
+# # Step 5: Filter rules to include only those with opportunity products in LHS or RHS
+# opportunity_rules <- subset(rules, lhs %in% opportunity_products | rhs %in% opportunity_products)
+# 
+# # Step 6: Further filter to exclude rules with "unknown" in either LHS or RHS
+# filtered_opportunity_rules <- subset(opportunity_rules,
+#                                      !grepl("unknown", labels(lhs(opportunity_rules))) &
+#                                      !grepl("unknown", labels(rhs(opportunity_rules))))
+# 
+# # Step 7: Inspect the filtered rules
+# inspect(head(sort(filtered_opportunity_rules, by = "lift"), 100))
+# 
+# # Step 8: Visualize the filtered rules (Optional)
+# plot(filtered_opportunity_rules, method = "graph", control = list(layout = "stress"))
+
+
+
+
+```
+
+Market Basket analysis for private label & non-private label products
+
+```{r}
+# # Load necessary libraries
+# library(arules)
+# library(arulesViz)
+# library(dplyr)
+# 
+# # Step 1: Filter transactions to exclude "Unknown" and NA items
+# all_opportunity_transactions <- facts_table_extended %>%
+#   filter(CATEGORY_DESCRIPTION != "Unknown", !is.na(CATEGORY_DESCRIPTION))
+# 
+# # Confirm that no "Unknown" values are present after filtering
+# summary(all_opportunity_transactions$CATEGORY_DESCRIPTION == "Unknown")
+# summary(is.na(all_opportunity_transactions$CATEGORY_DESCRIPTION))
+# 
+# # Check if there are enough transactions
+# if (nrow(all_opportunity_transactions) == 0) {
+#   stop("No transactions found.")
+# }
+# 
+# # Step 2: Group items by BASKET_ID to create transactions
+# transaction_list <- split(all_opportunity_transactions$CATEGORY_DESCRIPTION, all_opportunity_transactions$BASKET_ID)
+# 
+# # Convert the list to "transactions" format
+# transaction_data <- as(transaction_list, "transactions")
+# 
+# # Step 3: Calculate support based on minimum count threshold
+# min_count <- 1000  # Set your minimum count threshold here
+# total_transactions <- length(transaction_data)  # Total number of transactions
+# min_support <- min_count / total_transactions  # Convert count to support
+# 
+# # Step 4: Run the Apriori Algorithm with the calculated minimum support
+# rules <- apriori(transaction_data, parameter = list(supp = min_support, conf = 0.3, minlen = 2))
+# 
+# # Step 5: Filter rules to include only those with opportunity products in LHS or RHS
+# opportunity_rules <- subset(rules, lhs %in% opportunity_products | rhs %in% opportunity_products)
+# 
+# # Step 6: Further filter to exclude rules with "unknown" in either LHS or RHS
+# filtered_opportunity_rules <- subset(opportunity_rules,
+#                                      !grepl("unknown", labels(lhs(opportunity_rules))) &
+#                                      !grepl("unknown", labels(rhs(opportunity_rules))))
+# 
+# # Step 7: Inspect the filtered rules
+# inspect(head(sort(filtered_opportunity_rules, by = "lift"), 100))
+# 
+# # Step 8: Visualize the filtered rules (Optional)
+# plot(filtered_opportunity_rules, method = "graph", control = list(layout = "stress"))
+
+```
+
+```{r}
+# # Load necessary libraries
+# library(arules)
+# library(dplyr)
+# 
+# # Step 1: Filter private label transactions for the specific store (by BANNER_ID)
+# store_id <- store  # Replace with the specific store's BANNER_ID
+# store_transactions <- facts_table_extended %>%
+#   filter(Private_Label_Flag == 1, CATEGORY_DESCRIPTION != "Unknown", !is.na(CATEGORY_DESCRIPTION), BANNER_ID == store_id)
+# 
+# # Step 2: Group items by BASKET_ID for the specific store's transactions and convert to transactions format
+# store_transaction_list <- split(store_transactions$CATEGORY_DESCRIPTION, store_transactions$BASKET_ID)
+# store_transaction_data <- as(store_transaction_list, "transactions")
+# 
+# # Step 3: Calculate support for store-specific data based on minimum count threshold
+# min_count <- 1000  # Set your minimum count threshold here
+# total_transactions_store <- length(store_transaction_data)  # Total number of transactions for the store
+# min_support_store <- min_count / total_transactions_store  # Convert count to support
+# 
+# # Step 4: Run the Apriori Algorithm for store-specific data with the calculated minimum support
+# store_rules <- apriori(store_transaction_data, 
+#                        parameter = list(supp = min_support_store, conf = 0.3, minlen = 2))
+# store_opportunity_rules <- subset(store_rules, lhs %in% opportunity_products | rhs %in% opportunity_products)
+# store_filtered_rules <- subset(store_opportunity_rules, 
+#                                !grepl("unknown", labels(lhs(store_opportunity_rules))) & 
+#                                !grepl("unknown", labels(rhs(store_opportunity_rules))))
+# 
+# # Step 5: Create transactions for all stores
+# all_transaction_list <- split(facts_table_extended$CATEGORY_DESCRIPTION, facts_table_extended$BASKET_ID)
+# all_transaction_data <- as(all_transaction_list, "transactions")
+# 
+# # Step 6: Calculate support for all-store data based on the minimum count threshold
+# total_transactions_all <- length(all_transaction_data)  # Total number of transactions across all stores
+# min_support_all <- min_count / total_transactions_all  # Convert count to support
+# 
+# # Step 7: Run the Apriori Algorithm for all-store data with the calculated minimum support
+# all_store_rules <- apriori(all_transaction_data, 
+#                            parameter = list(supp = min_support_all, conf = 0.3, minlen = 2))
+# 
+# # Filter rules to include only those with opportunity products in LHS or RHS
+# opportunity_rules_all <- subset(all_store_rules, lhs %in% opportunity_products | rhs %in% opportunity_products)
+# 
+# # Further filter to exclude rules with "unknown" in either LHS or RHS
+# filtered_opportunity_rules_all <- subset(opportunity_rules_all, 
+#                                          !grepl("unknown", labels(lhs(opportunity_rules_all))) & 
+#                                          !grepl("unknown", labels(rhs(opportunity_rules_all))))
+# 
+# # Inspect the filtered rules for all stores
+# inspect(head(sort(filtered_opportunity_rules_all, by = "lift"), 10))
+
+
+```
+
+Compare selected store MBA results to results for all stores
+
+```{r}
+# Convert the rules to data frames for easy comparison
+# store_rules_df <- as(store_rules, "data.frame")
+# all_store_rules_df <- as(all_store_rules, "data.frame")
+# 
+# # Extract the lhs and rhs as separate columns
+# store_rules_df$lhs <- labels(lhs(store_rules))
+# store_rules_df$rhs <- labels(rhs(store_rules))
+# all_store_rules_df$lhs <- labels(lhs(all_store_rules))
+# all_store_rules_df$rhs <- labels(rhs(all_store_rules))
+# 
+# # Now select only the columns we need (lhs, rhs, and lift)
+# store_rules_df <- store_rules_df %>%
+#   select(lhs, rhs, lift) %>%
+#   rename(lift_store = lift)
+# 
+# all_store_rules_df <- all_store_rules_df %>%
+#   select(lhs, rhs, lift) %>%
+#   rename(lift_all_stores = lift)
+# 
+# # Merge the data frames on lhs and rhs to compare the lift values
+# comparison_df <- merge(store_rules_df, all_store_rules_df, by = c("lhs", "rhs"), all.x = TRUE)
+# 
+# 
+# # Filter comparison_df to only include rows where lhs or rhs contains items from opportunity_products
+# filtered_comparison_df <- comparison_df %>%
+#   filter(
+#     sapply(lhs, function(x) any(sapply(opportunity_products, function(op) grepl(op, x)))) |
+#     sapply(rhs, function(x) any(sapply(opportunity_products, function(op) grepl(op, x))))
+#   )
+# 
+# # Filter to exclude rows where "unknown" appears in the rhs column
+# filtered_comparison_df <- filtered_comparison_df %>%
+#   filter(!grepl("unknown", rhs))
+# 
+# # Calculate the ratio of lift_store to lift_all_stores and add it as a new column
+# filtered_comparison_df <- filtered_comparison_df %>%
+#   mutate(lift_ratio = lift_store / lift_all_stores)
+# 
+# # Sort by the lift_ratio column from low to high
+# filtered_comparison_df <- filtered_comparison_df %>%
+#   arrange(lift_ratio)
+# 
+# # Display the final filtered and sorted table
+# print(filtered_comparison_df)
+
+```
+
+The "lift ratio" here represents the comparison between the selected store's lift (association strength) for certain product pairings and the lift observed across all stores. A ratio less than 1 indicates areas where the selected store is trailing, showing that customers at this store are less likely to purchase these products together than customers across all stores. Such pairings can be viewed as opportunities to strengthen product associations and improve cross-selling strategies within the store. Conversely, if the ratio is greater than 1, the store is outperforming the broader market in promoting certain combinations, indicating strong in-store associations for those products.
+
+Decision Tree for Feature Selection
+
+```{r}
+# # Step 1: Select only the specified columns along with the target variable
+# columns_to_use <- c(
+#   "GENDER_APP_USER", "AGE_BUCKET", "CENSUS_REGION_NAME", "HOUSE_HOLD_SIZE",
+#   "MARITAL_STATUS", "HAS_CHILDREN", "EDUCATION_GROUP", "EMPLOYMENT",
+#   "INCOME_BUCKET", "INCOME_BUCKET_LONG", "ETHNICITY", "IS_LATINO",
+#   "Private_Label_Over_Average"
+# )
+# 
+# # Filter the dataset to include only the specified columns
+# data_for_model <- people_matched %>%
+#   select(all_of(columns_to_use))
+# 
+# # Step 2: Convert character columns to factors
+# data_for_model[] <- lapply(data_for_model, function(x) {
+#   if (is.character(x)) as.factor(x) else x
+# })
+# 
+# # Step 3: Add binary column `Private_Label_Over_Average` based on mean
+# mean_private_label_percentage <- mean(people_matched$Mean_Private_Label_Percentage, na.rm = TRUE)
+# data_for_model$Private_Label_Over_Average <- as.factor(ifelse(
+#   people_matched$Mean_Private_Label_Percentage > mean_private_label_percentage,
+#   "Yes", "No"
+# ))
+# 
+# # Step 4: Fit the Conditional Inference Tree
+# library(party)
+# tree_model <- ctree(Private_Label_Over_Average ~ ., data = data_for_model)
+# 
+# # Step 5: Plot and inspect the tree
+# plot(tree_model)
+# 
+# # Optional: Print the tree structure
+# print(tree_model)
+
+
+
+```
+
+```{r}
+# tree_model <- ctree(Private_Label_Over_Average ~ ., data = data_for_model, 
+#                     controls = ctree_control(maxdepth = 3))
+# 
+# # Step 5: Plot and inspect the tree
+# plot(tree_model)
+# 
+# # Optional: Print the tree structure
+# print(tree_model)
+
+```
+
+```{r}
+# inspect(head(sort(store_filtered_rules, by = "support"), 10))
+# inspect(head(sort(filtered_opportunity_rules_all, by = "support"), 10))
+
+```
+
+```{r}
+# itemFrequencyPlot(store_transaction_data, topN = 10)
+# itemFrequencyPlot(all_transaction_data, topN = 10)
+
+```
+
+```{r}
+# filtered_comparison_df <- filtered_comparison_df %>%
+#   mutate(lift_ratio = lift_store / lift_all_stores) %>%
+#   arrange(lift_ratio)
+
+```
+
+```{r}
+# filtered_comparison_df
+```
+
+```{r}
+# # Load necessary libraries
+# library(arules)
+# library(dplyr)
+# 
+# # Items to exclude
+# exclude_items <- c("Milk", "Shredded Cheese")
+# 
+# # Step 1: Filter transactions for the specific store
+# store_id <- store  # Replace with the store's BANNER_ID
+# store_transactions <- facts_table_extended %>%
+#   filter(
+#     CATEGORY_DESCRIPTION != "Unknown",
+#     !is.na(CATEGORY_DESCRIPTION),
+#     !CATEGORY_DESCRIPTION %in% exclude_items,
+#     BANNER_ID == store_id
+#   )
+# 
+# # Group items by BASKET_ID and convert to transactions format
+# store_transaction_list <- split(store_transactions$CATEGORY_DESCRIPTION, store_transactions$BASKET_ID)
+# store_transaction_data <- as(store_transaction_list, "transactions")
+# 
+# # Step 2: Filter transactions for all stores
+# all_transactions <- facts_table_extended %>%
+#   filter(
+#     CATEGORY_DESCRIPTION != "Unknown",
+#     !is.na(CATEGORY_DESCRIPTION),
+#     !CATEGORY_DESCRIPTION %in% exclude_items
+#   )
+# 
+# # Group items by BASKET_ID and convert to transactions format
+# all_transaction_list <- split(all_transactions$CATEGORY_DESCRIPTION, all_transactions$BASKET_ID)
+# all_transaction_data <- as(all_transaction_list, "transactions")
+# 
+# # Step 3: Calculate support thresholds
+# min_count <- 1000  # Minimum count threshold
+# min_support_store <- min_count / length(store_transaction_data)
+# min_support_all <- min_count / length(all_transaction_data)
+# 
+# # Step 4: Generate rules for store-specific transactions
+# store_rules <- apriori(store_transaction_data, 
+#                        parameter = list(supp = min_support_store, conf = 0.3, minlen = 2))
+# 
+# # Step 5: Generate rules for all transactions
+# all_store_rules <- apriori(all_transaction_data, 
+#                            parameter = list(supp = min_support_all, conf = 0.3, minlen = 2))
+# 
+# # Step 6: Extract relevant metrics for comparison
+# # Convert rules to data frames
+# store_rules_df <- as(store_rules, "data.frame")
+# all_store_rules_df <- as(all_store_rules, "data.frame")
+# 
+# # Add LHS and RHS as separate columns
+# store_rules_df$lhs <- labels(lhs(store_rules))
+# store_rules_df$rhs <- labels(rhs(store_rules))
+# all_store_rules_df$lhs <- labels(lhs(all_store_rules))
+# all_store_rules_df$rhs <- labels(rhs(all_store_rules))
+# 
+# # Select columns of interest and rename for clarity
+# store_rules_df <- store_rules_df %>%
+#   select(lhs, rhs, lift) %>%
+#   rename(lift_store = lift)
+# 
+# all_store_rules_df <- all_store_rules_df %>%
+#   select(lhs, rhs, lift) %>%
+#   rename(lift_all_stores = lift)
+# 
+# # Step 7: Merge the rules data frames on LHS and RHS
+# comparison_df <- merge(store_rules_df, all_store_rules_df, by = c("lhs", "rhs"), all.x = TRUE)
+# 
+# # Step 8: Calculate the lift ratio and sort
+# comparison_df <- comparison_df %>%
+#   mutate(lift_ratio = lift_store / lift_all_stores) %>%
+#   arrange(lift_ratio)
+# 
+# # Final output
+# print(comparison_df)
+
+```
+
+```{r}
+# Load necessary libraries
+library(arules)
+library(dplyr)
+
+# Items to exclude
+exclude_items <- c("Milk", "Shredded Cheese", "Unknown","unknown")
+
+# Step 1: Filter transactions for the specific store
+store_id <- store  # Replace with the store's BANNER_ID
+store_transactions <- facts_table_extended %>%
+  filter(
+    !CATEGORY_DESCRIPTION %in% exclude_items,  # Exclude specific items
+    !is.na(CATEGORY_DESCRIPTION),  # Remove NA values
+    BANNER_ID == store_id  # Filter for the specific store
+  )
+
+# Group items by BASKET_ID and convert to transactions format
+store_transaction_list <- split(store_transactions$CATEGORY_DESCRIPTION, store_transactions$BASKET_ID)
+store_transaction_data <- as(store_transaction_list, "transactions")
+
+# Step 2: Filter transactions for all stores
+all_transactions <- facts_table_extended %>%
+  filter(
+    !CATEGORY_DESCRIPTION %in% exclude_items,  # Exclude specific items
+    !is.na(CATEGORY_DESCRIPTION)  # Remove NA values
+  )
+
+# Group items by BASKET_ID and convert to transactions format
+all_transaction_list <- split(all_transactions$CATEGORY_DESCRIPTION, all_transactions$BASKET_ID)
+all_transaction_data <- as(all_transaction_list, "transactions")
+
+# Step 3: Calculate support thresholds
+min_count <- 1000  # Minimum count threshold
+min_support_store <- min_count / length(store_transaction_data)  # Store-specific support
+min_support_all <- min_count / length(all_transaction_data)  # All-store support
+
+# Step 4: Generate rules for store-specific transactions
+store_rules <- apriori(store_transaction_data, 
+                       parameter = list(supp = min_support_store, conf = 0.3, minlen = 2))
+
+# Step 5: Generate rules for all transactions
+all_store_rules <- apriori(all_transaction_data, 
+                           parameter = list(supp = min_support_all, conf = 0.3, minlen = 2))
+
+# Step 6: Extract relevant metrics for comparison
+# Convert rules to data frames
+store_rules_df <- as(store_rules, "data.frame")
+all_store_rules_df <- as(all_store_rules, "data.frame")
+
+# Add LHS and RHS as separate columns
+store_rules_df$lhs <- labels(lhs(store_rules))
+store_rules_df$rhs <- labels(rhs(store_rules))
+all_store_rules_df$lhs <- labels(lhs(all_store_rules))
+all_store_rules_df$rhs <- labels(rhs(all_store_rules))
+
+# Select columns of interest and rename for clarity
+store_rules_df <- store_rules_df %>%
+  select(lhs, rhs, lift) %>%
+  rename(lift_store = lift)
+
+all_store_rules_df <- all_store_rules_df %>%
+  select(lhs, rhs, lift) %>%
+  rename(lift_all_stores = lift)
+
+# Step 7: Merge the rules data frames on LHS and RHS
+comparison_df <- merge(store_rules_df, all_store_rules_df, by = c("lhs", "rhs"), all.x = TRUE)
+
+# Step 8: Calculate the lift ratio and sort
+comparison_df <- comparison_df %>%
+  mutate(lift_ratio = lift_store / lift_all_stores) %>%
+  arrange(lift_ratio)
+
+# Final output
+print(comparison_df)
+
+```
+
+```{r}
+# Filter the comparison_df to keep only the first occurrence of each distinct RHS
+distinct_rhs_df <- comparison_df %>%
+  group_by(rhs) %>%
+  slice(1) %>%
+  ungroup()
+
+# Remove rows with NA in the lift_ratio column
+distinct_rhs_df_filtered <- distinct_rhs_df %>%
+  filter(!is.na(lift_ratio))
+
+# Display the result
+print(distinct_rhs_df_filtered)
+
+
+```
+

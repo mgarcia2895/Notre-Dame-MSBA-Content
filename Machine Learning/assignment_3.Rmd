@@ -1,0 +1,191 @@
+---
+title: "Assignment 3"
+subtitle: "Machine Learning"
+author: "Miguel Garcia"
+output:
+html_document:
+toc: true
+toc_float: true
+theme: lumen
+highlight: zenburn
+df_print: paged
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Libraries
+```{r}
+library(tidyverse)
+library(caret)
+library(performanceEstimation)
+library(rpart)
+library(broom)
+library(AUC)
+library(randomForest)
+library(xgboost)
+```
+# PART I: Collect, Explore, and Prepare the Data
+
+# 1. Importing Data
+````{r}
+loans <- read_csv("C:/Users/miguel.garcia/Downloads/lendingclub (1).csv")
+
+```
+
+# 2. Converting string features to factors
+```{r}
+string_features <- c("Grade", "EmploymentLength", "HomeOwnership", "IncomeVerified", "LoanPurpose", "Default")
+loans[string_features] <- lapply(loans[string_features], as.factor)
+glimpse(loans)
+```
+
+# 3. Get descriptive statistics
+```{r}
+summary(loans)
+```
+
+# 4. Splitting dataset into training and test sets
+```{r}
+set.seed(1234)
+train_index <- createDataPartition(loans$Default, p = 0.75, list = FALSE)
+loans_train <- loans[train_index, ]
+loans_test <- loans[-train_index, ]
+```
+
+# 5. Balance training set using SMOTE
+```{r}
+set.seed(1234)
+loans_train_balanced <- smote(Default ~ ., loans_train, perc.over = 1, perc.under = 2)
+```
+
+# 6. Converting double-precision features to integers
+```{r}
+double_precision_features <- c("Delinquencies", "Inquiries", "OpenAccounts", "TotalAccounts", "PublicRecords")
+loans_train_balanced[double_precision_features] <- lapply(loans_train_balanced[double_precision_features], as.integer)
+loans_test[double_precision_features] <- lapply(loans_test[double_precision_features], as.integer)
+glimpse(loans_train_balanced)
+glimpse(loans_test)
+```
+# PART II: Train the Models
+
+# 1. Train CART decision tree model
+```{r}
+set.seed(1234)
+
+grid <- expand.grid(cp = c(0.0001, 0.0002, 0.0003, 0.0004, 0.0005, 0.0006, 0.0007, 0.0008, 0.0009, 0.001))
+tree_mod <- train(
+  Default ~ .,
+  data = loans_train_balanced,
+  metric = "Kappa",
+  method = "rpart",
+  trControl = trainControl(method = "cv", number = 3),
+  tuneGrid = grid
+)
+tree_mod
+```
+
+# 2. Train Random Forest model
+```{r}
+set.seed(1234)
+grid <- expand.grid(mtry = c(10, 12, 14))
+
+rf_mod <- train(
+  Default ~ .,
+  data = loans_train_balanced,
+  metric = "Kappa",
+  method = "rf",
+  trControl = trainControl(method = "cv", number = 3),
+  tuneGrid = grid
+)
+
+rf_mod
+```
+
+# 3. Train eXtreme Gradient Boosting model
+```{r}
+grid <- expand.grid(
+  .cp = seq(from = 0.0001, to = 0.001, by = 0.0001)
+)
+
+set.seed(1234)
+boost_mod <- train(
+  Default ~ .,
+  data = loans_train_balanced,
+  method = "rpart",
+  metric = "Kappa",  
+  trControl = trainControl(method = 'cv', number = 3),
+  tuneGrid = grid
+)
+boost_mod
+```
+
+# PART III: Compare the Models
+
+# 1. Creating performance metrics table
+```{r}
+get_viz_metrics <- function(model, data, labels, value, method){
+  
+  metric <- predict(model, data, type = "prob") %>%
+    pull(value) %>%
+    roc(pull(data, labels)) %>% 
+    tidy() %>% 
+    mutate(approach = method) %>% 
+    select(approach, everything())
+  
+  return (metric)
+}
+
+get_num_metrics <- function(model, data, labels, value, method){
+
+  
+  curve <- predict(model, data, type = "prob") %>%
+    pull(value) %>%
+    roc(pull(data, labels))
+  
+  metric <- predict(model, data) %>%
+    confusionMatrix(pull(data, labels), positive = value) %>%
+    tidy() %>%
+    filter(term %in% c('accuracy','kappa','sensitivity','specificity','precision','recall','f1')) %>%
+    select(term, estimate) %>%
+    pivot_wider(names_from = term, values_from = estimate) %>%
+    mutate(approach = method) %>%
+    mutate(auc = auc(curve)) %>%
+    select(approach, everything())
+  
+  return (metric)
+}
+v1 <- get_viz_metrics(tree_mod, loans_test, "Default", "Yes", "Decision Tree (CART)")
+p1 <- get_num_metrics(tree_mod, loans_test, "Default", "Yes", "Decision Tree (CART)")
+v2 <- get_viz_metrics(rf_mod, loans_test, "Default", "Yes", "Random Forest")
+p2 <- get_num_metrics(rf_mod, loans_test, "Default", "Yes", "Random Forest")
+v3 <- get_viz_metrics(boost_mod, loans_test, "Default", "Yes", "Extreme Gradient Boosting")
+p3 <- get_num_metrics(boost_mod, loans_test, "Default", "Yes", "Extreme Gradient Boosting")
+
+performance <- bind_rows(p1, p2, p3)
+performance
+
+```
+
+# 2. Choosing the model based on numeric performance metrics
+
+Given these metrics, I would choose the Random Forest model because it achieves higher accuracy and a better balance between sensitivity and specificity compared to the other models. Moreover, its higher AUC score indicates better overall performance in terms of distinguishing between the positive and negative classes.
+
+# 3. Plotting ROC curves
+```{r}
+visualization <- bind_rows(v1, v2, v3)
+visualization %>%
+  ggplot(mapping  = aes(x = fpr, y = tpr, color = approach)) +
+  geom_line(size = 1) +
+  geom_abline(intercept = 0, slope = 1, color = "black", linetype = "dashed", size = 1) +
+  xlim(0, 1) +
+  labs(title = "ROC Curve for Default Prediction Model", 
+       x = "False Positive Rate (1- Specificity)", 
+       y = "True Positive Rate (Sensitivity)") +
+  theme_minimal()
+```
+
+# 4. Choose the model based on both numeric performance metrics and ROC curves
+# Consider both the AUC and other performance metrics to make the decision.
+The Random Forest model illustrates higher sensitivity compared to the boosting model. This implies that the Random Forest model is more adept at correctly identifying positive cases relative to all actual positive cases. This suggests that the Random Forest model may be better suited for scenarios where accurately capturing positive instances is important, even if it means potentially misclassifying some negative instances (lower specificity).
